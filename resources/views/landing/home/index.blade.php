@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Absensi</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
+@extends("landing.layout.app",
+    [
+        "title" => "Berbinar Insightful Indonesia",
+    ]
+)
+
+@push("style")
+    <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
     body {
@@ -44,28 +44,13 @@
       font-size: 0.9rem;
     }
   </style>
-</head>
+@endpush
+
+@section("content")
 <section class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen text-slate-200">
-
   <div class="container mx-auto px-6 py-8">
-
-    <!-- User Icon -->
-    <div class="flex justify-end mb-6">
-      <div class="glass-effect rounded-full p-3 cursor-pointer hover:bg-white/10 transition-all duration-300" id="btn-profile">
-        <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
-          </path>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Header -->
-    <div class="text-center mb-12">
-      <h1 class="text-3xl font-bold text-slate-100 mb-2">Dashboard Absensi</h1>
-      <p class="text-slate-400">Selamat datang kembali! Kelola kehadiran Anda dengan mudah</p>
-    </div>
-
+  
+  @include("landing.partials.navbar")
     <!-- Clock Section -->
     <div class="text-center mb-16">
       <div class="glass-effect rounded-2xl p-8 max-w-md mx-auto">
@@ -198,7 +183,10 @@
       </div>
     </div>
   </div>
+</section>
+@endsection
 
+@push("script")
   <script>
     // Clock
     function updateClock() {
@@ -253,6 +241,4 @@
       alert('Profil Pengguna\n\nFitur ini akan menampilkan informasi profil dan pengaturan akun Anda.');
     });
   </script>
-
-</section>
-</html>
+@endpush
