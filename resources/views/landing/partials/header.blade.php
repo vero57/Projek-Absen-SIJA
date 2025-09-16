@@ -9,8 +9,3 @@
         </svg>
       </div>
     </div>
-
-    <div class="text-center mb-12">
-      <h1 class="text-3xl font-bold text-slate-100 mb-2">Dashboard Absensi</h1>
-      <p class="text-slate-400">Selamat datang kembali! Kelola kehadiran Anda dengan mudah</p>
-    </div>

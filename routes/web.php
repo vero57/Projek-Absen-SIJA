@@ -12,7 +12,7 @@
 */
 
 //menambahkan Semua route auth
-// require __DIR__ . '/auth.php';
+require __DIR__ . '/auth.php';
 
 // menambahkan Semua route landing
 require __DIR__ . '/landing.php';
