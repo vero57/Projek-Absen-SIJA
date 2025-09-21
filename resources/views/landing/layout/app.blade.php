@@ -9,7 +9,6 @@
     </head>
     <body class="relative w-full overflow-x-hidden">
         {{-- Navbar --}}
-        <!-- @include("landing.partials.header") -->
 
         <main class="relative flex w-full flex-col bg-[#F7F9FA] font-plusJakartaSans">
             {{-- Main Content --}}
