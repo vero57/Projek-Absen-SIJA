@@ -30,7 +30,7 @@
 @endpush
 
 @section("content")
-<section class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen text-slate-200">
+<section class="min-h-screen text-slate-200">
     <div class="container mx-auto px-6 py-8">
         @include("landing.partials.header")
         <div class="text-center mb-10">
