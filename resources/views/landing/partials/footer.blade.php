@@ -18,11 +18,10 @@
                 </svg>
             </a>
         </div>
-        <!-- Watermark Tim -->
         <div class="text-slate-400 text-sm text-center md:text-right">
             &copy; {{ date('Y') }}
-            <span class="font-bold text-red-400 tracking-wide">No Cry Team</span>
-            &mdash; Crafted with <span class="text-pink-400">powers</span> by <span class="font-semibold text-white">NCT</span>
+            <span class="font-bold text-red-400 tracking-wide">Senatus Populusque Romanus</span>
+            &mdash; Crafted with <span class="text-pink-400">Veni Vidi Vici</span> by <span class="font-semibold text-white">JVILVS CAESAR</span>
         </div>
     </div>
 </footer>

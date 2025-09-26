@@ -93,8 +93,8 @@
         </div>
       </a>
 
-      <a href="#">
-        <div class="feature-card glass-effect rounded-xl p-6 text-center cursor-pointer" data-action="jurnal">
+      <a href="{{ route("feature.jurnal") }}">
+        <div class="feature-card glass-effect rounded-xl p-6 text-center cursor-pointer">
           <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -230,18 +230,6 @@
       });
     });
     tabButtons[0].click();
-
-    // Feature Handlers
-    const featureActions = {
-      jurnal: 'Fitur Pengisian Jurnal akan segera tersedia!\n\nCatat aktivitas dan laporan kerja harian Anda di sini.'
-    };
-
-    document.querySelectorAll('[data-action]').forEach(el => {
-      el.addEventListener('click', () => {
-        const action = el.getAttribute('data-action');
-        alert(featureActions[action]);
-      });
-    });
 
     // User Profile
     document.getElementById('btn-profile').addEventListener('click', () => {
