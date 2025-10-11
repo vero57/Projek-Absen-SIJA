@@ -1,5 +1,5 @@
 <div class="flex justify-between mb-6">
-    <!-- Home Icon (Left) -->
+    <!-- Home Icon -->
     <a href="{{ route('landing.home') }}" class="glass-effect rounded-full p-3 cursor-pointer hover:bg-white/10 transition-all duration-300">
         <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -7,12 +7,12 @@
         </svg>
     </a>
     
-    <!-- User Icon (Right) -->
-    <div class="glass-effect rounded-full p-3 cursor-pointer hover:bg-white/10 transition-all duration-300" id="btn-profile">
+    <!-- User Icon -->
+    <a href="{{ route('landing.profile') }}" class="glass-effect rounded-full p-3 cursor-pointer hover:bg-white/10 transition-all duration-300">
         <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
             </path>
         </svg>
-    </div>
+    </a>
 </div>
