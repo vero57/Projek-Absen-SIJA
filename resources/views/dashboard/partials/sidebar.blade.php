@@ -9,62 +9,39 @@
     <nav class="flex-1 p-4">
         <ul class="space-y-2">
             <li>
-                <a href="#" class="menu-item active flex items-center px-4 py-3 text-white rounded-lg" onclick="setActiveMenu(this, 'dashboard')">
+                <a href="{{ route('dashboard.dash') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.dash') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-home mr-3 text-blue-400"></i>
                     Dashboard
                 </a>
             </li>
             <li>
-                <a href="#" class="menu-item flex items-center px-4 py-3 text-slate-300 rounded-lg hover:text-white" onclick="setActiveMenu(this, 'menu1')">
+                <a href="{{ route('dashboard.absensi') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.absensi') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-users mr-3 text-green-400"></i>
-                    Menu1
+                    Absensi Siswa
                 </a>
             </li>
             <li>
-                <a href="#" class="menu-item flex items-center px-4 py-3 text-slate-300 rounded-lg hover:text-white" onclick="setActiveMenu(this, 'menu2')">
+                <a href="{{ route('dashboard.jurnal') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.jurnal') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-cog mr-3 text-purple-400"></i>
-                    Menu2
+                    Jurnal Siswa
                 </a>
             </li>
         </ul>
     </nav>
 
     <div class="p-4 border-t border-slate-700">
-        <button class="menu-item flex items-center px-4 py-3 text-slate-300 rounded-lg hover:text-white w-full text-left hover:bg-red-500/20" onclick="handleLogout()">
-            <i class="fas fa-sign-out-alt mr-3 text-red-400"></i>
-            Logout
-        </button>
+        <form method="POST" action="">
+            @csrf
+            <button type="submit" class="menu-item flex items-center px-4 py-3 text-slate-300 rounded-lg hover:text-white w-full text-left hover:bg-red-500/20">
+                <i class="fas fa-sign-out-alt mr-3 text-red-400"></i>
+                Logout
+            </button>
+        </form>
     </div>
 </div>
 
-
 @push('scripts')
     <script>
-        function setActiveMenu(element, menuName) {
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('active');
-                item.classList.remove('text-white');
-                item.classList.add('text-slate-300');
-            });
-            element.classList.add('active');
-            element.classList.add('text-white');
-            element.classList.remove('text-slate-300');
 
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.add('hidden');
-            });
-
-            var el = document.getElementById(menuName + '-content');
-            if (el) el.classList.remove('hidden');
-
-            const titles = { 'dashboard': 'Dashboard', 'menu1': 'Menu1', 'menu2': 'Menu2' };
-            document.getElementById('pageTitle').textContent = titles[menuName] || 'Dashboard';
-        }
-
-        function handleLogout() {
-            if (confirm('Apakah Anda yakin ingin logout?')) {
-                alert('Logout berhasil! Anda akan diarahkan ke halaman login.');
-            }
-        }
     </script>
 @endpush

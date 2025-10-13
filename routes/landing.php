@@ -1,9 +1,9 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\landing\HomeController;
-use App\Http\Controllers\feature\AbsenController;
-use App\Http\Controllers\feature\IzinController;
-use App\Http\Controllers\feature\JurnalController;
+use App\Http\Controllers\landing\feature\AbsenController;
+use App\Http\Controllers\landing\feature\IzinController;
+use App\Http\Controllers\landing\feature\JurnalController;
 use App\Http\Controllers\landing\ProfileController;
 
 Route::get('/', [HomeController::class, 'index'])->name('landing.home');
