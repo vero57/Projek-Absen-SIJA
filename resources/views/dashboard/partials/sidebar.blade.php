@@ -26,6 +26,18 @@
                     Jurnal Siswa
                 </a>
             </li>
+            <li>
+                <a href="" class="menu-item flex items-center px-4 py-3 rounded-lg text-white">
+                    <i class="fas fa-cog mr-3 text-purple-400"></i>
+                    Pelanggaran Siswa
+                </a>
+            </li>
+            <li>
+                <a href="" class="menu-item flex items-center px-4 py-3 rounded-lg text-white">
+                    <i class="fas fa-cog mr-3 text-purple-400"></i>
+                    Izin Siswa
+                </a>
+            </li>
         </ul>
     </nav>
 
