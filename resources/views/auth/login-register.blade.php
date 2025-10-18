@@ -72,7 +72,7 @@
     }
     .auth-form label {
         font-weight: 500;
-        color: #334155;
+        color: white;
         margin-bottom: 0.3rem;
     }
     .auth-form input {
@@ -80,7 +80,7 @@
         padding: 0.7rem 1rem;
         border-radius: 0.7rem;
         border: 1px solid #cbd5e1;
-        margin-bottom: 1rem;
+        margin-bottom: 5px;
         font-size: 1rem;
         background: #f1f5f9;
         transition: border 0.2s;
