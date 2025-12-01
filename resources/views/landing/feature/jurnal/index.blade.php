@@ -19,8 +19,8 @@
             <h1 class="text-2xl font-bold text-slate-100 mb-1">Pengisian Jurnal</h1>
             <p class="text-slate-400">Pengisian Jurnal, diisi tiap mapel selesai</p>
         </div>
-        <div class="jurnal-container flex mt-6 mx-5">
-            <div class="jurnal-form-box w-full bg-white/5 rounded-2xl p-8 shadow-lg backdrop-blur-md">
+        <div class="jurnal-container flex mt-6 lg:mx-5">
+            <div class="jurnal-form-box w-full bg-white/5 rounded-2xl p-6 lg:p-8 shadow-lg backdrop-blur-md">
                 <form action="#" method="POST" enctype="multipart/form-data" class="space-y-5">
                     @csrf
                     <div>

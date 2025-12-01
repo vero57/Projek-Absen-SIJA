@@ -27,14 +27,14 @@
                 </a>
             </li>
             <li>
-                <a href="" class="menu-item flex items-center px-4 py-3 rounded-lg text-white">
-                    <i class="fas fa-cog mr-3 text-purple-400"></i>
+                <a href="{{ route('dashboard.pelanggaran') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.pelanggaran') ? 'active text-white' : 'text-slate-300' }}">
+                    <i class="fas fa-exclamation-triangle mr-3 text-red-400"></i>
                     Pelanggaran Siswa
                 </a>
             </li>
             <li>
-                <a href="" class="menu-item flex items-center px-4 py-3 rounded-lg text-white">
-                    <i class="fas fa-cog mr-3 text-purple-400"></i>
+                <a href="{{ route('dashboard.izin') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.izin') ? 'active text-white' : 'text-slate-300' }}">
+                    <i class="fas fa-file-text mr-3 text-gray-400"></i>
                     Izin Siswa
                 </a>
             </li>
