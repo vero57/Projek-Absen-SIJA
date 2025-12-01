@@ -39,6 +39,7 @@
                         <tr class="text-left text-slate-300 text-sm uppercase tracking-wider">
                             <th class="px-4 py-3 w-12">No</th>
                             <th class="px-4 py-3 col-name">Nama Siswa</th>
+                            <th class="px-4 py-3">Kelas</th>
                             <th class="px-4 py-3">Hari, Tanggal</th>
                             <th class="px-4 py-3">Nama Orang Tua</th>
                             <th class="px-4 py-3">No. Telp</th>
@@ -101,6 +102,12 @@
                                                 <div class="view-class text-slate-200 font-medium text-sm hidden">Kelas {{ ceil($i/2) }}</div>
                                                 <div class="text-slate-400 text-xs">ID: S00{{ $i }}</div>
                                             </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <div class="text-sm text-slate-200" title="Deskripsi lengkap contoh jurnal">
+                                            10 C
                                         </div>
                                     </td>
 
