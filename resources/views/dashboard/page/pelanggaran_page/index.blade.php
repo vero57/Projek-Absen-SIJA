@@ -1,7 +1,7 @@
 @extends(
     "dashboard.layout.app",
     [
-        "title" => "Jurnal",
+        "title" => "Pelanggaran Siswa",
     ]
 )
 
@@ -9,27 +9,28 @@
     <div class="content-section">
         <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 mb-6 flex flex-row items-center justify-between">
             <div class="flex items-center gap-4">
-                <i class="fas fa-book-open text-4xl text-purple-400"></i>
+                <i class="fas fa-exclamation-triangle text-4xl text-red-400"></i>
                 <div>
-                    <h3 class="text-2xl font-semibold text-white">Jurnal Siswa</h3>
-                    <p class="text-slate-400">Daftar jurnal yang dikumpulkan siswa — nama, mata pelajaran, dan ringkasan deskripsi.</p>
+                    <h3 class="text-2xl font-semibold text-white">Pelanggaran Siswa</h3>
+                    <p class="text-slate-400">Daftar pelanggaran siswa — tanggal, jam, status, dan lokasi.</p>
                 </div>
             </div>
             <div class="flex items-center">
-                <button type="button" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded text-sm">Ekspor Data</button>
+                <button type="button" class="bg-red-600 hover:bg-red-500 text-white px-3 py-2 rounded text-sm">Ekspor Data</button>
             </div>
         </div>
+
 
         <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-4">
                 <div class="flex items-center gap-2">
-                    <button type="button" class="tab-btn px-3 py-1 rounded text-sm font-medium bg-slate-700 text-white" data-view="student">Siswa</button>
-                    <button type="button" class="tab-btn px-3 py-1 rounded text-sm font-medium text-slate-300 hover:text-white" data-view="class">Kelas</button>
+                    <!-- <button type="button" class="tab-btn px-3 py-1 rounded text-sm font-medium bg-slate-700 text-white" data-view="student">Siswa</button> -->
+                    <!-- <button type="button" class="tab-btn px-3 py-1 rounded text-sm font-medium text-slate-300 hover:text-white" data-view="class">Kelas</button> -->
                 </div>
 
                 <div class="flex items-center gap-3 w-full md:w-auto">
                     <input type="search" placeholder="Cari nama siswa / pelajaran" class="flex-1 md:flex-none bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
-                    <button class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded text-sm">Search</button>
+                    <button class="bg-red-600 hover:bg-red-500 text-white px-3 py-2 rounded text-sm">Search</button>
                 </div>
             </div>
 
@@ -38,17 +39,19 @@
                     <thead>
                         <tr class="text-left text-slate-300 text-sm uppercase tracking-wider">
                             <th class="px-4 py-3 w-12">No</th>
-                            <th class="px-4 py-3 col-name">Nama Siswa</th>
-                            <th class="px-4 py-3">Pelajaran</th>
-                            <th class="px-4 py-3">Deskripsi</th>
+                            <th class="px-4 py-3 col-name w-64">Nama Siswa</th>
+                            <th class="px-4 py-3 w-32">Kelas</th>
+                            <th class="px-4 py-3 w-52">Ketentuan</th>
+                            <th class="px-4 py-3 w-64">Deskripsi</th>
+                            <th class="px-4 py-3">Hukuman</th>
                         </tr>
                     </thead>
 
                     <tbody class="divide-y divide-slate-700">
-                        @if(isset($journals) && $journals->count())
-                            @foreach($journals as $idx => $j)
+                        @if(isset($violations) && $violations->count())
+                            @foreach($violations as $idx => $j)
                                 @php
-                                    $no = (isset($journals) && method_exists($journals, 'firstItem')) ? $journals->firstItem() + $loop->index : $loop->iteration;
+                                    $no = (isset($violations) && method_exists($violations, 'firstItem')) ? $violations->firstItem() + $loop->index : $loop->iteration;
                                 @endphp
                                 <tr class="hover:bg-slate-800/40">
                                     <td class="px-4 py-3 text-slate-200 text-sm align-top">{{ $no }}</td>
@@ -95,21 +98,36 @@
                                                 {{ chr(64 + $i) }}
                                             </div>
                                             <div>
-                                                <div class="view-student text-slate-200 font-medium text-sm">Siswa {{ $i }}</div>
-                                                <div class="view-class text-slate-200 font-medium text-sm hidden">Kelas {{ ceil($i/2) }}</div>
-                                                <div class="text-slate-400 text-xs">ID: S00{{ $i }}</div>
+                                                <p class="view-student text-slate-200 font-medium text-sm" title="Siswa {{ $i }}">Siswa {{ $i }}</p>
+                                                <!-- <p class="view-class text-slate-200 font-medium text-sm hidden">Kelas {{ ceil($i/2) }}</p> -->
+                                                <p class="text-slate-400 text-xs" title="S00{{ $i }}">ID: S00{{ $i }}</p>
                                             </div>
                                         </div>
                                     </td>
 
                                     <td class="px-4 py-3 text-slate-200 text-sm">
-                                        <div class="font-medium">Matematika</div>
-                                        <div class="text-slate-400 text-xs">{{ now()->subDays($i)->format('Y-m-d') }}</div>
+                                        <div class="text-slate-200 font-medium text-sm">Kelas {{ ceil($i/2) }}</div>
+                                        <!-- <p class="text-slate-400 text-xs">{{ now()->subDays($i)->format('Y-m-d') }}</p> -->
                                     </td>
 
                                     <td class="px-4 py-3 text-slate-200 text-sm">
                                         <div class="text-sm text-slate-200 line-clamp-2" title="Deskripsi lengkap contoh jurnal">
-                                            Contoh ringkasan jurnal untuk Siswa {{ $i }} tentang topik latihan dan hasil belajar pada pertemuan ini...
+                                            <!-- Contoh ringkasan jurnal untuk Siswa {{ $i }} tentang topik latihan dan hasil belajar pada pertemuan ini... -->
+                                            <p>Melakukan ini</p>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <div class="text-sm text-slate-200 line-clamp-2" title="Deskripsi lengkap contoh jurnal">
+                                            <!-- Contoh ringkasan jurnal untuk Siswa {{ $i }} tentang topik latihan dan hasil belajar pada pertemuan ini... -->
+                                            <p>Bro melakukan pelanggaran {{ $i }}</p>
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <div class="text-sm text-slate-200 line-clamp-2" title="Deskripsi lengkap contoh jurnal">
+                                            <!-- Contoh ringkasan jurnal untuk Siswa {{ $i }} tentang topik latihan dan hasil belajar pada pertemuan ini... -->
+                                            <p>Surat Peringatan 1</p>
                                         </div>
                                     </td>
                                 </tr>
@@ -121,9 +139,9 @@
 
             <div class="mt-4 flex items-center justify-between text-slate-400 text-sm">
                 <div>Showing <span class="text-white">1</span> to <span class="text-white">10</span> entries</div>
-                @if(isset($journals) && method_exists($journals, 'links'))
+                @if(isset($violations) && method_exists($violations, 'links'))
                     <div class="text-sm">
-                        {{ $journals->links() }}
+                        {{ $violations->links() }}
                     </div>
                 @endif
             </div>
