@@ -2,8 +2,9 @@
 
 @push('style')
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=Inter:wght@400;500;700&display=swap');
     body {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     }
     .auth-container {
         min-height: 100vh;
@@ -14,8 +15,8 @@
     }
     .flip-card {
         background: transparent;
-        width: 400px;
-        height: 480px;
+        width: 480px;
+        height: 650px;
         perspective: 1000px;
         position: relative;
     }
@@ -105,45 +106,118 @@
     .auth-form button:hover {
         background: #4338ca;
     }
+    .auth-form select {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        border-radius: 0.7rem;
+        border: 1.5px solid #6366f1;
+        margin-bottom: 5px;
+        font-size: 1rem;
+        background: #f1f5f9;
+        color: #334155;
+        appearance: none;
+        transition: border 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(99,102,241,0.05);
+        position: relative;
+        outline: none;
+    }
+    .auth-form select:focus {
+        border-color: #4338ca;
+        box-shadow: 0 0 0 2px #6366f1;
+        background: #e0e7ef;
+    }
+    /* Custom arrow for select */
+    .auth-form select {
+        background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' stroke='%236366f1' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1.2em;
+    }
+    .auth-form option {
+        color: #334155;
+        background: #f1f5f9;
+    }
 </style>
 @endpush
 
 @section('content')
 <div class="auth-container">
     <div class="flip-card" id="flipCard">
-        <button class="switch-btn" id="switchBtn">Register</button>
+        <button class="switch-btn" id="switchBtn"
+            type="button"
+            onclick="switchPanel()">
+            Register
+        </button>
         <div class="flip-card-inner">
             <!-- Login Form -->
             <div class="flip-card-front">
                 <div class="auth-title">Login</div>
-                <form class="auth-form" method="POST" action="{{ route('login') }}">
+                <form class="auth-form" method="POST" action="{{ route('auth.loginsiswa') }}">
                     @csrf
                     <label for="login-email">Email</label>
-                    <input type="email" id="login-email" name="email" required autocomplete="email" placeholder="Email">
-                    
+                    <input type="email" id="login-email" name="email" required autocomplete="email" placeholder="Email" value="{{ old('email') }}">
+                    @error('email')
+                        <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
+                    @enderror
+
                     <label for="login-password">Password</label>
                     <input type="password" id="login-password" name="password" required autocomplete="current-password" placeholder="Password">
-                    
+                    @error('password')
+                        <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
+                    @enderror
+
                     <button type="submit">Login</button>
+                    <div class="mt-2 text-center">
+                        <a href="{{ route('auth.login-dash') }}" style="font-size: 0.9rem; color:#6366f1;">Login sebagai Admin/Guru</a>
+                    </div>
                 </form>
             </div>
             <!-- Register Form -->
             <div class="flip-card-back">
                 <div class="auth-title">Register</div>
-                <form class="auth-form" method="POST" action="{{ route('register') }}">
+                <form class="auth-form" method="POST" action="{{ route('auth.registersiswa') }}">
                     @csrf
                     <label for="register-name">Nama</label>
-                    <input type="text" id="register-name" name="name" required autocomplete="name" placeholder="Nama Lengkap">
-                    
+                    <input type="text" id="register-name" name="nama_siswa" required autocomplete="name" placeholder="Nama Lengkap" value="{{ old('nama_siswa') }}">
+                    @error('nama_siswa')
+                        <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
+                    @enderror
+
                     <label for="register-email">Email</label>
-                    <input type="email" id="register-email" name="email" required autocomplete="email" placeholder="Email">
-                    
+                    <input type="email" id="register-email" name="email" required autocomplete="email" placeholder="Email" value="{{ old('email') }}">
+                    @error('email')
+                        <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
+                    @enderror
+
                     <label for="register-password">Password</label>
                     <input type="password" id="register-password" name="password" required autocomplete="new-password" placeholder="Password">
-                    
+                    @error('password')
+                        <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
+                    @enderror
+
+                    <label for="register-password-confirm">Konfirmasi Password</label>
+                    <input type="password" id="register-password-confirm" name="password_confirmation" required autocomplete="new-password" placeholder="Konfirmasi Password">
+                    @error('password_confirmation')
+                        <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
+                    @enderror
+
                     <label for="register-phone">No. Telp</label>
-                    <input type="text" id="register-phone" name="phone" required autocomplete="tel" placeholder="Nomor Telepon">
-                    
+                    <input type="text" id="register-phone" name="no_telp" required autocomplete="tel" placeholder="Nomor Telepon" value="{{ old('no_telp') }}">
+                    @error('no_telp')
+                        <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
+                    @enderror
+
+                    <label for="register-class">Kelas</label>
+                    <select id="register-class" name="class_id" required class="auth-form-select">
+                        <option value="">Pilih Kelas</option>
+                        @foreach($classes as $class)
+                            <option value="{{ $class->id }}" {{ old('class_id') == $class->id ? 'selected' : '' }}>{{ $class->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('class_id')
+                        <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
+                    @enderror
+
                     <button type="submit">Register</button>
                 </form>
             </div>
@@ -158,10 +232,27 @@
     const switchBtn = document.getElementById('switchBtn');
     let isLogin = true;
 
-    switchBtn.addEventListener('click', function() {
-        flipCard.classList.toggle('flipped');
-        isLogin = !isLogin;
-        switchBtn.textContent = isLogin ? 'Register' : 'Login';
-    });
+    function switchPanel() {
+        if (isLogin) {
+            window.location.search = '?panel=register';
+        } else {
+            window.location.search = '?panel=login';
+        }
+    }
+
+    // Panel logic on load
+    let panel = 'login';
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('panel') === 'register') {
+        flipCard.classList.add('flipped');
+        isLogin = false;
+        switchBtn.textContent = 'Login';
+        panel = 'register';
+    } else {
+        flipCard.classList.remove('flipped');
+        isLogin = true;
+        switchBtn.textContent = 'Register';
+        panel = 'login';
+    }
 </script>
 @endpush

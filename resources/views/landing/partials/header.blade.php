@@ -7,12 +7,31 @@
         </svg>
     </a>
     
-    <!-- User Icon -->
-    <a href="{{ route('landing.profile') }}" class="glass-effect rounded-full p-3 cursor-pointer hover:bg-white/10 transition-all duration-300">
-        <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
-            </path>
-        </svg>
-    </a>
+    <!-- User/Profile Section -->
+    @if(auth()->check())
+        <div class="relative flex items-center space-x-2 group">
+            <!-- User Icon jika sudah login -->
+            <button type="button" class="glass-effect rounded-full p-3 cursor-pointer hover:bg-white/10 transition-all duration-300 focus:outline-none">
+                <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                    </path>
+                </svg>
+            </button>
+            <!-- Dropdown menu -->
+            <div class="absolute right-0 top-12 min-w-[120px] bg-slate-800/90 rounded-lg shadow-lg py-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                <a href="{{ route('landing.profile') }}" class="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-700 transition">Profile</a>
+                <form action="{{ route('auth.logoutsiswa') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-slate-200 hover:bg-slate-700 transition">Logout</button>
+                </form>
+            </div>
+        </div>
+    @else
+        <!-- Tombol Login dan Register jika belum login -->
+        <div class="flex space-x-2 items-center">
+            <a href="{{ route('auth.login-register') }}" class="glass-effect px-3 py-1 rounded-lg text-slate-200 font-normal text-sm hover:bg-white/10 transition-all duration-300">Login</a>
+            <a href="{{ route('auth.login-register', ['panel' => 'register']) }}" class="glass-effect px-3 py-1 rounded-lg text-slate-200 font-normal text-sm hover:bg-white/10 transition-all duration-300">Register</a>
+        </div>
+    @endif
 </div>
