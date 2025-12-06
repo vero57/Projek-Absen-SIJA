@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('landing.home.index');
+        $userName = auth()->check() ? auth()->user()->name : null;
+        return view('landing.home.index', compact('userName'));
     }
 }

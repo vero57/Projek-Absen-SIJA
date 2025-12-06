@@ -1,4 +1,3 @@
-
 @extends(
     "dashboard.layout.app",
     [
@@ -9,7 +8,7 @@
 @section('content')
     <div id="contentArea" class="h-full max-sm:overflow-x-scroll">
         <div id="dashboard-content" class="content-section">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
                 <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
                     <div class="flex items-center justify-between">
                         <div>
@@ -81,11 +80,11 @@
                 </div>
             </div>
 
-            <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-                <h3 class="text-lg font-semibold text-white mb-4">Analytics Overview</h3>
-                <div class="h-64 flex items-center justify-center text-slate-400">
-                    <i class="fas fa-chart-bar text-4xl mb-4"></i>
-                    <p class="ml-4">Chart akan ditampilkan di sini</p>
+            <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-slate-700">
+                <h3 class="text-base md:text-lg font-semibold text-white mb-2 md:mb-4">Analytics Overview</h3>
+                <div class="h-40 md:h-64 flex items-center justify-center text-slate-400">
+                    <i class="fas fa-chart-bar text-2xl md:text-4xl mb-2 md:mb-4"></i>
+                    <p class="ml-2 md:ml-4">Chart akan ditampilkan di sini</p>
                 </div>
             </div>
         </div>

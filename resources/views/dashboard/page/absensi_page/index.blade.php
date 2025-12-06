@@ -53,32 +53,25 @@
                 </thead>
 
                 <tbody class="divide-y divide-slate-700">
-                    @if(isset($attendances) && $attendances->count())
-                        @foreach($attendances as $att)
+                    @if(isset($students) && $students->count())
+                        @foreach($students as $student)
                             <tr class="hover:bg-slate-800/40">
-                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $att->student_id }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $att->class_id }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">{{ \Carbon\Carbon::parse($att->date)->format('Y-m-d') }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $att->time_in ?? '-' }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $att->time_out ?? '-' }}</td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $student->name }}</td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">
+                                    @if($student->classes->count())
+                                        {{ $student->classes->pluck('name')->join(', ') }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">-</td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">-</td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">-</td>
                                 <td class="px-4 py-3">
-                                    @php
-                                        $status = $att->status_id;
-                                        $label = 'Unknown';
-                                        $color = 'bg-slate-600';
-                                        if ($status == 1) { $label = 'Present'; $color = 'bg-green-600'; }
-                                        elseif ($status == 2) { $label = 'Late'; $color = 'bg-yellow-500 text-slate-900'; }
-                                        elseif ($status == 3) { $label = 'Sick'; $color = 'bg-blue-600'; }
-                                        elseif ($status == 4) { $label = 'Absent'; $color = 'bg-red-600'; }
-                                    @endphp
-                                    <span class="inline-block px-3 py-1 text-xs font-medium rounded {{ $color }}">{{ $label }}</span>
+                                    <span class="inline-block px-3 py-1 text-xs font-medium rounded bg-slate-600">-</span>
                                 </td>
                                 <td class="px-4 py-3">
-                                    @if($att->photo)
-                                        <img src="{{ asset('storage/'.$att->photo) }}" alt="photo" class="w-12 h-12 rounded-md object-cover border border-slate-700">
-                                    @else
-                                        <div class="w-12 h-12 rounded-md bg-slate-700 flex items-center justify-center text-slate-400">No</div>
-                                    @endif
+                                    <div class="w-12 h-12 rounded-md bg-slate-700 flex items-center justify-center text-slate-400">No</div>
                                 </td>
                             </tr>
                         @endforeach
