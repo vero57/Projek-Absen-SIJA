@@ -11,6 +11,23 @@
         .menu-item { transition: all 0.3s ease; }
         .menu-item:hover { transform: translateX(4px); background: rgba(255, 255, 255, 0.1); }
         .menu-item.active { background: rgba(59, 130, 246, 0.2); border-right: 3px solid #3b82f6; }
+
+        /* Sidebar collapse styles */
+        #sidebar {
+            transition: width 0.3s ease;
+        }
+
+        #sidebar.collapsed {
+            width: 80px;
+        }
+
+        #sidebar.collapsed .sidebar-label {
+            display: none;
+        }
+
+        .sidebar-label {
+            transition: opacity 0.3s ease;
+        }
     </style>
     @stack('head')
 </head>
@@ -41,10 +58,37 @@
                 overlay.classList.add('hidden');
             }
         }
-        // Close sidebar on resize to md and up
-        window.addEventListener('resize', function() {
-            if(window.innerWidth >= 768) {
-                toggleSidebar(false);
+
+        function toggleSidebarDesktop() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('desktopToggleBtn');
+            const icon = toggleBtn.querySelector('i');
+
+            sidebar.classList.toggle('collapsed');
+
+            // Toggle icon direction
+            if (sidebar.classList.contains('collapsed')) {
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+                localStorage.setItem('sidebarCollapsed', 'true');
+            } else {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+                localStorage.setItem('sidebarCollapsed', 'false');
+            }
+        }
+
+        // Restore sidebar state on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('desktopToggleBtn');
+            const icon = toggleBtn.querySelector('i');
+
+            if (isCollapsed) {
+                sidebar.classList.add('collapsed');
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
             }
         });
     </script>

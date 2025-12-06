@@ -5,6 +5,7 @@
             <button class="md:hidden mr-3 text-white focus:outline-none" onclick="toggleSidebar(true)">
                 <i class="fas fa-bars text-xl"></i>
             </button>
+
             <h2 id="pageTitle" class="text-xl md:text-2xl font-semibold text-white">Dashboard</h2>
         </div>
         <div class="flex items-center space-x-4">

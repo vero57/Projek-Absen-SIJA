@@ -5,50 +5,55 @@
             <i class="fas fa-times text-lg"></i>
         </button>
     </div>
-    <div class="p-4 md:p-6 border-b border-slate-700">
-        <h1 class="text-lg md:text-xl font-bold text-white flex items-center">
+
+    <div class="p-4 md:p-6 border-b border-slate-700 flex flex-row justify-between">
+        <h1 class="text-lg md:text-xl font-bold text-white flex items-center sidebar-label">
             <i class="fas fa-chart-line mr-2 md:mr-3 text-blue-400"></i>
             Dashboard
         </h1>
+        <button onclick="toggleSidebarDesktop()" class="text-slate-300 hover:text-white focus:outline-none" id="desktopToggleBtn">
+            <i class="fas fa-chevron-left text-lg"></i>
+        </button>
     </div>
+
     <nav class="flex-1 p-2 md:p-4">
         <ul class="space-y-2">
             <li>
                 <a href="{{ route('dashboard.dash') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.dash') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-home mr-3 text-blue-400"></i>
-                    Dashboard
+                    <span class="sidebar-label">Dashboard</span>
                 </a>
             </li>
             @if(auth()->check() && auth()->user()->role && auth()->user()->role->name === 'Admin')
             <li>
                 <a href="{{ route('dashboard.users.index') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.users.*') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-home mr-3 text-blue-400"></i>
-                    Users
+                    <span class="sidebar-label">Users</span>
                 </a>
             </li>
             @endif
             <li>
                 <a href="{{ route('dashboard.absensi') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.absensi') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-users mr-3 text-green-400"></i>
-                    Absensi Siswa
+                    <span class="sidebar-label">Absensi Siswa</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('dashboard.jurnal') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.jurnal') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-cog mr-3 text-purple-400"></i>
-                    Jurnal Siswa
+                    <span class="sidebar-label">Jurnal Siswa</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('dashboard.pelanggaran') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.pelanggaran') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-exclamation-triangle mr-3 text-red-400"></i>
-                    Pelanggaran Siswa
+                    <span class="sidebar-label">Pelanggaran Siswa</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('dashboard.izin') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.izin') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-file-text mr-3 text-gray-400"></i>
-                    Izin Siswa
+                    <span class="sidebar-label">Izin Siswa</span>
                 </a>
             </li>
         </ul>
@@ -59,7 +64,7 @@
             @csrf
             <button type="submit" class="menu-item flex items-center px-4 py-3 text-slate-300 rounded-lg hover:text-white w-full text-left hover:bg-red-500/20">
                 <i class="fas fa-sign-out-alt mr-3 text-red-400"></i>
-                Logout
+                <span class="sidebar-label">Logout</span>
             </button>
         </form>
     </div>
