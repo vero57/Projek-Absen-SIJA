@@ -1,9 +1,12 @@
-<div class="w-64 bg-slate-800/50 backdrop-blur-sm border-r border-slate-700 flex flex-col">
-    <div class="p-6 border-b border-slate-700">
-        <h1 class="text-xl font-bold text-white flex items-center">
+<div class="w-64 bg-slate-800/50 backdrop-blur-sm border-r border-slate-700 flex flex-col h-full">
+    <div class="p-6 border-b border-slate-700 flex flex-row justify-between">
+        <h1 class="text-xl font-bold text-white flex flex-row items-center">
             <i class="fas fa-chart-line mr-3 text-blue-400"></i>
             Dashboard
         </h1>
+        <button type="button" id="CloseSidebar">
+            <i class="fas fa-arrow-left text-xl text-red-400"></i>
+        </button>
     </div>
 
     <nav class="flex-1 p-4">
