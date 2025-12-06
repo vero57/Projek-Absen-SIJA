@@ -11,7 +11,12 @@ class ClassModel extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'class_student');
+        return $this->belongsToMany(
+            User::class,
+            'class_student',
+            'class_id',    // foreign key di tabel pivot yang mengacu ke classes
+            'student_id'   // foreign key di tabel pivot yang mengacu ke users
+        );
     }
 
     public function subjects()

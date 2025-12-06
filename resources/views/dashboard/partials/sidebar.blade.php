@@ -8,8 +8,7 @@
             <i class="fas fa-arrow-left text-xl text-red-400"></i>
         </button>
     </div>
-
-    <nav class="flex-1 p-4">
+    <nav class="flex-1 p-2 md:p-4">
         <ul class="space-y-2">
             <li>
                 <a href="{{ route('dashboard.dash') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.dash') ? 'active text-white' : 'text-slate-300' }}">
@@ -17,6 +16,14 @@
                     Dashboard
                 </a>
             </li>
+            @if(auth()->check() && auth()->user()->role && auth()->user()->role->name === 'Admin')
+            <li>
+                <a href="{{ route('dashboard.users.index') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.users.*') ? 'active text-white' : 'text-slate-300' }}">
+                    <i class="fas fa-home mr-3 text-blue-400"></i>
+                    Users
+                </a>
+            </li>
+            @endif
             <li>
                 <a href="{{ route('dashboard.absensi') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.absensi') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-users mr-3 text-green-400"></i>
@@ -44,8 +51,8 @@
         </ul>
     </nav>
 
-    <div class="p-4 border-t border-slate-700">
-        <form method="POST" action="">
+    <div class="p-2 md:p-4 border-t border-slate-700">
+        <form method="POST" action="{{ route('logout.dash') }}">
             @csrf
             <button type="submit" class="menu-item flex items-center px-4 py-3 text-slate-300 rounded-lg hover:text-white w-full text-left hover:bg-red-500/20">
                 <i class="fas fa-sign-out-alt mr-3 text-red-400"></i>

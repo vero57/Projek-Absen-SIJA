@@ -52,8 +52,7 @@
 
         <div class="flex-1 flex flex-col">
             @include('dashboard.partials.navbar')
-
-            <main class="flex-1 p-6 overflow-auto">
+            <main class="flex-1 p-2 md:p-6 overflow-auto">
                 @yield('content')
             </main>
         </div>
@@ -88,5 +87,4 @@
         });
     </script>
 </body>
-@stack('scripts')
 </html>
