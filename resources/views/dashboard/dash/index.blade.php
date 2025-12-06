@@ -7,8 +7,8 @@
 
 @section('content')
     <div id="contentArea" class="h-full max-sm:overflow-x-scroll">
-        <div id="dashboard-content" class="content-section pb-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div id="dashboard-content" class="content-section">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
                 <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
                     <div class="flex items-center justify-between">
                         <div>
