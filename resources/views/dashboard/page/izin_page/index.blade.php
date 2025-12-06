@@ -1,7 +1,7 @@
 @extends(
     "dashboard.layout.app",
     [
-        "title" => "Jurnal",
+        "title" => "Izin Siswa",
     ]
 )
 
@@ -9,38 +9,41 @@
     <div class="content-section">
         <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 mb-6 flex flex-row items-center justify-between">
             <div class="flex items-center gap-4">
-                <i class="fas fa-book-open text-4xl text-purple-400"></i>
+                <i class="fas fa-file-text text-4xl text-gray-400"></i>
                 <div>
-                    <h3 class="text-lg md:text-2xl font-semibold text-white">Jurnal Siswa</h3>
-                    <p class="text-slate-400 text-xs md:text-base">Daftar jurnal yang dikumpulkan siswa — nama, mata pelajaran, dan ringkasan deskripsi.</p>
+                    <h3 class="text-2xl font-semibold text-white">Izin Siswa</h3>
+                    <p class="text-slate-400">Daftar izin siswa — tanggal, jam, status, dan lokasi.</p>
                 </div>
             </div>
             <div class="flex items-center">
-                <button type="button" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded text-sm">Ekspor Data</button>
+                <button type="button" class="bg-gray-600 hover:bg-gray-500 text-white px-3 py-2 rounded text-sm">Ekspor Data</button>
             </div>
         </div>
 
-        <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-2 md:p-4 border border-slate-700">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2 md:mb-4 gap-2 md:gap-4">
-                <div class="flex items-center gap-1 md:gap-2">
-                    <button type="button" class="tab-btn px-2 md:px-3 py-1 rounded text-xs md:text-sm font-medium bg-slate-700 text-white" data-view="student">Siswa</button>
-                    <button type="button" class="tab-btn px-2 md:px-3 py-1 rounded text-xs md:text-sm font-medium text-slate-300 hover:text-white" data-view="class">Kelas</button>
+        <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4 gap-4">
+                <div class="flex items-center gap-2">
+                    <!-- <button type="button" class="tab-btn px-3 py-1 rounded text-sm font-medium bg-slate-700 text-white" data-view="student">Siswa</button> -->
+                    <!-- <button type="button" class="tab-btn px-3 py-1 rounded text-sm font-medium text-slate-300 hover:text-white" data-view="class">Kelas</button> -->
                 </div>
 
-                <div class="flex items-center gap-2 md:gap-3 w-full md:w-auto">
-                    <input type="search" placeholder="Cari nama siswa / pelajaran" class="flex-1 md:flex-none bg-slate-900 text-slate-200 border border-slate-700 rounded px-2 md:px-3 py-1 md:py-2 text-xs md:text-sm" />
-                    <button class="bg-purple-600 hover:bg-purple-500 text-white px-2 md:px-3 py-1 md:py-2 rounded text-xs md:text-sm">Search</button>
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <input type="search" placeholder="Cari nama siswa / pelajaran" class="flex-1 md:flex-none bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
+                    <button class="bg-gray-600 hover:bg-gray-500 text-white px-3 py-2 rounded text-sm">Search</button>
                 </div>
             </div>
 
-            <div class="overflow-x-auto -mx-2 md:-mx-4 px-2 md:px-4">
+            <div class="overflow-x-auto -mx-4 px-4">
                 <table class="min-w-full table-auto border-collapse">
                     <thead>
                         <tr class="text-left text-slate-300 text-sm uppercase tracking-wider">
                             <th class="px-4 py-3 w-12">No</th>
                             <th class="px-4 py-3 col-name">Nama Siswa</th>
-                            <th class="px-4 py-3">Pelajaran</th>
-                            <th class="px-4 py-3">Deskripsi</th>
+                            <th class="px-4 py-3">Kelas</th>
+                            <th class="px-4 py-3">Hari, Tanggal</th>
+                            <th class="px-4 py-3">Nama Orang Tua</th>
+                            <th class="px-4 py-3">No. Telp</th>
+                            <th class="px-4 py-3">Jenis Izin</th>
                         </tr>
                     </thead>
 
@@ -103,13 +106,31 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-slate-200 text-sm">
-                                        <div class="font-medium">Matematika</div>
-                                        <div class="text-slate-400 text-xs">{{ now()->subDays($i)->format('Y-m-d') }}</div>
+                                        <div class="text-sm text-slate-200" title="Deskripsi lengkap contoh jurnal">
+                                            10 C
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <div class="font-medium">Senin</div>
+                                        <div class="text-slate-400 font-medium">{{ now()->subDays($i)->format('Y-m-d') }}</div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <div class="text-sm text-slate-200" title="Deskripsi lengkap contoh jurnal">
+                                            Masmas
+                                        </div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <div class="text-sm text-slate-200" title="Deskripsi lengkap contoh jurnal">
+                                            081234567890
+                                        </div>
                                     </td>
 
                                     <td class="px-4 py-3 text-slate-200 text-sm">
                                         <div class="text-sm text-slate-200 line-clamp-2" title="Deskripsi lengkap contoh jurnal">
-                                            Contoh ringkasan jurnal untuk Siswa {{ $i }} tentang topik latihan dan hasil belajar pada pertemuan ini...
+                                            Sakit
                                         </div>
                                     </td>
                                 </tr>
@@ -119,10 +140,10 @@
                 </table>
             </div>
 
-            <div class="mt-2 md:mt-4 flex flex-col md:flex-row items-center justify-between text-slate-400 text-xs md:text-sm gap-2">
+            <div class="mt-4 flex items-center justify-between text-slate-400 text-sm">
                 <div>Showing <span class="text-white">1</span> to <span class="text-white">10</span> entries</div>
                 @if(isset($journals) && method_exists($journals, 'links'))
-                    <div class="text-xs md:text-sm">
+                    <div class="text-sm">
                         {{ $journals->links() }}
                     </div>
                 @endif

@@ -7,13 +7,16 @@
 
 @section('content')
 <div class="content-section">
-    <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
+    <div class="bg-slate-800/50 flex flex-row items-center justify-between backdrop-blur-sm rounded-xl p-6 border border-slate-700">
         <div class="flex items-center gap-4">
             <i class="fas fa-users text-4xl text-green-400"></i>
             <div>
                 <h3 class="text-2xl font-semibold text-white">Absensi Siswa</h3>
                 <p class="text-slate-400">Daftar rekaman absensi siswa — tanggal, jam, status, dan lokasi.</p>
             </div>
+        </div>
+        <div class="flex items-center">
+            <button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Ekspor Data</button>
         </div>
     </div>
 
@@ -30,7 +33,7 @@
 
             <div class="flex items-center gap-3">
                 <input type="search" placeholder="Cari student_id / class_id" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
-                <button class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm">Search</button>
+                <button class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Search</button>
             </div>
         </div>
 
@@ -39,7 +42,7 @@
                 <thead>
                     <tr class="text-left text-slate-300 text-sm uppercase tracking-wider">
                         <!-- NOTE: untuk nama siswa dan kelas karena ditablenya pake id, nanti kalo udah dinamis kita konversi ke nama dan kelasnya -->
-                        <th class="px-4 py-3">Nama Siswa</th> 
+                        <th class="px-4 py-3">Nama Siswa</th>
                         <th class="px-4 py-3">Kelas Siswa</th>
                         <th class="px-4 py-3">Tanggal</th>
                         <th class="px-4 py-3">Waktu Masuk</th>

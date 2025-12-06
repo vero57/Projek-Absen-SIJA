@@ -20,10 +20,19 @@
     @media (max-width: 900px) {
         .izin-container {
             flex-direction: column;
+            gap: 0rem;
+            margin-bottom: 0rem;
+
         }
-        .izin-left, .izin-right {
+        .izin-left {
             width: 100%;
             margin-bottom: 1.5rem;
+        }
+        .izin-right {
+            width: 100%;
+            padding: 2rem 1.5rem;
+            max-height: 550px;
+            margin-bottom: 0rem;
         }
     }
     .izin-form-input {
@@ -85,7 +94,7 @@
                             <option value="dispen">Dispen</option>
                         </select>
                     </div>
-                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition">Kirim Pengajuan</button>
+                    <button type="submit" class="w-full max-sm:mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition">Kirim Pengajuan</button>
                 </form>
             </div>
         </div>
