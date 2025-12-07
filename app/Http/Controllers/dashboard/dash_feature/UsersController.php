@@ -32,7 +32,24 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone_number' => 'nullable|string|max:20',
+            'roles' => 'required|array',
+            'roles.0' => 'required|exists:roles,id',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+        $user->role_id = $request->roles[0];
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        return redirect()->route('dashboard.users.index')->with('success', 'User created!');
     }
 
     /**

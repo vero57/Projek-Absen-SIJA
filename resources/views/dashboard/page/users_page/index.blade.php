@@ -6,14 +6,17 @@
 )
 
 @section('content')
-<div class="content-section">
-    <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
+<div class="content-section">    
+    <div class="bg-slate-800/50 flex flex-row items-center justify-between backdrop-blur-sm rounded-xl p-6 border border-slate-700">
         <div class="flex items-center gap-4">
             <i class="fas fa-users text-4xl text-green-400"></i>
             <div>
-                <h3 class="text-2xl font-semibold text-white">Users</h3>
-                <p class="text-slate-400">Daftar User.</p>
+                <h3 class="text-2xl font-semibold text-white">User</h3>
+                <p class="text-slate-400">Daftar Semua Akun User.</p>
             </div>
+        </div>
+        <div class="flex items-center">
+            <a href="{{ route('dashboard.users.create') }}"><button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Tambah Data User</button></a>
         </div>
     </div>
 

@@ -27,11 +27,17 @@
             @if(auth()->check() && auth()->user()->role && auth()->user()->role->name === 'Admin')
             <li>
                 <a href="{{ route('dashboard.users.index') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.users.*') ? 'active text-white' : 'text-slate-300' }}">
-                    <i class="fas fa-home mr-3 text-blue-400"></i>
+                    <i class="fas fa-users mr-3 text-green-400"></i>
                     <span class="sidebar-label">Users</span>
                 </a>
             </li>
             @endif
+            <li>
+                <a href="{{ route('dashboard.siswa') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.siswa') ? 'active text-white' : 'text-slate-300' }}">
+                    <i class="fas fa-user-graduate mr-3 text-blue-400"></i>
+                    <span class="sidebar-label">Siswa</span>
+                </a>
+            </li>
             <li>
                 <a href="{{ route('dashboard.absensi') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.absensi') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-users mr-3 text-green-400"></i>

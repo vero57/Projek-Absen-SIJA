@@ -51,10 +51,14 @@
   <div class="container mx-auto px-6 py-8">
     @include("landing.partials.header")
     <div class="text-center mb-12">
-      <h1 class="text-3xl font-bold text-slate-100 mb-2">
-        Welcome! {{ $userName ?? 'Guest' }}
-      </h1>
-      <p class="text-slate-400">Selamat datang kembali! Kelola kehadiran Anda dengan mudah</p>
+    <h1 class="text-3xl font-bold text-slate-100 mb-2">
+        @if ($userName)
+            Selamat datang, {{ $userName }}
+        @else
+            Selamat datang di Absen SIJA
+        @endif
+    </h1>
+      <p class="text-slate-400">Kelola kehadiran Anda dengan mudah, jangan lupa untuk selalu Absen ya</p>
     </div>
     <!-- Clock Section -->
     <div class="text-center mb-16">
@@ -139,77 +143,83 @@
 
       <!-- Table Container -->
       <div class="glass-effect rounded-xl p-6 overflow-x-auto">
-        <table id="table-absen" class="styled-table w-full text-left border-collapse">
-          <thead class="bg-slate-800/50">
-            <tr>
-              <th class="px-4 py-3">Nama</th>
-              <th class="px-4 py-3">Tanggal</th>
-              <th class="px-4 py-3">Jam Masuk</th>
-              <th class="px-4 py-3">Jam Pulang</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="hover:bg-white/5">
-              <td class="px-4 py-3">Budi Santoso</td>
-              <td class="px-4 py-3">12 September 2025</td>
-              <td class="px-4 py-3">08:00</td>
-              <td class="px-4 py-3">16:00</td>
-            </tr>
-            <tr class="hover:bg-white/5">
-              <td class="px-4 py-3">Siti Aminah</td>
-              <td class="px-4 py-3">12 September 2025</td>
-              <td class="px-4 py-3">08:10</td>
-              <td class="px-4 py-3">16:05</td>
-            </tr>
-          </tbody>
-        </table>
+        @if(!auth()->check())
+          <div class="text-center text-slate-400 py-12">
+            <strong>Silahkan login terlebih dahulu</strong>
+          </div>
+        @else
+          <table id="table-absen" class="styled-table w-full text-left border-collapse">
+            <thead class="bg-slate-800/50">
+              <tr>
+                <th class="px-4 py-3">Nama</th>
+                <th class="px-4 py-3">Tanggal</th>
+                <th class="px-4 py-3">Jam Masuk</th>
+                <th class="px-4 py-3">Jam Pulang</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-white/5">
+                <td class="px-4 py-3">Budi Santoso</td>
+                <td class="px-4 py-3">12 September 2025</td>
+                <td class="px-4 py-3">08:00</td>
+                <td class="px-4 py-3">16:00</td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="px-4 py-3">Siti Aminah</td>
+                <td class="px-4 py-3">12 September 2025</td>
+                <td class="px-4 py-3">08:10</td>
+                <td class="px-4 py-3">16:05</td>
+              </tr>
+            </tbody>
+          </table>
 
-        <table id="table-izin" class="styled-table w-full text-left border-collapse hidden">
-          <thead class="bg-slate-800/50">
-            <tr>
-              <th class="px-4 py-3">Nama</th>
-              <th class="px-4 py-3">Tanggal</th>
-              <th class="px-4 py-3">Jenis Izin</th>
-              <th class="px-4 py-3">Keterangan</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="hover:bg-white/5">
-              <td class="px-4 py-3">Andi Wijaya</td>
-              <td class="px-4 py-3">11 September 2025</td>
-              <td class="px-4 py-3">Sakit</td>
-              <td class="px-4 py-3">Demam</td>
-            </tr>
-            <tr class="hover:bg-white/5">
-              <td class="px-4 py-3">Dewi Lestari</td>
-              <td class="px-4 py-3">10 September 2025</td>
-              <td class="px-4 py-3">Cuti</td>
-              <td class="px-4 py-3">Acara keluarga</td>
-            </tr>
-          </tbody>
-        </table>
+          <table id="table-izin" class="styled-table w-full text-left border-collapse hidden">
+            <thead class="bg-slate-800/50">
+              <tr>
+                <th class="px-4 py-3">Nama</th>
+                <th class="px-4 py-3">Tanggal</th>
+                <th class="px-4 py-3">Jenis Izin</th>
+                <th class="px-4 py-3">Keterangan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-white/5">
+                <td class="px-4 py-3">Andi Wijaya</td>
+                <td class="px-4 py-3">11 September 2025</td>
+                <td class="px-4 py-3">Sakit</td>
+                <td class="px-4 py-3">Demam</td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="px-4 py-3">Dewi Lestari</td>
+                <td class="px-4 py-3">10 September 2025</td>
+                <td class="px-4 py-3">Cuti</td>
+                <td class="px-4 py-3">Acara keluarga</td>
+              </tr>
+            </tbody>
+          </table>
 
-        <table id="table-jurnal" class="styled-table w-full text-left border-collapse hidden">
-          <thead class="bg-slate-800/50">
-            <tr>
-              <th class="px-4 py-3">Nama</th>
-              <th class="px-4 py-3">Tanggal</th>
-              <th class="px-4 py-3">Aktivitas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="hover:bg-white/5">
-              <td class="px-4 py-3">Rudi Hartono</td>
-              <td class="px-4 py-3">12 September 2025</td>
-              <td class="px-4 py-3">Mengerjakan laporan bulanan</td>
-            </tr>
-            <tr class="hover:bg-white/5">
-              <td class="px-4 py-3">Ani Puspitasari</td>
-              <td class="px-4 py-3">12 September 2025</td>
-              <td class="px-4 py-3">Membuat desain presentasi</td>
-            </tr>
-          </tbody>
-        </table>
+          <table id="table-jurnal" class="styled-table w-full text-left border-collapse hidden">
+            <thead class="bg-slate-800/50">
+              <tr>
+                <th class="px-4 py-3">Nama</th>
+                <th class="px-4 py-3">Tanggal</th>
+                <th class="px-4 py-3">Aktivitas</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-white/5">
+                <td class="px-4 py-3">Rudi Hartono</td>
+                <td class="px-4 py-3">12 September 2025</td>
+                <td class="px-4 py-3">Mengerjakan laporan bulanan</td>
+              </tr>
+              <tr class="hover:bg-white/5">
+                <td class="px-4 py-3">Ani Puspitasari</td>
+                <td class="px-4 py-3">12 September 2025</td>
+                <td class="px-4 py-3">Membuat desain presentasi</td>
+              </tr>
+            </tbody>
+          </table>
+        @endif
       </div>
     </div>
     @endif
