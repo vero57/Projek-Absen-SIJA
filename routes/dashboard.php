@@ -31,3 +31,6 @@ Route::get('/dashboard/izin', [IzinController::class, 'index'])->name('dashboard
 // Tambah detail siswa (bukan edit user, tapi tambah detail student)
 Route::get('/dashboard/siswa/{user}/detail', [\App\Http\Controllers\dashboard\dash_feature\SiswaController::class, 'createDetail'])->name('dashboard.siswa.detail.create');
 Route::post('/dashboard/siswa/{user}/detail', [\App\Http\Controllers\dashboard\dash_feature\SiswaController::class, 'storeDetail'])->name('dashboard.siswa.detail.store');
+
+// Halaman detail siswa (pure melihat detail siswa)
+Route::get('/dashboard/siswa/{user}/show', [\App\Http\Controllers\dashboard\dash_feature\SiswaController::class, 'show'])->name('dashboard.siswa.detail.show');

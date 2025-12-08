@@ -6,7 +6,7 @@
         </button>
     </div>
 
-    <div class="p-4 md:p-6 border-b border-slate-700 flex flex-row justify-between">
+    <div class="p-4 md:p-6 border-b border-slate-700 flex flex-row justify-between h-[80.7px]">
         <h1 class="text-lg md:text-xl font-bold text-white flex items-center sidebar-label">
             <i class="fas fa-chart-line mr-2 md:mr-3 text-blue-400"></i>
             Dashboard

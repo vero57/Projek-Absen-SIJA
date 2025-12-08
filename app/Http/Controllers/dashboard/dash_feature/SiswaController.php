@@ -50,4 +50,11 @@ class SiswaController extends Controller
 
         return redirect()->route('dashboard.siswa')->with('success', 'Detail siswa berhasil ditambahkan!');
     }
+
+    public function show($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        return view('dashboard.page.siswa_page.show', compact('user'));
+    }
+
 }

@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="flex items-center">
-            <a href="{{ route('dashboard.users.create') }}"><button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Tambah Data Siswa</button></a>
+            <a href="{{ route('dashboard.users.create') }}"><button type="button" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm">Tambah Data Siswa</button></a>
         </div>
     </div>
 
@@ -45,11 +45,11 @@
                         <th class="px-4 py-3">Email</th>
                         <th class="px-4 py-3">Gender</th>
                         <th class="px-4 py-3">NIS</th>
-                        <th class="px-4 py-3">Tempat Lahir</th>
-                        <th class="px-4 py-3">Tanggal Lahir</th>
-                        <th class="px-4 py-3">Alamat</th>
+                        <!-- <th class="px-4 py-3">Tempat Lahir</th> -->
+                        <!-- <th class="px-4 py-3">Tanggal Lahir</th> -->
+                        <!-- <th class="px-4 py-3">Alamat</th> -->
                         <th class="px-4 py-3">Foto</th>
-                        <th class="px-4 py-3">Action</th>
+                        <th class="px-4 py-3 w-[300px]">Action</th>
                     </tr>
                 </thead>
 
@@ -62,13 +62,13 @@
                             <tr class="hover:bg-slate-800/40">
                                 <td class="px-4 py-3 text-slate-200 text-sm">{{ $user->name }}</td>
                                 <td class="px-4 py-3 text-slate-200 text-sm">{{ $user->email ?? '-' }}</td>
-                                 <td class="px-4 py-3 text-slate-200 text-sm">{{ $detail->gender ?? '-' }}</td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $detail->gender ?? '-' }}</td>
                                 <td class="px-4 py-3 text-slate-200 text-sm">{{ $detail->nis ?? '-' }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $detail->birth_place ?? '-' }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">
+                                <!-- <td class="px-4 py-3 text-slate-200 text-sm">{{ $detail->birth_place ?? '-' }}</td> -->
+                                <!-- <td class="px-4 py-3 text-slate-200 text-sm">
                                     {{ ($detail && $detail->birth_date) ? \Carbon\Carbon::parse($detail->birth_date)->format('d-m-Y') : '-' }}
-                                </td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $detail->address ?? '-' }}</td>
+                                </td> -->
+                                <!-- <td class="px-4 py-3 text-slate-200 text-sm">{{ $detail->address ?? '-' }}</td> -->
                                 <td class="px-4 py-3 text-slate-200 text-sm">
                                     @if($detail && $detail->photo)
                                         <img src="{{ asset('storage/' . $detail->photo) }}" alt="Foto" class="w-12 h-12 object-cover rounded" />
@@ -77,10 +77,13 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 text-slate-200 text-sm">
-                                    <a href="{{ route('dashboard.siswa.detail.create', $user->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-slate-900 px-3 py-1 rounded text-xs font-semibold mr-2">
-                                        <i class="fas fa-edit"></i>Add Detail
+                                    <a href="{{ route('dashboard.siswa.detail.create', $user->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                        <i class="fas fa-edit"></i> Add Detail
                                     </a>
-                                    <form action="" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus siswa ini?');">
+                                    <a href="{{ route('dashboard.siswa.detail.show', $user->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                        <i class="fas fa-eye"></i> Detail
+                                    </a>
+                                    <form action="{{ route('dashboard.users.destroy', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus siswa ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-xs font-semibold">
