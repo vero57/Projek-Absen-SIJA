@@ -2,13 +2,17 @@
 
 @section('content')
 <div class="content-section mx-auto">
-    <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 mb-6">
+    <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 mb-6 flex flex-row items-center justify-between">
         <div class="flex items-center gap-4">
             <i class="fas fa-user-graduate text-4xl text-blue-400"></i>
             <div>
                 <h3 class="text-2xl font-semibold text-white">Detail Siswa</h3>
                 <p class="text-slate-400">Halaman ini digunakan untuk melihat detail tiap-tiap siswa yang ada.</p>
             </div>
+        </div>
+        <div>
+            <a href="{{ route('dashboard.siswa') }}"><button type="button" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm"><i class="fas fa-arrow-left"></i> Kembali</button></a>
+            <a href="{{ route('dashboard.siswa.detail.create', $user->id) }}"><button type="button" class="bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-2 rounded text-sm"><i class="fas fa-edit"></i> Tambah Detail</button></a>
         </div>
     </div>
 
