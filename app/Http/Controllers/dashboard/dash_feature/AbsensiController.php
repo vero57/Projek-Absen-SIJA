@@ -19,4 +19,10 @@ class AbsensiController extends Controller
 
         return view('dashboard.page.absensi_page.index', compact('students'));
     }
+
+    public function show($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        return view('dashboard.page.absensi_page.show', compact('user'));
+    }
 }

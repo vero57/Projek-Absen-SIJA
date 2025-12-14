@@ -11,4 +11,9 @@ class PelanggaranController extends Controller
     {
         return view('dashboard.page.pelanggaran_page.index');
     }
+
+    public function show()
+    {
+        return view('dashboard.page.pelanggaran_page.show');
+    }
 }

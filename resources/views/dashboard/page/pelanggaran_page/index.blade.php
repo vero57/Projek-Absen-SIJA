@@ -44,6 +44,7 @@
                             <th class="px-4 py-3 w-52">Ketentuan</th>
                             <th class="px-4 py-3 w-64">Deskripsi</th>
                             <th class="px-4 py-3">Hukuman</th>
+                            <th class="px-4 py-3">Action</th>
                         </tr>
                     </thead>
 
@@ -83,6 +84,12 @@
                                                 <a href="{{ asset('storage/'.$j->attachment) }}" target="_blank" class="text-xs text-sky-400 hover:underline">Lihat lampiran</a>
                                             </div>
                                         @endif
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <a href="{{ route('dashboard.pelanggaran.show', $student->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -129,6 +136,12 @@
                                             <!-- Contoh ringkasan jurnal untuk Siswa {{ $i }} tentang topik latihan dan hasil belajar pada pertemuan ini... -->
                                             <p>Surat Peringatan 1</p>
                                         </div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <a href="{{ route('dashboard.pelanggaran.show') }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </a>
                                     </td>
                                 </tr>
                             @endfor

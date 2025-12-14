@@ -1,7 +1,7 @@
 @extends(
     "dashboard.layout.app",
     [
-        "title" => "Absensi Siswa",
+        "title" => "Presensi Siswa",
     ]
 )
 
@@ -11,8 +11,8 @@
         <div class="flex items-center gap-4">
             <i class="fas fa-users text-4xl text-green-400"></i>
             <div>
-                <h3 class="text-2xl font-semibold text-white">Absensi Siswa</h3>
-                <p class="text-slate-400">Daftar rekaman absensi siswa — tanggal, jam, status, dan lokasi.</p>
+                <h3 class="text-2xl font-semibold text-white">Presensi Siswa</h3>
+                <p class="text-slate-400">Daftar rekaman kehadiran siswa — tanggal, jam, status, dan lokasi.</p>
             </div>
         </div>
         <div class="flex items-center">
@@ -48,7 +48,7 @@
                         <th class="px-4 py-3">Waktu Masuk</th>
                         <th class="px-4 py-3">Waktu Keluar</th>
                         <th class="px-4 py-3">Status Kehadiran</th>
-                        <th class="px-4 py-3">Photo</th>
+                        <th class="px-4 py-3">Action</th>
                     </tr>
                 </thead>
 
@@ -70,8 +70,10 @@
                                 <td class="px-4 py-3">
                                     <span class="inline-block px-3 py-1 text-xs font-medium rounded bg-slate-600">-</span>
                                 </td>
-                                <td class="px-4 py-3">
-                                    <div class="w-12 h-12 rounded-md bg-slate-700 flex items-center justify-center text-slate-400">No</div>
+                                <td class="px-4 py-3 text-slate-200 text-sm">
+                                    <a href="{{ route('dashboard.absensi.show', $student->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                        <i class="fas fa-eye"></i> Detail
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
