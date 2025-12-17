@@ -7,13 +7,16 @@
 
 @section('content')
 <div class="content-section">
-    <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
+    <div class="bg-slate-800/50 flex flex-row items-center justify-between backdrop-blur-sm rounded-xl p-6 border border-slate-700">
         <div class="flex items-center gap-4">
             <i class="fas fa-users text-4xl text-green-400"></i>
             <div>
-                <h3 class="text-2xl font-semibold text-white">Users</h3>
-                <p class="text-slate-400">Daftar User.</p>
+                <h3 class="text-2xl font-semibold text-white">User</h3>
+                <p class="text-slate-400">Daftar Semua Akun User.</p>
             </div>
+        </div>
+        <div class="flex items-center">
+            <a href="{{ route('dashboard.users.create') }}"><button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Tambah Data User</button></a>
         </div>
     </div>
 
@@ -30,7 +33,7 @@
 
             <div class="flex items-center gap-3">
                 <input type="search" placeholder="Cari nama/email" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
-                <button class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm">Search</button>
+                <button class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Search</button>
             </div>
         </div>
 
@@ -61,7 +64,7 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 text-slate-200 text-sm">
-                                    <a href="{{ route('dashboard.users.edit', $user->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-slate-900 px-3 py-1 rounded text-xs font-semibold mr-2">
+                                    <a href="{{ route('dashboard.users.edit', $user->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
                                     <form action="{{ route('dashboard.users.destroy', $user->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus user ini?');">

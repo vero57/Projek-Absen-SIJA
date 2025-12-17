@@ -44,6 +44,7 @@
                             <th class="px-4 py-3">Nama Orang Tua</th>
                             <th class="px-4 py-3">No. Telp</th>
                             <th class="px-4 py-3">Jenis Izin</th>
+                            <th class="px-4 py-3">Action</th>
                         </tr>
                     </thead>
 
@@ -83,6 +84,12 @@
                                                 <a href="{{ asset('storage/'.$j->attachment) }}" target="_blank" class="text-xs text-sky-400 hover:underline">Lihat lampiran</a>
                                             </div>
                                         @endif
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <a href="{{ route('dashboard.izin.show', $student->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -132,6 +139,12 @@
                                         <div class="text-sm text-slate-200 line-clamp-2" title="Deskripsi lengkap contoh jurnal">
                                             Sakit
                                         </div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <a href="{{ route('dashboard.izin.show') }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </a>
                                     </td>
                                 </tr>
                             @endfor

@@ -91,4 +91,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(WaNotification::class);
     }
+
+    public function studentDetail()
+    {
+        return $this->hasOne(StudentDetail::class, 'user_id');
+    }
+
 }

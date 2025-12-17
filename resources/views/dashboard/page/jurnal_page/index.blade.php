@@ -41,6 +41,7 @@
                             <th class="px-4 py-3 col-name">Nama Siswa</th>
                             <th class="px-4 py-3">Pelajaran</th>
                             <th class="px-4 py-3">Deskripsi</th>
+                            <th class="px-4 py-3">Action</th>
                         </tr>
                     </thead>
 
@@ -81,6 +82,12 @@
                                             </div>
                                         @endif
                                     </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <a href="{{ route('dashboard.jurnal.show', $student->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         @else
@@ -111,6 +118,12 @@
                                         <div class="text-sm text-slate-200 line-clamp-2" title="Deskripsi lengkap contoh jurnal">
                                             Contoh ringkasan jurnal untuk Siswa {{ $i }} tentang topik latihan dan hasil belajar pada pertemuan ini...
                                         </div>
+                                    </td>
+
+                                    <td class="px-4 py-3 text-slate-200 text-sm">
+                                        <a href="{{ route('dashboard.jurnal.show') }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </a>
                                     </td>
                                 </tr>
                             @endfor

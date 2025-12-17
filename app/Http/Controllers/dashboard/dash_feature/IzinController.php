@@ -11,4 +11,9 @@ class IzinController extends Controller
     {
         return view('dashboard.page.izin_page.index');
     }
+
+    public function show()
+    {
+        return view('dashboard.page.izin_page.show');
+    }
 }

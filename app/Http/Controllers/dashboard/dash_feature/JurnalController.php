@@ -11,4 +11,9 @@ class JurnalController extends Controller
     {
         return view('dashboard.page.jurnal_page.index');
     }
+
+    public function show()
+    {
+        return view('dashboard.page.jurnal_page.show');
+    }
 }

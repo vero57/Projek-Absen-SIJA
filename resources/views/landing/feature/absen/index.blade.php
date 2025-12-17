@@ -26,6 +26,38 @@
             margin-bottom: 1.5rem;
         }
     }
+    /* Loader animation */
+    .loader {
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #6366f1;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg);}
+        100% { transform: rotate(360deg);}
+    }
+    /* Ensure video/canvas fits container */
+    #cameraContainer {
+        position: relative;
+        width: 100%;
+        height: 340px; /* or use 100% if parent is fixed */
+        max-width: 450px;
+    }
+    #video, #canvas {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 1rem;
+        display: block;
+    }
+    #canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        pointer-events: none;
+    }
 </style>
 @endpush
 
@@ -53,12 +85,15 @@
             <!-- Kontainer Kanan -->
             <div class="absen-right flex items-center justify-center">
                 <div class="w-full h-full p-8 flex flex-col items-center justify-center">
-                    <svg class="w-20 h-20 text-indigo-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 7h2l2-3h10l2 3h2a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2zm9 4a4 4 0 100 8 4 4 0 000-8z" />
-                    </svg>
-                    <div class="text-center">
-                        <h2 class="text-lg font-semibold text-slate-100 mb-2">Ini adalah tempat kamera</h2>
+                    <!-- Loading animation -->
+                    <div id="cameraLoading" class="flex flex-col items-center justify-center w-full h-full">
+                        <div class="loader mb-4"></div>
+                        <div class="text-slate-400">Memulai kamera...</div>
+                    </div>
+                    <!-- Kamera & Canvas -->
+                    <div id="cameraContainer" style="display:none; width:100%; height:100%;" class="flex flex-col items-center justify-center">
+                        <video id="video" autoplay muted style="width:100%; height:100%; object-fit:cover; border-radius:1rem; background:#222; display:block;"></video>
+                        <canvas id="canvas" style="width:100%; height:100%; position:absolute; left:0; top:0;"></canvas>
                     </div>
                 </div>
             </div>
@@ -69,6 +104,8 @@
 
 
 @push('script')
+<script src="/faceapi/face-api.min.js"></script>
+<script src="/faceapi/scripts.js"></script>
 <script>
     const absenImages = [
         {
@@ -101,6 +138,34 @@
         if (label) {
             label.textContent = selected.label;
         }
+
+        // Otomatis jalankan kamera
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const cameraLoading = document.getElementById("cameraLoading");
+        const cameraContainer = document.getElementById("cameraContainer");
+
+        // Otomatis jalankan kamera
+        navigator.mediaDevices.getUserMedia({ video: {} })
+            .then(stream => {
+                video.srcObject = stream;
+                video.onloadedmetadata = () => {
+                    cameraLoading.style.display = "none";
+                    cameraContainer.style.display = "flex";
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                };
+            })
+            .catch(err => {
+                cameraLoading.innerHTML = "<div class='text-red-500'>Gagal mengakses kamera: " + err.message + "</div>";
+            });
+
+        // Patch scripts.js: remove button logic, start faceapi when video is ready
+        // You can move the faceapi logic to start when video.onplaying or onloadedmetadata fires
+        // Example:
+        video.addEventListener("playing", () => {
+            // panggil faceapi detection logic di sini
+        });
     });
 </script>
 @endpush
