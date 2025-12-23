@@ -31,7 +31,7 @@
         .izin-right {
             width: 100%;
             padding: 2rem 1.5rem;
-            max-height: 550px;
+            max-height: 600px;
             margin-bottom: 0rem;
         }
     }
@@ -49,6 +49,20 @@
 <section class="min-h-screen text-slate-200">
     <div class="container mx-auto px-6 py-8">
         @include("landing.partials.header")
+        @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded-lg mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if($errors->any())
+            <div class="bg-red-500 text-white p-4 rounded-lg mb-4">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="text-center mb-1">
             <h1 class="text-2xl font-bold text-slate-100 mb-2">Pengajuan Izin</h1>
             <p class="text-slate-400">Isi form berikut untuk mengajukan izin (sakit, izin, atau dispensasi)</p>
@@ -67,24 +81,31 @@
             </div>
             <!-- Kontainer Kanan -->
             <div class="izin-right flex items-center justify-center">
-                <form action="#" method="POST" class="w-full max-w-md space-y-4">
+                <form action="{{ route('feature.izin.store') }}" method="POST" class="w-full max-sm:max-w-md max-w-xl space-y-4">
                     @csrf
-                    <div>
-                        <label for="nama_siswa" class="block text-slate-300 mb-1">Nama Siswa</label>
-                        <input type="text" id="nama_siswa" name="nama_siswa" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+                    <div class="flex flex-col lg:flex-row lg:gap-2 w-full">
+                        <div class="lg:w-2/3">
+                            <label for="nama_siswa" class="block text-slate-300 mb-1">Nama Siswa</label>
+                            <input type="text" id="nama_siswa" name="nama_siswa" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        </div>
+                        <div class="lg:w-1/3">
+                            <label for="kelas_siswa" class="block text-slate-300 mb-1">Kelas Siswa</label>
+                            <input type="text" id="kelas_siswa" name="kelas_siswa" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        </div>
                     </div>
-                    <div>
-                        <label for="kelas_siswa" class="block text-slate-300 mb-1">Kelas Siswa</label>
-                        <input type="text" id="kelas_siswa" name="kelas_siswa" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+                    <div class="flex flex-col lg:flex-row lg:gap-2 w-full">
+                        <div class="lg:w-2/3">
+                            <label for="nama_ortu" class="block text-slate-300 mb-1">Nama Orang Tua</label>
+                            <input type="text" id="nama_ortu" name="nama_ortu" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        </div>
+                        <div class="lg:w-1/3">
+                            <label for="no_telp" class="block text-slate-300 mb-1">No. Telp</label>
+                            <input type="text" id="no_telp" name="no_telp" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        </div>
                     </div>
-                    <div>
-                        <label for="nama_ortu" class="block text-slate-300 mb-1">Nama Orang Tua</label>
-                        <input type="text" id="nama_ortu" name="nama_ortu" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
-                    </div>
-                    <div>
-                        <label for="no_telp" class="block text-slate-300 mb-1">No. Telp</label>
-                        <input type="text" id="no_telp" name="no_telp" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
-                    </div>
+
+
                     <div>
                         <label for="tipe_izin" class="block text-slate-300 mb-1">Tipe Izin</label>
                         <select id="tipe_izin" name="tipe_izin" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
@@ -93,6 +114,10 @@
                             <option value="izin">Izin</option>
                             <option value="dispen">Dispen</option>
                         </select>
+                    </div>
+                    <div>
+                        <label for="deskripsi" class="block text-slate-300 mb-1">Deskripsi</label>
+                        <input type="text" id="deskripsi" name="deskripsi" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
                     </div>
                     <button type="submit" class="w-full max-sm:mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition">Kirim Pengajuan</button>
                 </form>
