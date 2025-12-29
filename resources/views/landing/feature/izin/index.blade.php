@@ -42,6 +42,26 @@
         padding-left: 0.75rem;
         padding-right: 0.75rem;
     }
+    .drop-zone {
+        border: 2px dashed #64748b;
+        border-radius: 1rem;
+        padding: 2rem;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.3s;
+        background: rgba(255,255,255,0.02);
+    }
+    .drop-zone.dragover {
+        border-color: #10b981;
+        background: rgba(16, 185, 129, 0.1);
+    }
+    .drop-zone.has-file {
+        border-color: #10b981;
+        background: rgba(16, 185, 129, 0.05);
+    }
+    .file-input {
+        display: none;
+    }
 </style>
 @endpush
 
@@ -70,18 +90,22 @@
         <div class="izin-container">
             <!-- Kontainer Kiri -->
             <div class="izin-left flex flex-col items-center justify-center">
-                <svg class="w-20 h-20 text-slate-300 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-                <div class="text-center px-4">
-                    <h2 class="text-lg font-semibold text-slate-100 mb-2">Max file 10mb</h2>
-                    <p class="text-slate-400">Nanti disini buat upload file</p>
+                <div id="drop-zone" class="drop-zone w-full">
+                    <svg class="w-20 h-20 text-slate-300 mb-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <div class="text-center px-4">
+                        <h2 class="text-lg font-semibold text-slate-100 mb-2">Upload File</h2>
+                        <p class="text-slate-400" id="drop-text">Seret dan jatuhkan file di sini atau klik untuk memilih</p>
+                        <p class="text-xs text-slate-400 mt-1">Max file 10mb. Format: jpg, png, jpeg, pdf</p>
+                    </div>
                 </div>
+                <input type="file" id="file-input" name="file" class="file-input" accept="image/*,application/pdf" multiple>
             </div>
             <!-- Kontainer Kanan -->
             <div class="izin-right flex items-center justify-center">
-                <form action="{{ route('feature.izin.store') }}" method="POST" class="w-full max-sm:max-w-md max-w-xl space-y-4">
+                <form action="{{ route('feature.izin.store') }}" method="POST" enctype="multipart/form-data" class="w-full max-sm:max-w-md max-w-xl space-y-4">
                     @csrf
                     <div class="flex flex-col lg:flex-row lg:gap-2 w-full">
                         <div class="lg:w-2/3">
@@ -117,7 +141,7 @@
                     </div>
                     <div>
                         <label for="deskripsi" class="block text-slate-300 mb-1">Deskripsi</label>
-                        <input type="text" id="deskripsi" name="deskripsi" required class="izin-form-input w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-400">
+                        <textarea id="deskripsi" name="deskripsi" rows="3" required class="w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-400"></textarea>
                     </div>
                     <button type="submit" class="w-full max-sm:mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition">Kirim Pengajuan</button>
                 </form>
@@ -125,4 +149,51 @@
         </div>
     </div>
 </section>
+
+@push("script")
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const dropText = document.getElementById('drop-text');
+
+    // Klik untuk pilih file
+    dropZone.addEventListener('click', () => fileInput.click());
+
+    // Drag over
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    // Drag leave
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
+
+    // Drop
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            dropZone.classList.add('has-file');
+            dropText.textContent = `${files.length} file(s) dipilih`;
+        }
+    });
+
+    // File input change
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            dropZone.classList.add('has-file');
+            dropText.textContent = `${fileInput.files.length} file(s) dipilih`;
+        } else {
+            dropZone.classList.remove('has-file');
+            dropText.textContent = 'Seret dan jatuhkan file di sini atau klik untuk memilih';
+        }
+    });
+});
+</script>
+@endpush
 @endsection

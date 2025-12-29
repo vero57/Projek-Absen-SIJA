@@ -27,17 +27,20 @@ class IzinController extends Controller
             'deskripsi' => 'required|string'
         ]);
 
-        // Cari student berdasarkan nama (asumsikan role student)
-        $studentRole = Role::where('name', 'student')->first();
+        // Cari student_id berdasarkan nama siswa (asumsikan dari User dengan role student)
         $student = User::where('name', $request->nama_siswa)
-                    ->where('role_id', $studentRole->id ?? null)
-                    ->first();
+                       ->whereHas('role', function($q) {
+                           $q->where('name', 'student');
+                       })->first();
         if (!$student) {
             return back()->withErrors(['nama_siswa' => 'Siswa tidak ditemukan.']);
         }
 
-        // Cari parent_id berdasarkan nama ortu (asumsikan dari ParentModel)
-        $parent = ParentModel::where('name', $request->nama_ortu)->first(); // Atau query sesuai
+        // Cari parent_id berdasarkan nama ortu (asumsikan dari User dengan role parent)
+        $parent = User::where('name', $request->nama_ortu)
+                      ->whereHas('role', function($q) {
+                          $q->where('name', 'parent');
+                      })->first();
         if (!$parent) {
             return back()->withErrors(['nama_ortu' => 'Orang tua tidak ditemukan.']);
         }
@@ -46,9 +49,9 @@ class IzinController extends Controller
         $data = [
             'student_id' => $student->id,
             'parent_id' => $parent->id,
-            'type' => $request->tipe_izin,  // Map dari 'tipe_izin' ke 'type'
-            'description' => $request->deskripsi,  // Map dari 'deskripsi' ke 'description'
-            'status' => 'pending'  // Default status, sesuaikan jika ada field request
+            'type' => $request->tipe_izin,
+            'description' => $request->deskripsi,
+            'status' => 'pending'
         ];
 
         // Simpan menggunakan create() (lebih efisien)

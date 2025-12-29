@@ -45,18 +45,12 @@
 
 
             <div>
-                <h5 class="text-gray-300 text-xl font-medium mb-1">Waktu Masuk</h5>
-                <p class="text-white text-lg">-</p>
-            </div>
-
-            <div>
-                <h5 class="text-gray-300 text-xl font-medium mb-1">Waktu Keluar</h5>
-                <p class="text-white text-lg">-</p>
-            </div>
-
-
-            <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Deskripsi</h5>
+                <p class="text-white text-lg">-</p>
+            </div>
+
+            <div>
+                <h5 class="text-gray-300 text-xl font-medium mb-1">Foto</h5>
                 <p class="text-white text-lg">-</p>
             </div>
 

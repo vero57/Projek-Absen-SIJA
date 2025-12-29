@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Journal extends Model
 {
-    protected $fillable = ['teacher_id', 'class_id', 'subject_id', 'content'];
+    protected $fillable = ['student_id', 'subject_id', 'description'];
 
     public function files()
     {
