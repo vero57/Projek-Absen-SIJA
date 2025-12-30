@@ -123,7 +123,7 @@
     </div>
 
     <!-- Modal Edit Status -->
-    <div class="fixed inset-0 z-50 flex items-center justify-center hidden" id="editStatusModal">
+    <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center hidden" id="editStatusModal">
         <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 flex flex-col items-center gap-4">
             <div class="flex items-center gap-4">
                 <i class="fas fa-edit text-4xl text-yellow-400"></i>
