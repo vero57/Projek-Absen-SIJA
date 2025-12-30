@@ -23,6 +23,7 @@ class JurnalController extends Controller
             'student_id' => 'required|string|max:255',
             'subject_id' => 'required|string|max:255',
             'description' => 'required|string',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:5120'
         ]);
 
         $journal = Journal::create([
@@ -32,6 +33,14 @@ class JurnalController extends Controller
         ]);
 
         $journal->save();
+
+        if ($request->hasFile('foto')) {
+            $filePath = $request->file('foto')->store('journals', 'public');
+            JournalFile::create([
+                'journal_id' => $journal->id,
+                'file_path' => $filePath
+            ]);
+        }
 
         return redirect()->route('landing.home')->with('success', 'Jurnal berhasil dikirim.');
     }
