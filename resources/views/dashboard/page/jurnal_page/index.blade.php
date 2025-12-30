@@ -87,7 +87,7 @@
                             @endforeach
                         @else
                             <!-- dummy data jika tidak ada data -->
-                            @for($i=1;$i<=6;$i++)
+                            <!-- @for($i=1;$i<=6;$i++)
                                 <tr class="hover:bg-slate-800/40">
                                     <td class="px-4 py-3 text-slate-200 text-sm align-top">{{ $i }}</td>
 
@@ -116,12 +116,18 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-slate-200 text-sm">
-                                        <a href="{{ route('dashboard.jurnal.show') }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                        <a href="" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                             <i class="fas fa-eye"></i> Detail
                                         </a>
                                     </td>
                                 </tr>
-                            @endfor
+                            @endfor -->
+
+                            <tr class="hover:bg-slate-800/40">
+                                <td colspan="5" class="px-4 py-3 text-slate-200 text-sm text-center">
+                                    Tidak ada data
+                                </td>
+                            </tr>
                         @endif
                     </tbody>
                 </table>

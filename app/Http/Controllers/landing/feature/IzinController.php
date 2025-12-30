@@ -5,6 +5,7 @@ namespace App\Http\Controllers\landing\feature;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Permission;
+use App\Models\PermissionFile;
 use App\Models\User;
 use App\Models\ParentModel;
 use App\Models\Role;
@@ -19,44 +20,30 @@ class IzinController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_siswa' => 'required|string|max:255',
-            'kelas_siswa' => 'required|string',
-            'nama_ortu' => 'required|string|max:255',
-            'no_telp' => 'required|string|max:255',
-            'tipe_izin' => 'required|in:sakit,izin,dispen',
-            'deskripsi' => 'required|string'
+            'student_id' => 'required|string|max:255',
+            'parent_name' => 'required|string|max:255',
+            'type' => 'required|in:sakit,izin,dispen',
+            'description' => 'required|string',
+            'status' => 'in:pending,approved,rejected',
         ]);
 
-        // Cari student_id berdasarkan nama siswa (asumsikan dari User dengan role student)
-        $student = User::where('name', $request->nama_siswa)
-                       ->whereHas('role', function($q) {
-                           $q->where('name', 'student');
-                       })->first();
-        if (!$student) {
-            return back()->withErrors(['nama_siswa' => 'Siswa tidak ditemukan.']);
+        $permission = Permission::create([
+            'student_id' => $request->student_id,
+            'parent_name' => $request->parent_name,
+            'type' => $request->type,
+            'description' => $request->description,
+        ]);
+
+        $permission->save();
+
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('permissions', 'public');
+            PermissionFile::create([
+                'permission_id' => $permission->id,
+                'file_path' => $filePath
+            ]);
         }
 
-        // Cari parent_id berdasarkan nama ortu (asumsikan dari User dengan role parent)
-        $parent = User::where('name', $request->nama_ortu)
-                      ->whereHas('role', function($q) {
-                          $q->where('name', 'parent');
-                      })->first();
-        if (!$parent) {
-            return back()->withErrors(['nama_ortu' => 'Orang tua tidak ditemukan.']);
-        }
-
-        // Map field request ke kolom model
-        $data = [
-            'student_id' => $student->id,
-            'parent_id' => $parent->id,
-            'type' => $request->tipe_izin,
-            'description' => $request->deskripsi,
-            'status' => 'pending'
-        ];
-
-        // Simpan menggunakan create() (lebih efisien)
-        Permission::create($data);
-
-        return redirect()->route('izin.index')->with('success', 'Izin berhasil diajukan.');
+        return redirect()->route('landing.home')->with('success', 'Izin berhasil diajukan.');
     }
 }

@@ -13,7 +13,7 @@ class JurnalController extends Controller
 {
     public function index()
     {
-        $subjects = \App\Models\Subject::all(); // Ambil semua subjects dari database
+        $subjects = \App\Models\Subject::all();
         return view('landing.feature.jurnal.index', compact('subjects'));
     }
 
@@ -23,7 +23,6 @@ class JurnalController extends Controller
             'student_id' => 'required|string|max:255',
             'subject_id' => 'required|string|max:255',
             'description' => 'required|string',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:5120' // Tambahkan validasi foto
         ]);
 
         $journal = Journal::create([
@@ -33,15 +32,6 @@ class JurnalController extends Controller
         ]);
 
         $journal->save();
-
-        // Handle upload foto jika ada
-        if ($request->hasFile('foto')) {
-            $filePath = $request->file('foto')->store('journals', 'public'); // Simpan ke storage/app/public/journals
-            JournalFile::create([
-                'journal_id' => $journal->id,
-                'file_path' => $filePath
-            ]);
-        }
 
         return redirect()->route('landing.home')->with('success', 'Jurnal berhasil dikirim.');
     }

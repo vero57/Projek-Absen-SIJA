@@ -15,7 +15,7 @@ Route::middleware(['userakses:Admin,Guru'])->group(function () {
     Route::get('/dashboard/absensi', [AbsensiController::class, 'index'])->name('dashboard.absensi');
     Route::get('/dashboard/absensi/{user_id}/show', [AbsensiController::class, 'show'])->name('dashboard.absensi.show');
     Route::get('/dashboard/jurnal', [JurnalController::class, 'index'])->name('dashboard.jurnal');
-    Route::get('/dashboard/jurnal/{id}/show', [JurnalController::class, 'show'])->name('dashboard.jurnal.show'); // Ubah dari /show ke /{id}/show
+    Route::get('/dashboard/jurnal/{id}/show', [JurnalController::class, 'show'])->name('dashboard.jurnal.show');
     Route::get('/dashboard/siswa', [SiswaController::class, 'index'])->name('dashboard.siswa');
 });
 
@@ -31,7 +31,8 @@ Route::get('/dashboard/jurnal', [JurnalController::class, 'index'])->name('dashb
 Route::get('/dashboard/pelanggaran', [PelanggaranController::class, 'index'])->name('dashboard.pelanggaran');
 Route::get('/dashboard/pelanggaran/show', [PelanggaranController::class, 'show'])->name('dashboard.pelanggaran.show');
 Route::get('/dashboard/izin', [IzinController::class, 'index'])->name('dashboard.izin');
-Route::get('/dashboard/izin/show', [IzinController::class, 'show'])->name('dashboard.izin.show');
+Route::get('/dashboard/izin/{id}/show', [IzinController::class, 'show'])->name('dashboard.izin.show');
+Route::post('/dashboard/izin/{id}/update-status', [IzinController::class, 'updateStatus'])->name('dashboard.izin.updateStatus'); // Tambahkan route untuk update status
 
 // Tambah detail siswa (bukan edit user, tapi tambah detail student)
 Route::get('/dashboard/siswa/{user}/detail', [\App\Http\Controllers\dashboard\dash_feature\SiswaController::class, 'createDetail'])->name('dashboard.siswa.detail.create');

@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('parent_id')->constrained('users')->cascadeOnDelete();
-            $table->enum('type', ['sakit','izin']);
+            // $table->foreignId('parent_id')->constrained('users')->cascadeOnDelete();
+            $table->string('parent_name');
+            $table->enum('type', ['sakit','izin','dispen']);
             $table->text('description')->nullable();
             $table->enum('status', ['pending','approved','rejected'])->default('pending');
             $table->timestamps();
