@@ -21,7 +21,12 @@ class ClassModel extends Model
 
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class, 'class_subject');
+        return $this->belongsToMany(
+            Subject::class,
+            'class_subject',
+            'class_id',   // foreign key di tabel pivot yang mengacu ke classes
+            'subject_id'  // foreign key di tabel pivot yang mengacu ke subjects
+        );
     }
 
     public function walas()

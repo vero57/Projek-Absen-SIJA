@@ -188,6 +188,15 @@ class KelasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $class = ClassModel::findOrFail($id);
+        // Hapus relasi siswa di tabel pivot
+        $class->students()->detach();
+        // Hapus jadwal jika ada
+        $class->attendanceSchedule()?->delete();
+        // Hapus relasi subject jika ada
+        $class->subjects()->detach();
+        // Hapus kelas
+        $class->delete();
+        return redirect()->route('dashboard.kelas.index')->with('success', 'Kelas berhasil dihapus.');
     }
 }
