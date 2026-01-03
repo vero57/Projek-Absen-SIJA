@@ -23,4 +23,14 @@ class ClassModel extends Model
     {
         return $this->belongsToMany(Subject::class, 'class_subject');
     }
+
+    public function walas()
+    {
+        return $this->belongsTo(User::class, 'walas_id');
+    }
+
+    public function attendanceSchedule()
+    {
+        return $this->hasOne(\App\Models\AttendanceSchedule::class, 'class_id');
+    }
 }

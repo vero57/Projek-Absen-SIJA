@@ -39,6 +39,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('dashboard.kelas.index') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.kelas*') ? 'active text-white' : 'text-slate-300' }}">
+                    <i class="fas fa-chalkboard-teacher mr-3 text-yellow-400"></i>
+                    <span class="sidebar-label">Kelas</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('dashboard.subjects.index') }}" class="menu-item flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('dashboard.subjects*') ? 'active text-white' : 'text-slate-300' }}">
                     <i class="fas fa-book mr-3 text-green-400"></i>
                     <span class="sidebar-label">Mata Pelajaran</span>

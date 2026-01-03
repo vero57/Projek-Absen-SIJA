@@ -9,6 +9,7 @@ use App\Http\Controllers\dashboard\dash_feature\PelanggaranController;
 use App\Http\Controllers\dashboard\dash_feature\IzinController;
 use App\Http\Controllers\dashboard\dash_feature\SiswaController;
 use App\Http\Controllers\dashboard\dash_feature\SubjectController;
+use App\Http\Controllers\dashboard\dash_feature\KelasController;
 
 // Semua dashboard kecuali users: Admin dan Guru
 Route::middleware(['userakses:Admin,Guru'])->group(function () {
@@ -30,6 +31,14 @@ Route::middleware(['userakses:Admin,Guru'])->group(function () {
     Route::resource('/dashboard/subjects', SubjectController::class, [
         'as' => 'dashboard'
     ]);
+    Route::resource('/dashboard/kelas', KelasController::class, [
+        'as' => 'dashboard'
+    ]);
+    Route::post('/dashboard/kelas/{kelas}/update-walas', [KelasController::class, 'updateWalas'])->name('dashboard.kelas.updateWalas');
+    Route::post('/dashboard/kelas/{kelas}/add-students', [KelasController::class, 'addStudents'])->name('dashboard.kelas.addStudents');
+    Route::post('/dashboard/kelas/{kelas}/remove-students', [KelasController::class, 'removeStudents'])->name('dashboard.kelas.removeStudents');
+    Route::post('/dashboard/kelas/{kelas}/update-schedule', [KelasController::class, 'updateSchedule'])->name('dashboard.kelas.updateSchedule');
+    Route::post('/dashboard/kelas/{kelas}/update-name', [KelasController::class, 'updateName'])->name('dashboard.kelas.updateName');
 });
 
 // Hanya Admin untuk users
