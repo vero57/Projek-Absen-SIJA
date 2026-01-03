@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="flex items-center">
-            <a href="{{ route('dashboard.subjects.create') }}"><button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Tambah Mata Pelajaran</button></a>
+            <a href="{{ route('dashboard.subjects.create') }}"><button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Tambah Kelas</button></a>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
                 </select>
             </div>
             <div class="flex items-center gap-3">
-                <input type="search" placeholder="Cari nama mata pelajaran" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
+                <input type="search" placeholder="Cari nama kelas" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
                 <button class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Search</button>
             </div>
         </div>
@@ -41,19 +41,23 @@
                 <thead>
                     <tr class="text-left text-slate-300 text-sm uppercase tracking-wider">
                         <th class="px-4 py-3">Nama Mata Pelajaran</th>
+                        <th class="px-4 py-3">Kelas</th>
+                        <th class="px-4 py-3">Guru</th>
                         <th class="px-4 py-3 w-[200px]">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-700">
                 @if(isset($subjects) && $subjects->count())
-                    @foreach($subjects as $subject)
+                    @foreach($subjects as $classSubject)
                         <tr class="hover:bg-slate-800/40">
-                            <td class="px-4 py-3 text-slate-200 text-sm">{{ $subject->name }}</td>
+                            <td class="px-4 py-3 text-slate-200 text-sm">{{ $classSubject->subject->name ?? '-' }}</td>
+                            <td class="px-4 py-3 text-slate-200 text-sm">{{ $classSubject->class->name ?? '-' }}</td>
+                            <td class="px-4 py-3 text-slate-200 text-sm">{{ $classSubject->teacher->name ?? '-' }}</td>
                             <td class="px-4 py-3 text-slate-200 text-sm">
-                                <a href="{{ route('dashboard.subjects.edit', $subject->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                <a href="{{ route('dashboard.subjects.edit', $classSubject->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                <form action="{{ route('dashboard.subjects.destroy', $subject->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus mata pelajaran ini?');">
+                                <form action="{{ route('dashboard.subjects.destroy', $classSubject->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus kelas ini?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-xs font-semibold">
