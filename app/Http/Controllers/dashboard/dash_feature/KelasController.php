@@ -23,7 +23,10 @@ class KelasController extends Controller
      */
     public function create()
     {
-        //
+        $teachers = \App\Models\User::whereHas('role', function ($q) {
+            $q->where('name', 'Guru');
+        })->get();
+        return view('dashboard.page.kelas_page.create', compact('teachers'));
     }
 
     /**
@@ -31,7 +34,15 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'walas_id' => 'required|exists:users,id'
+        ]);
+        \App\Models\ClassModel::create([
+            'name' => $request->name,
+            'walas_id' => $request->walas_id
+        ]);
+        return redirect()->route('dashboard.kelas.index')->with('success', 'Kelas berhasil ditambahkan.');
     }
 
     /**
