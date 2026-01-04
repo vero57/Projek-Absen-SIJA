@@ -20,8 +20,8 @@
         </div>
         <div class="text-slate-400 text-sm text-center md:text-right">
             &copy; {{ date('Y') }}
-            <span class="font-bold text-red-400 tracking-wide">Senatus Populusque Romanus</span>
-            &mdash; Crafted with <span class="text-pink-400">Veni Vidi Vici</span> by <span class="font-semibold text-white">JVILVS CAESAR</span>
+            <span class="font-bold text-red-400 tracking-wide">Senatvs Popvlvsqve Romanvs</span>
+            &mdash; Crafted with <span class="text-pink-400">Veni Vidi Vici</span> by <span class="font-semibold text-white">GAIVS IVILVS CAESAR</span>
         </div>
     </div>
 </footer>

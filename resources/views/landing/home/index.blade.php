@@ -50,6 +50,26 @@
 <section class="min-h-screen text-slate-200">
   <div class="container mx-auto px-6 py-8">
     @include("landing.partials.header")
+    @if(session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session("success") }}',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
+    @if($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                html: '<ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+            });
+        </script>
+    @endif
     <div class="text-center mb-12">
     <h1 class="text-3xl font-bold text-slate-100 mb-2">
         @if ($userName)

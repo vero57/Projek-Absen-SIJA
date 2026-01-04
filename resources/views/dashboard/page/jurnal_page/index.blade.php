@@ -49,50 +49,45 @@
                         @if(isset($journals) && $journals->count())
                             @foreach($journals as $idx => $j)
                                 @php
-                                    $no = (isset($journals) && method_exists($journals, 'firstItem')) ? $journals->firstItem() + $loop->index : $loop->iteration;
+                                    $no = $journals->firstItem() + $loop->index;
                                 @endphp
                                 <tr class="hover:bg-slate-800/40">
-                                    <td class="px-4 py-3 text-slate-200 text-sm align-top">{{ $no }}</td>
+                                    <td class="px-4 py-3 text-slate-200 text-sm align-center">{{ $no }}</td>
 
                                     <td class="px-4 py-3">
                                         <div class="flex items-center gap-3">
                                             <div class="w-10 h-10 rounded-full bg-purple-700 flex items-center justify-center text-white font-semibold">
-                                                {{ strtoupper(substr($j->student_name ?? ($j->student_id ?? 'U'), 0, 1)) }}
+                                                {{ strtoupper(substr($j->student->name ?? 'U', 0, 1)) }}
                                             </div>
                                             <div>
-                                                <div class="view-student text-slate-200 font-medium text-sm">{{ $j->student_name ?? ('ID: '.$j->student_id) }}</div>
-                                                <div class="view-class text-slate-200 font-medium text-sm hidden">{{ $j->class_name ?? ($j->class_id ?? '-') }}</div>
-                                                <div class="text-slate-400 text-xs">{{ $j->student_id ? 'ID: '.$j->student_id : '' }}</div>
+                                                <div class="view-student text-slate-200 font-medium text-sm">{{ $j->student->name ?? 'Nama Tidak Ditemukan' }}</div>
+                                                <div class="view-class text-slate-200 font-medium text-sm hidden">{{ $j->student->classes->first()->name ?? '-' }}</div>
+                                                <div class="text-slate-400 text-xs">ID: {{ $j->student_id }}</div>
                                             </div>
                                         </div>
                                     </td>
 
                                     <td class="px-4 py-3 text-slate-200 text-sm">
-                                        <div class="font-medium">{{ $j->subject ?? '-' }}</div>
-                                        <div class="text-slate-400 text-xs">{{ $j->submitted_at ? \Carbon\Carbon::parse($j->submitted_at)->format('Y-m-d H:i') : '' }}</div>
+                                        <div class="font-medium">{{ $j->subject->name ?? 'Pelajaran Tidak Ditemukan' }}</div>
+                                        <div class="text-slate-400 text-xs">{{ $j->created_at->format('Y-m-d H:i') }}</div>
                                     </td>
 
                                     <td class="px-4 py-3 text-slate-200 text-sm">
-                                        <div class="text-sm text-slate-200 line-clamp-2" title="{{ $j->description ?? '-' }}">
-                                            {{ $j->description ?? '-' }}
+                                        <div class="text-sm text-slate-200 line-clamp-2" title="{{ $j->description }}">
+                                            {{ $j->description }}
                                         </div>
-                                        @if(!empty($j->attachment))
-                                            <div class="mt-2">
-                                                <a href="{{ asset('storage/'.$j->attachment) }}" target="_blank" class="text-xs text-sky-400 hover:underline">Lihat lampiran</a>
-                                            </div>
-                                        @endif
                                     </td>
 
                                     <td class="px-4 py-3 text-slate-200 text-sm">
-                                        <a href="{{ route('dashboard.jurnal.show', $student->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                        <a href="{{ route('dashboard.jurnal.show', $j->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                             <i class="fas fa-eye"></i> Detail
                                         </a>
                                     </td>
                                 </tr>
                             @endforeach
                         @else
-                            <!-- dummy data -->
-                            @for($i=1;$i<=6;$i++)
+                            <!-- dummy data jika tidak ada data -->
+                            <!-- @for($i=1;$i<=6;$i++)
                                 <tr class="hover:bg-slate-800/40">
                                     <td class="px-4 py-3 text-slate-200 text-sm align-top">{{ $i }}</td>
 
@@ -121,24 +116,28 @@
                                     </td>
 
                                     <td class="px-4 py-3 text-slate-200 text-sm">
-                                        <a href="{{ route('dashboard.jurnal.show') }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                        <a href="" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                             <i class="fas fa-eye"></i> Detail
                                         </a>
                                     </td>
                                 </tr>
-                            @endfor
+                            @endfor -->
+
+                            <tr class="hover:bg-slate-800/40">
+                                <td colspan="5" class="px-4 py-3 text-slate-200 text-sm text-center">
+                                    Tidak ada data
+                                </td>
+                            </tr>
                         @endif
                     </tbody>
                 </table>
             </div>
 
             <div class="mt-2 md:mt-4 flex flex-col md:flex-row items-center justify-between text-slate-400 text-xs md:text-sm gap-2">
-                <div>Showing <span class="text-white">1</span> to <span class="text-white">10</span> entries</div>
-                @if(isset($journals) && method_exists($journals, 'links'))
-                    <div class="text-xs md:text-sm">
-                        {{ $journals->links() }}
-                    </div>
-                @endif
+                <div>Showing <span class="text-white">{{ $journals->firstItem() ?? 0 }}</span> to <span class="text-white">{{ $journals->lastItem() ?? 0 }}</span> entries</div>
+                <div class="text-xs md:text-sm">
+                    {{ $journals->links() }}
+                </div>
             </div>
         </div>
     </div>
