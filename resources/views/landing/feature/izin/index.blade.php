@@ -70,18 +70,24 @@
     <div class="container mx-auto px-6 py-8">
         @include("landing.partials.header")
         @if(session('success'))
-            <div class="bg-green-500 text-white p-4 rounded-lg mb-4">
-                {{ session('success') }}
-            </div>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session("success") }}',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
         @endif
         @if($errors->any())
-            <div class="bg-red-500 text-white p-4 rounded-lg mb-4">
-                <ul>
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    html: '<ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+                });
+            </script>
         @endif
         <div class="text-center mb-1">
             <h1 class="text-2xl font-bold text-slate-100 mb-2">Pengajuan Izin</h1>

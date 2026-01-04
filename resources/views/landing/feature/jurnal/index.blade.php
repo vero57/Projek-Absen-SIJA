@@ -15,6 +15,26 @@
 <section class="min-h-screen text-slate-200">
     <div class="container mx-auto px-6 py-8">
         @include("landing.partials.header")
+        @if(session('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: '{{ session("success") }}',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            </script>
+        @endif
+        @if($errors->any())
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    html: '<ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+                });
+            </script>
+        @endif
         <div class="text-center mb-1">
             <h1 class="text-2xl font-bold text-slate-100 mb-1">Pengisian Jurnal</h1>
             <p class="text-slate-400">Pengisian Jurnal, diisi tiap mapel selesai</p>
