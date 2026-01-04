@@ -57,10 +57,10 @@
                                 <a href="{{ route('dashboard.subjects.edit', $classSubject->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                <form action="{{ route('dashboard.subjects.destroy', $classSubject->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus kelas ini?');">
+                                <form id="delete-form-{{ $classSubject->id }}" action="{{ route('dashboard.subjects.destroy', $classSubject->id) }}" method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-xs font-semibold">
+                                    <button type="button" onclick="confirmDelete('{{ $classSubject->id }}', '{{ $classSubject->subject->name ?? 'Mata Pelajaran' }}')" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-xs font-semibold">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </form>
@@ -95,5 +95,22 @@
             showConfirmButton: false
         });
     @endif
+
+    function confirmDelete(id, subjectName) {
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: `Mata pelajaran "${subjectName}" akan dihapus secara permanen.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
 </script>
 @endpush
