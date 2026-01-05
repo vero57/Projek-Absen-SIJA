@@ -77,8 +77,9 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 text-slate-200 text-sm">
-                                    <a href="{{ route('dashboard.siswa.detail.create', $user->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
-                                        <i class="fas fa-edit"></i> Add Detail
+                                    @php $hasDetail = $detail !== null; @endphp
+                                    <a href="{{ $hasDetail ? route('dashboard.siswa.detail.edit', $user->id) : route('dashboard.siswa.detail.create', $user->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                        <i class="fas fa-edit"></i> {{ $hasDetail ? 'Edit Detail' : 'Add Detail' }}
                                     </a>
                                     <a href="{{ route('dashboard.siswa.detail.show', $user->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                         <i class="fas fa-eye"></i> Detail

@@ -90,17 +90,13 @@ async function run() {
         // Ambil elemen label, deskripsi, dan gambar ekspresi di kontainer kiri
         const ekspresiLabel = document.querySelector('.absen-left h2');
         const ekspresiDesc = document.querySelector('.absen-left p');
-        const ekspresiImgBox = document.querySelector('.absen-left .aspect-square');
-        // Mapping ekspresi ke gambar
-        const ekspresiImages = {
-            happy:   { src: '/assets/images/landing/expression/smile.png', label: 'Senyum 😊' },
-            neutral: { src: '/assets/images/landing/expression/flat.png',  label: 'Datar 😐' },
-            sad:     { src: '/assets/images/landing/expression/gloomy.png', label: 'Sedih 😢' },
-            angry:   { src: '/assets/images/landing/expression/angry.png',  label: 'Marah 😠' },
-            surprised: { src: '/assets/images/landing/expression/surprised.png', label: 'Terkejut 😲' },
-            disgusted: { src: '/assets/images/landing/expression/disgusted.png', label: 'Jijik 🤢' },
-            fearful:   { src: '/assets/images/landing/expression/fearful.png', label: 'Takut 😨' }
-        };
+        // Tambahkan elemen baru untuk ekspresi terdeteksi
+        let ekspresiDetected = document.querySelector('.absen-left .ekspresi-terdeteksi');
+        if (!ekspresiDetected && ekspresiDesc) {
+            ekspresiDetected = document.createElement('div');
+            ekspresiDetected.className = 'ekspresi-terdeteksi text-slate-400 mt-2';
+            ekspresiDesc.parentNode.appendChild(ekspresiDetected);
+        }
 
         setInterval(async () => {
             if (video.videoWidth === 0 || video.videoHeight === 0) return;
@@ -120,17 +116,18 @@ async function run() {
 
             let ekspresiTerdeteksi = null;
             let confidence = 0;
+            let faceLabel = null;
 
             resized.forEach(face => {
                 // -------------------------
                 //  FACE RECOGNITION
                 // -------------------------
                 const bestMatch = faceMatcher.findBestMatch(face.descriptor);
-                const label = bestMatch.label;
+                faceLabel = bestMatch.label;
 
                 const box = face.detection.box;
                 const drawBox = new faceapi.draw.DrawBox(box, {
-                    label: label
+                    label: faceLabel // <-- perbaiki dari 'label' ke 'faceLabel'
                 });
                 drawBox.draw(canvas);
 
@@ -145,29 +142,15 @@ async function run() {
                 confidence = dominant[1];
             });
 
-            // Tampilkan ekspresi di kontainer kiri jika ada wajah terdeteksi
-            if (ekspresiLabel && ekspresiTerdeteksi) {
-                let labelText = '';
-                let descText = '';
-                let imgSrc = '';
-                let imgAlt = '';
-                if (ekspresiImages[ekspresiTerdeteksi]) {
-                    labelText = ekspresiImages[ekspresiTerdeteksi].label;
-                    imgSrc = ekspresiImages[ekspresiTerdeteksi].src;
-                    imgAlt = ekspresiImages[ekspresiTerdeteksi].label;
-                } else {
-                    labelText = ekspresiTerdeteksi;
-                    imgSrc = '';
-                    imgAlt = ekspresiTerdeteksi;
-                }
-                descText = 'Ekspresi: ' + labelText.replace(/\s.*/, '') + ` (${ekspresiTerdeteksi.charAt(0).toUpperCase() + ekspresiTerdeteksi.slice(1)})`;
-                ekspresiLabel.textContent = labelText;
-                if (ekspresiDesc) {
-                    ekspresiDesc.textContent = descText + ` (Confidence: ${(confidence*100).toFixed(1)}%)`;
-                }
-                if (ekspresiImgBox && imgSrc) {
-                    ekspresiImgBox.innerHTML = `<img src="${imgSrc}" alt="${imgAlt}" class="w-full h-full object-contain">`;
-                }
+            // Jangan update gambar/label ekspresi di kontainer kiri!
+            // Hanya update deskripsi confidence ekspresi jika ingin
+            if (ekspresiDetected && ekspresiTerdeteksi) {
+                ekspresiDetected.textContent = `Ekspresi terdeteksi: ${ekspresiTerdeteksi.charAt(0).toUpperCase() + ekspresiTerdeteksi.slice(1)} (Confidence: ${(confidence*100).toFixed(1)}%)`;
+            }
+
+            // === Tambahan: cek ekspresi benar selama 3 detik ===
+            if (window.absenEkspresiCheck) {
+                window.absenEkspresiCheck(ekspresiTerdeteksi, confidence, faceLabel);
             }
         }, 150);
     });

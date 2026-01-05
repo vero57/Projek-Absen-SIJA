@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\landing\HomeController;
 use App\Http\Controllers\landing\feature\AbsenController;
@@ -11,6 +12,7 @@ Route::get('/', [HomeController::class, 'index'])->name('landing.home');
 
 Route::middleware('fiturakses')->group(function () {
     Route::get('/absen', [AbsenController::class, 'index'])->name('feature.absen');
+    Route::post('/absen/store', [AbsenController::class, 'store'])->name('feature.absen.store');
     Route::get('/izin', [IzinController::class, 'index'])->name('feature.izin');
     Route::post('/izin/store', [IzinController::class, 'store'])->name('feature.izin.store');
     Route::get('/jurnal', [JurnalController::class, 'index'])->name('feature.jurnal');
