@@ -170,26 +170,26 @@
         @else
           <table id="table-absen" class="styled-table w-full text-left border-collapse">
             <thead class="bg-slate-800/50">
-              <tr>
-                <th class="px-4 py-3">Nama</th>
-                <th class="px-4 py-3">Tanggal</th>
-                <th class="px-4 py-3">Jam Masuk</th>
-                <th class="px-4 py-3">Jam Pulang</th>
-              </tr>
+                <tr>
+                    <th class="px-4 py-3">Nama</th>
+                    <th class="px-4 py-3">Tanggal</th>
+                    <th class="px-4 py-3">Jam Masuk</th>
+                    <th class="px-4 py-3">Jam Pulang</th>
+                </tr>
             </thead>
             <tbody>
-              <tr class="hover:bg-white/5">
-                <td class="px-4 py-3">Budi Santoso</td>
-                <td class="px-4 py-3">12 September 2025</td>
-                <td class="px-4 py-3">08:00</td>
-                <td class="px-4 py-3">16:00</td>
-              </tr>
-              <tr class="hover:bg-white/5">
-                <td class="px-4 py-3">Siti Aminah</td>
-                <td class="px-4 py-3">12 September 2025</td>
-                <td class="px-4 py-3">08:10</td>
-                <td class="px-4 py-3">16:05</td>
-              </tr>
+                @forelse($attendances as $attendance)
+                    <tr class="hover:bg-white/5">
+                        <td class="px-4 py-3">{{ auth()->user()->name }}</td>
+                        <td class="px-4 py-3">{{ \Carbon\Carbon::parse($attendance->date)->format('d F Y') }}</td>
+                        <td class="px-4 py-3">{{ $attendance->time_in ?? '-' }}</td>
+                        <td class="px-4 py-3"></td> {{-- Kosongkan dulu jam pulang --}}
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center text-slate-400 py-4">Belum ada data absen</td>
+                    </tr>
+                @endforelse
             </tbody>
           </table>
 
@@ -203,18 +203,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="hover:bg-white/5">
-                <td class="px-4 py-3">Andi Wijaya</td>
-                <td class="px-4 py-3">11 September 2025</td>
-                <td class="px-4 py-3">Sakit</td>
-                <td class="px-4 py-3">Demam</td>
-              </tr>
-              <tr class="hover:bg-white/5">
-                <td class="px-4 py-3">Dewi Lestari</td>
-                <td class="px-4 py-3">10 September 2025</td>
-                <td class="px-4 py-3">Cuti</td>
-                <td class="px-4 py-3">Acara keluarga</td>
-              </tr>
+              @forelse($permissions as $permission)
+                  <tr class="hover:bg-white/5">
+                      <td class="px-4 py-3">{{ auth()->user()->name }}</td>
+                      <td class="px-4 py-3">{{ \Carbon\Carbon::parse($permission->created_at)->format('d F Y') }}</td>
+                      <td class="px-4 py-3">{{ ucfirst($permission->type) }}</td>
+                      <td class="px-4 py-3">{{ $permission->description }}</td>
+                  </tr>
+              @empty
+                  <tr>
+                      <td colspan="4" class="text-center text-slate-400 py-4">Belum ada data izin</td>
+                  </tr>
+              @endforelse
             </tbody>
           </table>
 
@@ -223,20 +223,25 @@
               <tr>
                 <th class="px-4 py-3">Nama</th>
                 <th class="px-4 py-3">Tanggal</th>
+                <th class="px-4 py-3">Mapel</th>
                 <th class="px-4 py-3">Aktivitas</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="hover:bg-white/5">
-                <td class="px-4 py-3">Rudi Hartono</td>
-                <td class="px-4 py-3">12 September 2025</td>
-                <td class="px-4 py-3">Mengerjakan laporan bulanan</td>
-              </tr>
-              <tr class="hover:bg-white/5">
-                <td class="px-4 py-3">Ani Puspitasari</td>
-                <td class="px-4 py-3">12 September 2025</td>
-                <td class="px-4 py-3">Membuat desain presentasi</td>
-              </tr>
+              @forelse($journals as $journal)
+                  <tr class="hover:bg-white/5">
+                      <td class="px-4 py-3">{{ auth()->user()->name }}</td>
+                      <td class="px-4 py-3">{{ \Carbon\Carbon::parse($journal->created_at)->format('d F Y') }}</td>
+                      
+                      <td class="px-4 py-3">{{ $journal->subject->name ?? $journal->subject }}</td>
+                      
+                      <td class="px-4 py-3">{{ $journal->description }}</td>
+                  </tr>
+              @empty
+                  <tr>
+                      <td colspan="4" class="text-center text-slate-400 py-4">Belum ada data jurnal</td>
+                  </tr>
+              @endforelse
             </tbody>
           </table>
         @endif

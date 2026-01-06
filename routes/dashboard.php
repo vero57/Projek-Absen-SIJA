@@ -22,9 +22,10 @@ Route::middleware(['userakses:Admin,Guru'])->group(function () {
     Route::get('/dashboard/pelanggaran', [PelanggaranController::class, 'index'])->name('dashboard.pelanggaran');
     Route::get('/dashboard/pelanggaran/show', [PelanggaranController::class, 'show'])->name('dashboard.pelanggaran.show');
     Route::get('/dashboard/izin', [IzinController::class, 'index'])->name('dashboard.izin');
-    Route::get('/dashboard/izin/{id}/show', [IzinController::class, 'show'])->name('dashboard.izin.show');
-    Route::post('/dashboard/izin/{id}/update-status', [IzinController::class, 'updateStatus'])->name('dashboard.izin.updateStatus');
+    // Route::get('/dashboard/izin/show', [IzinController::class, 'show'])->name('dashboard.izin.show');
+    Route::get('dashboard/izin/{id}', [IzinController::class, 'show'])->name('dashboard.izin.show');
     // Tambah detail siswa (bukan edit user, tapi tambah detail student)
+    Route::post('/dashboard/izin/{id}/update-status', [IzinController::class, 'updateStatus'])->name('dashboard.izin.updateStatus');
     Route::get('/dashboard/siswa/{user}/detail', [SiswaController::class, 'createDetail'])->name('dashboard.siswa.detail.create');
     Route::post('/dashboard/siswa/{user}/detail', [SiswaController::class, 'storeDetail'])->name('dashboard.siswa.detail.store');
     // Edit detail siswa

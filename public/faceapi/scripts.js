@@ -3,6 +3,7 @@
 // =====================================
 let labeledFaceDescriptors = [];
 let faceMatcher;
+const FACE_MATCH_THRESHOLD = 0.5;
 
 
 // =====================================
@@ -33,9 +34,8 @@ async function loadFaceDatabase() {
         new faceapi.LabeledFaceDescriptors(data.name, [detection.descriptor])
     );
 
-    console.log("Loaded dynamic face:", data.name);
-
-    faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+    // Perketat threshold
+    faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, FACE_MATCH_THRESHOLD);
 }
 
 
@@ -124,6 +124,9 @@ async function run() {
                 // -------------------------
                 const bestMatch = faceMatcher.findBestMatch(face.descriptor);
                 faceLabel = bestMatch.label;
+                if (bestMatch.distance > FACE_MATCH_THRESHOLD) {
+                    faceLabel = "unknown";
+                }
 
                 const box = face.detection.box;
                 const drawBox = new faceapi.draw.DrawBox(box, {
