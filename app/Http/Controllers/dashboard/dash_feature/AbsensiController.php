@@ -4,25 +4,25 @@ namespace App\Http\Controllers\dashboard\dash_feature;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 
 class AbsensiController extends Controller
 {
     public function index()
     {
-        // Ambil user dengan role siswa beserta kelasnya
-        $students = User::with('classes')
-            ->whereHas('role', function ($q) {
-                $q->where('name', 'Siswa');
-            })
+        // Ambil semua data presensi beserta relasi user, kelas, dan status
+        $attendances = Attendance::with(['student', 'status'])
+            ->orderByDesc('date')
+            ->orderByDesc('time_in')
             ->get();
 
-        return view('dashboard.page.absensi_page.index', compact('students'));
+        return view('dashboard.page.absensi_page.index', compact('attendances'));
     }
 
-    public function show($user_id)
+    public function show($attendance_id)
     {
-        $user = User::findOrFail($user_id);
-        return view('dashboard.page.absensi_page.show', compact('user'));
+        $attendance = Attendance::with(['student', 'status'])->findOrFail($attendance_id);
+        return view('dashboard.page.absensi_page.show', compact('attendance'));
     }
 }

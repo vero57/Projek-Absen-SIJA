@@ -44,10 +44,10 @@
                                     <a href="{{ route('dashboard.kelas.show', $class->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                         <i class="fas fa-eye"></i> Detail
                                     </a>
-                                    <form action="{{ route('dashboard.kelas.destroy', $class->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus kelas ini?');">
+                                    <form id="delete-form-{{ $class->id }}" action="{{ route('dashboard.kelas.destroy', $class->id) }}" method="POST" class="inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-xs font-semibold">
+                                        <button type="button" onclick="confirmDelete('{{ $class->id }}', '{{ $class->name }}')" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-xs font-semibold">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </form>
@@ -73,3 +73,34 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session("success") }}',
+            timer: 3000,
+            showConfirmButton: false
+        });
+    @endif
+
+    function confirmDelete(id, className) {
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: `Kelas "${className}" akan dihapus secara permanen.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        });
+    }
+</script>
+@endpush
