@@ -24,61 +24,49 @@
         <div class="grid grid-cols-2 gap-6">
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Nama</h5>
-                <p class="text-white text-lg">{{ $user->name }}</p>
+                <p class="text-white text-lg">{{ $attendance->student->name ?? '-' }}</p>
             </div>
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Kelas</h5>
-                <p class="text-white text-lg">{{ $user->class ?? '-' }}</p>
+                <p class="text-white text-lg">
+                    {{ $attendance->student && $attendance->student->classes->count() ? $attendance->student->classes->pluck('name')->join(', ') : '-' }}
+                </p>
             </div>
-
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Tanggal</h5>
-                <p class="text-white text-lg">{{ $user->date ?? '-' }}</p>
+                <p class="text-white text-lg">{{ $attendance->date ?? '-' }}</p>
             </div>
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Keterangan</h5>
-                <p class="text-white text-lg">{{ $user->status ?? '-' }}</p>
+                <p class="text-white text-lg">{{ $attendance->status->name ?? '-' }}</p>
             </div>
-
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Waktu Masuk</h5>
-                <p class="text-white text-lg">{{ $user->time_in ?? '-' }}</p>
+                <p class="text-white text-lg">{{ $attendance->time_in ?? '-' }}</p>
             </div>
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Waktu Keluar</h5>
-                <p class="text-white text-lg">{{ $user->time_out ?? '-' }}</p>
+                <p class="text-white text-lg">{{ $attendance->time_out ?? '-' }}</p>
             </div>
-
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Lintang Lokasi</h5>
-                <p class="text-white text-lg">{{ $user->location_lat ?? '-' }}</p>
+                <p class="text-white text-lg">{{ $attendance->location_lat ?? '-' }}</p>
             </div>
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Bujur Lokasi</h5>
-                <p class="text-white text-lg">{{ $user->location_lng ?? '-' }}</p>
+                <p class="text-white text-lg">{{ $attendance->location_lng ?? '-' }}</p>
             </div>
-
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Foto</h5>
                 <p class="text-white text-lg">
-                    @if($user && $user->photo)
-                        <img src="{{ asset('storage/' . $user->photo) }}" alt="Foto" class="w-12 h-12 object-cover rounded" />
+                    @if($attendance->photo)
+                        <img src="{{ asset($attendance->photo) }}" alt="Foto" class="w-64 h-64 object-cover rounded border border-slate-700" />
                     @else
                         <span class="text-slate-400">-</span>
                     @endif
                 </p>
             </div>
-
         </div>
-
     </div>
 </div>
 @endsection

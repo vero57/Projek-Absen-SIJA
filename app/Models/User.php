@@ -54,12 +54,7 @@ class User extends Authenticatable
     // 🔹 User sebagai siswa, masuk ke banyak kelas
     public function classes()
     {
-        return $this->belongsToMany(
-            ClassModel::class,
-            'class_student',
-            'student_id', // foreign key di tabel pivot yang mengacu ke users
-            'class_id'    // foreign key di tabel pivot yang mengacu ke classes
-        );
+        return $this->belongsToMany(\App\Models\ClassModel::class, 'class_student', 'student_id', 'class_id');
     }
 
     // 🔹 User punya banyak kehadiran
@@ -94,7 +89,6 @@ class User extends Authenticatable
 
     public function studentDetail()
     {
-        return $this->hasOne(StudentDetail::class, 'user_id');
+        return $this->hasOne(StudentDetail::class);
     }
-
 }

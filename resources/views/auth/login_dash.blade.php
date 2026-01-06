@@ -146,6 +146,9 @@
             <div style="margin-top:1rem;">
                 <button type="submit" class="btn-primary">Login</button>
             </div>
+            <div class="mt-2" style="text-align:center; margin-top:0.75rem;">
+                <a href="{{ route('auth.login-register') }}" style="font-size: 0.9rem; color:#6366f1;">Login sebagai Siswa</a>
+            </div>
         </form
     </div>
 </div>

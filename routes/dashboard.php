@@ -26,6 +26,9 @@ Route::middleware(['userakses:Admin,Guru'])->group(function () {
     // Tambah detail siswa (bukan edit user, tapi tambah detail student)
     Route::get('/dashboard/siswa/{user}/detail', [SiswaController::class, 'createDetail'])->name('dashboard.siswa.detail.create');
     Route::post('/dashboard/siswa/{user}/detail', [SiswaController::class, 'storeDetail'])->name('dashboard.siswa.detail.store');
+    // Edit detail siswa
+    Route::get('/dashboard/siswa/{user}/detail/edit', [SiswaController::class, 'editDetail'])->name('dashboard.siswa.detail.edit');
+    Route::post('/dashboard/siswa/{user}/detail/update', [SiswaController::class, 'updateDetail'])->name('dashboard.siswa.detail.update');
     // Halaman detail siswa (pure melihat detail siswa)
     Route::get('/dashboard/siswa/{user}/show', [SiswaController::class, 'show'])->name('dashboard.siswa.detail.show');
     Route::resource('/dashboard/subjects', SubjectController::class, [

@@ -41,57 +41,52 @@
             <table class="min-w-full table-auto border-collapse">
                 <thead>
                     <tr class="text-left text-slate-300 text-sm uppercase tracking-wider">
-                        <!-- NOTE: untuk nama siswa dan kelas karena ditablenya pake id, nanti kalo udah dinamis kita konversi ke nama dan kelasnya -->
                         <th class="px-4 py-3">Nama Siswa</th>
                         <th class="px-4 py-3">Kelas Siswa</th>
                         <th class="px-4 py-3">Tanggal</th>
                         <th class="px-4 py-3">Waktu Masuk</th>
                         <th class="px-4 py-3">Waktu Keluar</th>
                         <th class="px-4 py-3">Status Kehadiran</th>
+                        <th class="px-4 py-3">Foto</th>
                         <th class="px-4 py-3">Action</th>
                     </tr>
                 </thead>
-
                 <tbody class="divide-y divide-slate-700">
-                    @if(isset($students) && $students->count())
-                        @foreach($students as $student)
+                    @if(isset($attendances) && $attendances->count())
+                        @foreach($attendances as $attendance)
                             <tr class="hover:bg-slate-800/40">
-                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $student->name }}</td>
                                 <td class="px-4 py-3 text-slate-200 text-sm">
-                                    @if($student->classes->count())
-                                        {{ $student->classes->pluck('name')->join(', ') }}
+                                    {{ $attendance->student->name ?? '-' }}
+                                </td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">
+                                    {{ $attendance->student && $attendance->student->classes->count() ? $attendance->student->classes->pluck('name')->join(', ') : '-' }}
+                                </td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $attendance->date }}</td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $attendance->time_in ?? '-' }}</td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">{{ $attendance->time_out ?? '-' }}</td>
+                                <td class="px-4 py-3">
+                                    <span class="inline-block px-3 py-1 text-xs font-medium rounded bg-slate-600">
+                                        {{ $attendance->status->name ?? '-' }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-slate-200 text-sm">
+                                    @if($attendance->photo)
+                                        <img src="{{ asset($attendance->photo) }}" alt="photo" class="w-12 h-12 rounded-md object-cover border border-slate-700 cursor-pointer preview-photo" data-photo="{{ asset($attendance->photo) }}">
                                     @else
-                                        -
+                                        <span class="text-slate-400">-</span>
                                     @endif
                                 </td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">-</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">-</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">-</td>
-                                <td class="px-4 py-3">
-                                    <span class="inline-block px-3 py-1 text-xs font-medium rounded bg-slate-600">-</span>
-                                </td>
                                 <td class="px-4 py-3 text-slate-200 text-sm">
-                                    <a href="{{ route('dashboard.absensi.show', $student->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                    <a href="{{ route('dashboard.absensi.show', $attendance->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                         <i class="fas fa-eye"></i> Detail
                                     </a>
                                 </td>
                             </tr>
                         @endforeach
                     @else
-                        <!-- data dummy buat debug doang -->
-                        @for($i=1;$i<=5;$i++)
-                            <tr class="hover:bg-slate-800/40">
-                                <td class="px-4 py-3 text-slate-200 text-sm">siswa{{ $i }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">12 SIJA {{ ceil($i/2) }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">{{ now()->subDays($i)->format('Y-m-d') }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">07:0{{ $i }}</td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">15:0{{ $i }}</td>
-                                <td class="px-4 py-3"><span class="inline-block px-3 py-1 text-xs font-medium rounded bg-green-600">Present</span></td>
-                                <td class="px-4 py-3">
-                                    <img src="https://via.placeholder.com/48x48.png?text=Photo" alt="photo" class="w-12 h-12 rounded-md object-cover border border-slate-700">
-                                </td>
-                            </tr>
-                        @endfor
+                        <tr>
+                            <td colspan="8" class="text-center text-slate-400 py-6">Tidak ada data presensi.</td>
+                        </tr>
                     @endif
                 </tbody>
             </table>
@@ -107,5 +102,43 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Preview Gambar -->
+<div id="photoModal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(30,41,59,0.85); align-items:center; justify-content:center;">
+    <div style="position:relative; max-width:90vw; max-height:90vh; display:flex; align-items:center; justify-content:center;">
+        <img id="modalImg" src="" alt="Preview" style="max-width:90vw; max-height:80vh; border-radius:1rem; box-shadow:0 8px 32px rgba(0,0,0,0.25); background:#222;">
+        <button id="closeModalBtn" type="button" style="position:absolute; top:-18px; right:-18px; background:#f87171; color:white; border:none; border-radius:50%; width:36px; height:36px; font-size:1.5rem; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.18);">×</button>
+    </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+(function() {
+    // Open modal on photo click
+    document.querySelectorAll('.preview-photo').forEach(function(img) {
+        img.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var modal = document.getElementById('photoModal');
+            var modalImg = document.getElementById('modalImg');
+            modalImg.src = this.dataset.photo;
+            modal.style.display = 'flex';
+        });
+    });
+    // Close modal
+    document.getElementById('closeModalBtn').onclick = function(e) {
+        e.stopPropagation();
+        document.getElementById('photoModal').style.display = 'none';
+        document.getElementById('modalImg').src = '';
+    };
+    // Close modal on outside click
+    document.getElementById('photoModal').onclick = function(e) {
+        if (e.target === this) {
+            this.style.display = 'none';
+            document.getElementById('modalImg').src = '';
+        }
+    };
+})();
+</script>
+@endpush
 
