@@ -99,4 +99,98 @@ class AbsenController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function checkout(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        }
+
+        $request->validate([
+            'attendance_id' => 'required|exists:attendances,id'
+        ]);
+
+        // Ambil data absen
+        $attendance = Attendance::findOrFail($request->attendance_id);
+        
+        // Validasi absen punya user yang login
+        if ($attendance->student_id != $user->id) {
+            return response()->json(['success' => false, 'message' => 'Anda tidak memiliki akses untuk absen ini'], 403);
+        }
+
+        // Validasiapakah sudah user udah keluar apa belum
+        if ($attendance->time_out) {
+            return response()->json(['success' => false, 'message' => 'Sudah check out hari ini']);
+        }
+
+        // Validasi sudah absen
+        if (!$attendance->time_in) {
+            return response()->json(['success' => false, 'message' => 'Belum melakukan check in']);
+        }
+
+        // Ambil class_id dari absen atau user
+        $classId = $attendance->class_id ?? $user->classes()->first()->id ?? null;
+        if (!$classId) {
+            return response()->json(['success' => false, 'message' => 'Class ID tidak ditemukan'], 422);
+        }
+
+        // Ambil jadwal absen kelas
+        $schedule = AttendanceSchedule::where('class_id', $classId)->first();
+        if (!$schedule) {
+            return response()->json(['success' => false, 'message' => 'Jadwal absen kelas tidak ditemukan'], 422);
+        }
+
+        // Ambil waktu sekarangAsia/Jakarta (WIB)
+        $nowWIB = now('Asia/Jakarta');
+        $nowTime = $nowWIB->format('H:i:s');
+        $today = $nowWIB->toDateString();
+
+        // Validasi 4: Pastikan tanggal absen adalah hari ini
+        if ($attendance->date != $today) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Tidak bisa check out untuk tanggal yang sudah lewat'
+            ]);
+        }
+
+        // Cek apakah sudah waktunya check out
+        $startTimeOut = $schedule->start_time_out; 
+        $endTimeOut = $schedule->end_time_out;    
+        
+        // Validasi 5: Cek waktu check out
+        if ($nowTime < $startTimeOut) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Belum waktunya pulang. Silakan check out mulai pukul ' . $startTimeOut . ' WIB.'
+            ]);
+        }
+
+        // Optional: Validasi batas akhir check out
+        // if ($nowTime > $endTimeOut) {
+        //     return response()->json([
+        //         'success' => false, 
+        //         'message' => 'Waktu check out sudah lewat. Batas akhir check out pukul ' . $endTimeOut . ' WIB.'
+        //     ]);
+        // }
+
+        // Update jam pulang
+        $attendance->time_out = $nowTime;
+        $attendance->save();
+
+        // Log aktivitas (opsional)
+        \Log::info('User check out', [
+            'user_id' => $user->id,
+            'attendance_id' => $attendance->id,
+            'time_out' => $nowTime,
+            'date' => $today
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'time_out' => $nowTime,
+            'attendance_id' => $attendance->id,
+            'message' => 'Check out berhasil pada jam ' . $nowTime
+        ]);
+    }
 }
