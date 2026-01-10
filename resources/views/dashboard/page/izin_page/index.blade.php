@@ -144,6 +144,7 @@
                 <div class="mb-4">
                     <label for="status" class="block text-slate-300 mb-1">Status</label>
                     <select id="status" name="status" required class="w-full bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2">
+                        <option value="pending">Pending</option>
                         <option value="approved">Approved</option>
                         <option value="rejected">Rejected</option>
                     </select>

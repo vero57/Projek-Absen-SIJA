@@ -13,6 +13,7 @@ Route::get('/', [HomeController::class, 'index'])->name('landing.home');
 Route::middleware('fiturakses')->group(function () {
     Route::get('/absen', [AbsenController::class, 'index'])->name('feature.absen');
     Route::post('/absen/store', [AbsenController::class, 'store'])->name('feature.absen.store');
+        Route::post('/absen/checkout', [AbsenController::class, 'checkout'])->name('feature.absen.checkout'); 
     Route::get('/izin', [IzinController::class, 'index'])->name('feature.izin');
     Route::post('/izin/store', [IzinController::class, 'store'])->name('feature.izin.store');
     Route::get('/jurnal', [JurnalController::class, 'index'])->name('feature.jurnal');

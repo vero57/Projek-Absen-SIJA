@@ -169,54 +169,88 @@
           </div>
         @else
           <table id="table-absen" class="styled-table w-full text-left border-collapse">
-            <thead class="bg-slate-800/50">
-                <tr>
-                    <th class="px-4 py-3">Nama</th>
-                    <th class="px-4 py-3">Tanggal</th>
-                    <th class="px-4 py-3">Jam Masuk</th>
-                    <th class="px-4 py-3">Jam Pulang</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($attendances as $attendance)
-                    <tr class="hover:bg-white/5">
-                        <td class="px-4 py-3">{{ auth()->user()->name }}</td>
-                        <td class="px-4 py-3">{{ \Carbon\Carbon::parse($attendance->date)->format('d F Y') }}</td>
-                        <td class="px-4 py-3">{{ $attendance->time_in ?? '-' }}</td>
-                        <td class="px-4 py-3"></td> {{-- Kosongkan dulu jam pulang --}}
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="text-center text-slate-400 py-4">Belum ada data absen</td>
-                    </tr>
-                @endforelse
-            </tbody>
+              <thead class="bg-slate-800/50">
+                  <tr>
+                      <th class="px-4 py-3">Nama</th>
+                      <th class="px-4 py-3">Tanggal</th>
+                      <th class="px-4 py-3">Jam Masuk</th>
+                      <th class="px-4 py-3">Jam Pulang</th>
+                      <th class="px-4 py-3">Aksi</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @forelse($attendances as $attendance)
+                      <tr class="hover:bg-white/5">
+                          <td class="px-4 py-3">{{ auth()->user()->name }}</td>
+                          <td class="px-4 py-3">{{ \Carbon\Carbon::parse($attendance->date)->format('d F Y') }}</td>
+                          <td class="px-4 py-3">{{ $attendance->time_in ?? '-' }}</td>
+                          <td class="px-4 py-3" id="time-out-{{ $attendance->id }}">
+                              @if($attendance->time_out)
+                                  {{ $attendance->time_out }}
+                              @else
+                                  -
+                              @endif
+                          </td>
+                          <td class="px-4 py-3" id="action-{{ $attendance->id }}">
+                              @if(!$attendance->time_out)
+                                  <button 
+                                      onclick="checkOut({{ $attendance->id }})"
+                                      class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-200"
+                                      data-class-id="{{ auth()->user()->classes()->first()->id ?? '' }}"
+                                  >
+                                      Pulang
+                                  </button>
+                              @else
+                                  <span class="text-green-400 text-sm">Sudah Absensi Keluar</span>
+                              @endif
+                          </td>
+                      </tr>
+                  @empty
+                      <tr>
+                          <td colspan="5" class="text-center text-slate-400 py-4">Belum ada data absen</td>
+                      </tr>
+                  @endforelse
+              </tbody>
           </table>
 
-          <table id="table-izin" class="styled-table w-full text-left border-collapse hidden">
-            <thead class="bg-slate-800/50">
-              <tr>
-                <th class="px-4 py-3">Nama</th>
-                <th class="px-4 py-3">Tanggal</th>
-                <th class="px-4 py-3">Jenis Izin</th>
-                <th class="px-4 py-3">Keterangan</th>
-              </tr>
-            </thead>
-            <tbody>
-              @forelse($permissions as $permission)
-                  <tr class="hover:bg-white/5">
-                      <td class="px-4 py-3">{{ auth()->user()->name }}</td>
-                      <td class="px-4 py-3">{{ \Carbon\Carbon::parse($permission->created_at)->format('d F Y') }}</td>
-                      <td class="px-4 py-3">{{ ucfirst($permission->type) }}</td>
-                      <td class="px-4 py-3">{{ $permission->description }}</td>
-                  </tr>
-              @empty
-                  <tr>
-                      <td colspan="4" class="text-center text-slate-400 py-4">Belum ada data izin</td>
-                  </tr>
-              @endforelse
-            </tbody>
-          </table>
+        <table id="table-izin" class="styled-table w-full text-left border-collapse hidden">
+          <thead class="bg-slate-800/50">
+            <tr>
+              <th class="px-4 py-3">Nama</th>
+              <th class="px-4 py-3">Tanggal</th>
+              <th class="px-4 py-3">Jenis Izin</th>
+              <th class="px-4 py-3">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @forelse($permissions as $permission)
+                <tr class="hover:bg-white/5">
+                    <td class="px-4 py-3">{{ auth()->user()->name }}</td>
+                    <td class="px-4 py-3">{{ \Carbon\Carbon::parse($permission->created_at)->format('d F Y') }}</td>
+                    <td class="px-4 py-3">{{ ucfirst($permission->type) }}</td>
+                    <td class="px-4 py-3">
+                        @if($permission->status == 'approved')
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-500/20 text-green-300">
+                                Disetujui
+                            </span>
+                        @elseif($permission->status == 'rejected')
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-red-500/20 text-red-300">
+                                Ditolak
+                            </span>
+                        @else
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-500/20 text-yellow-300">
+                                Pending
+                            </span>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" class="text-center text-slate-400 py-4">Belum ada data izin</td>
+                </tr>
+            @endforelse
+          </tbody>
+        </table>
 
           <table id="table-jurnal" class="styled-table w-full text-left border-collapse hidden">
             <thead class="bg-slate-800/50">
@@ -253,7 +287,7 @@
 @endsection
 
 @push("script")
-  <script>
+<script>
     // Clock
     function updateClock() {
       const now = new Date();
@@ -286,11 +320,116 @@
         btn.classList.add('bg-indigo-500/20', 'text-indigo-300');
       });
     });
-    tabButtons[0].click();
+    
+    // Set tab pertama aktif jika ada data
+    if (document.getElementById('table-absen')) {
+        tabButtons[0].click();
+    }
 
     // User Profile
-    document.getElementById('btn-profile').addEventListener('click', () => {
+    document.getElementById('btn-profile')?.addEventListener('click', () => {
       alert('Profil Pengguna\n\nFitur ini akan menampilkan informasi profil dan pengaturan akun Anda.');
     });
-  </script>
+
+    // Check Out Function
+    async function checkOut(attendanceId) {
+        const button = document.querySelector(`#action-${attendanceId} button`);
+        
+        if (!button) {
+            console.error('Button not found');
+            return;
+        }
+        
+        const classId = button.getAttribute('data-class-id');
+        
+        // Tampilkan loading
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin h-4 w-4 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing...</span>';
+        button.disabled = true;
+        button.classList.add('opacity-75');
+        
+        try {
+            const response = await fetch('{{ route("feature.absen.checkout") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify({
+                    attendance_id: attendanceId,
+                    _token: '{{ csrf_token() }}'
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Update tampilan
+                document.getElementById(`time-out-${attendanceId}`).textContent = result.time_out;
+                document.getElementById(`action-${attendanceId}`).innerHTML = 
+                    '<span class="text-green-400 text-sm font-medium">✓ Check Out</span>';
+                
+                // Notifikasi sukses
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: result.message || 'Check out berhasil',
+                    timer: 3000,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end',
+                    showClass: {
+                        popup: 'animate__animated animate__fadeInDown'
+                    },
+                    hideClass: {
+                        popup: 'animate__animated animate__fadeOutUp'
+                    }
+                });
+                
+                // Refresh halaman setelah 2 detik (opsional)
+                // setTimeout(() => {
+                //     location.reload();
+                // }, 2000);
+                
+            } else {
+                // Notifikasi error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    text: result.message || 'Terjadi kesalahan',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3b82f6'
+                });
+                
+                // Reset button
+                button.innerHTML = originalText;
+                button.disabled = false;
+                button.classList.remove('opacity-75');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            
+            Swal.fire({
+                icon: 'error',
+                title: 'Koneksi Error!',
+                text: 'Tidak dapat terhubung ke server. Periksa koneksi internet Anda.',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#3b82f6'
+            });
+            
+            // Reset button
+            button.innerHTML = originalText;
+            button.disabled = false;
+            button.classList.remove('opacity-75');
+        }
+    }
+    
+    // Function untuk format waktu
+    function formatTime(timeString) {
+        if (!timeString) return '-';
+        const [hours, minutes] = timeString.split(':');
+        return `${hours}:${minutes}`;
+    }
+</script>
 @endpush
