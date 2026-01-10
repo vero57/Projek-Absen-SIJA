@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="flex items-center">
-                <button type="button" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded text-sm">Ekspor Data</button>
+                <a href="{{ route('dashboard.jurnal.exportPdf') }}" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-2 rounded text-sm">Ekspor Data</a>
             </div>
         </div>
 

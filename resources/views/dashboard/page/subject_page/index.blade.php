@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="flex items-center">
-            <a href="{{ route('dashboard.subjects.create') }}"><button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Tambah Kelas</button></a>
+            <a href="{{ route('dashboard.subjects.create') }}"><button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Tambah Mata Pelajaran</button></a>
         </div>
     </div>
 

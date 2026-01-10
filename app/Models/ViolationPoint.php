@@ -12,4 +12,9 @@ class ViolationPoint extends Model
     {
         return $this->belongsTo(ViolationRule::class, 'rule_id');
     }
+
+    public function student()
+    {
+        return $this->belongsTo(User::class, 'student_id');
+    }
 }

@@ -16,16 +16,20 @@ Route::middleware(['userakses:Admin,Guru'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.dash');
     Route::get('/dashboard/absensi', [AbsensiController::class, 'index'])->name('dashboard.absensi');
     Route::get('/dashboard/absensi/{user_id}/show', [AbsensiController::class, 'show'])->name('dashboard.absensi.show');
+    Route::get('/dashboard/absensi/export/pdf', [AbsensiController::class, 'exportPdf'])->name('dashboard.absensi.exportPdf');
     Route::get('/dashboard/jurnal', [JurnalController::class, 'index'])->name('dashboard.jurnal');
     Route::get('/dashboard/jurnal/{id}/show', [JurnalController::class, 'show'])->name('dashboard.jurnal.show');
+    Route::get('/dashboard/jurnal/export/pdf', [JurnalController::class, 'exportPdf'])->name('dashboard.jurnal.exportPdf');
     Route::get('/dashboard/siswa', [SiswaController::class, 'index'])->name('dashboard.siswa');
     Route::get('/dashboard/pelanggaran', [PelanggaranController::class, 'index'])->name('dashboard.pelanggaran');
     Route::get('/dashboard/pelanggaran/show', [PelanggaranController::class, 'show'])->name('dashboard.pelanggaran.show');
+    Route::get('/dashboard/pelanggaran/export/pdf', [PelanggaranController::class, 'exportPdf'])->name('dashboard.pelanggaran.exportPdf');
     Route::get('/dashboard/izin', [IzinController::class, 'index'])->name('dashboard.izin');
     // Route::get('/dashboard/izin/show', [IzinController::class, 'show'])->name('dashboard.izin.show');
     Route::get('dashboard/izin/{id}', [IzinController::class, 'show'])->name('dashboard.izin.show');
     // Tambah detail siswa (bukan edit user, tapi tambah detail student)
     Route::post('/dashboard/izin/{id}/update-status', [IzinController::class, 'updateStatus'])->name('dashboard.izin.updateStatus');
+    Route::get('/dashboard/izin/export/pdf', [IzinController::class, 'exportPdf'])->name('dashboard.izin.exportPdf');
     Route::get('/dashboard/siswa/{user}/detail', [SiswaController::class, 'createDetail'])->name('dashboard.siswa.detail.create');
     Route::post('/dashboard/siswa/{user}/detail', [SiswaController::class, 'storeDetail'])->name('dashboard.siswa.detail.store');
     // Edit detail siswa

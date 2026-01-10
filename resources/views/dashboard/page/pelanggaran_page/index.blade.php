@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="flex items-center">
-                <button type="button" class="bg-red-600 hover:bg-red-500 text-white px-3 py-2 rounded text-sm">Ekspor Data</button>
+                <a href="{{ route('dashboard.pelanggaran.exportPdf') }}" class="bg-red-600 hover:bg-red-500 text-white px-3 py-2 rounded text-sm">Ekspor Data</a>
             </div>
         </div>
 
