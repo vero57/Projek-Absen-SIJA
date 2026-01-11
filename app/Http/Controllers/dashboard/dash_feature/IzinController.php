@@ -5,6 +5,7 @@ namespace App\Http\Controllers\dashboard\dash_feature;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Permission;
+use Dompdf\Dompdf;
 
 class IzinController extends Controller
 {
@@ -30,5 +31,20 @@ class IzinController extends Controller
         $permission->update(['status' => $request->status]);
 
         return redirect()->back()->with('success', 'Status izin berhasil diupdate.');
+    }
+
+    public function exportPdf()
+    {
+        $permissions = Permission::with(['student'])->get();
+
+        $dompdf = new Dompdf();
+        $html = view('dashboard.page.izin_page.pdf', compact('permissions'))->render();
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        return response($dompdf->output(), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="daftar_izin_siswa.pdf"'
+        ]);
     }
 }

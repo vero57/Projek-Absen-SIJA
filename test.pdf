@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        
+        <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Absensija</title>
+<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+<script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/css/app.css" /><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        
+        <style>
+    .auth-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0f172a 0%, #111827 60%, #0f172a 100%);
+        padding: 2rem;
+    }
+    .login-card {
+        width: 420px;
+        background: rgba(255,255,255,0.04);
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+        border: 1px solid rgba(255,255,255,0.04);
+    }
+    .login-header {
+        display:flex;
+        gap:0.75rem;
+        align-items:center;
+        margin-bottom:1rem;
+    }
+    .login-icon {
+        width:48px;
+        height:48px;
+        border-radius:8px;
+        background:linear-gradient(135deg,#7c3aed,#4f46e5);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:white;
+        font-weight:700;
+        font-size:18px;
+    }
+    .login-title { color:#e6edf3; font-size:1.25rem; font-weight:700; }
+    .login-desc { color:#9aa4b2; font-size:0.9rem; }
+
+    .form-group { margin-bottom:0.75rem; }
+    .form-input {
+        width:100%;
+        padding:0.65rem 0.9rem;
+        border-radius:8px;
+        background:rgba(15,23,42,0.6);
+        color:#e6edf3;
+        border:1px solid rgba(148,163,184,0.06);
+        outline:none;
+    }
+    .form-input::placeholder { color:#9aa4b2; }
+    .btn-primary {
+        width:100%;
+        padding:0.7rem;
+        border-radius:8px;
+        background:linear-gradient(90deg,#4f46e5,#7c3aed);
+        color:white;
+        font-weight:600;
+        border:none;
+        cursor:pointer;
+    }
+    .text-error { color:#f87171; font-size:0.875rem; margin-top:0.35rem; }
+    .helper-row { display:flex; justify-content:space-between; align-items:center; margin-top:0.5rem; color:#9aa4b2; font-size:0.9rem; }
+    a.link-muted { color:#9aa4b2; text-decoration:underline; text-underline-offset:3px; }
+
+    .checkbox-toggle { display:inline-flex; align-items:center; gap:0.6rem; cursor:pointer; user-select:none; }
+    .checkbox-toggle input[type="checkbox"] { position:absolute; opacity:0; pointer-events:none; width:0; height:0; }
+    .checkbox-box {
+        width:18px;
+        height:18px;
+        border-radius:6px;
+        background:rgba(255,255,255,0.02);
+        border:1px solid rgba(148,163,184,0.06);
+        display:inline-block;
+        position:relative;
+        transition: all .15s ease;
+        box-shadow: inset 0 -2px 6px rgba(2,6,23,0.25);
+    }
+    .checkbox-box::after{
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 5px;
+        height: 9px;
+        border: 2px solid rgba(255,255,255,0.98);
+        border-top: 0;
+        border-left: 0;
+        transform: rotate(40deg) scale(0);
+        transform-origin: center;
+        transition: transform .15s ease;
+    }
+    .checkbox-toggle input:checked + .checkbox-box {
+        background: linear-gradient(90deg,#4f46e5,#7c3aed);
+        border-color: transparent;
+        box-shadow: 0 6px 18px rgba(79,70,229,0.18);
+    }
+    .checkbox-toggle input:checked + .checkbox-box::after {
+        transform: rotate(40deg) scale(1);
+    }
+    .checkbox-label-text { font-weight:500; color:#9aa4b2; }
+</style>
+    </head>
+    <body class="relative w-full overflow-x-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        
+
+        <main class="relative flex w-full flex-col font-plusJakartaSans">
+            
+            <div class="auth-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+                <div class="login-title">Login Dashboard</div>
+                <div class="login-desc">Masuk untuk mengelola absensi & jurnal siswa.</div>
+            </div>
+        </div>
+
+        <form method="POST" action="http://127.0.0.1:8000/auth_dash" novalidate>
+            <input type="hidden" name="_token" value="FQUxkShxkVUXXTWXRnrjMgaqNNn6u7r9xdLvBn0C" autocomplete="off">            <div class="form-group">
+                <label class="text-slate-300 text-sm">Email</label>
+                <input id="email" name="email" type="email" value="" required autofocus placeholder="you@example.com" class="form-input" />
+                            </div>
+
+            <div class="form-group">
+                <label class="text-slate-300 text-sm">Password</label>
+                <input id="password" name="password" type="password" required placeholder="••••••••" class="form-input" />
+                            </div>
+
+            <div class="helper-row">
+                <label class="checkbox-toggle" for="remember">
+                    <input type="checkbox" id="remember" name="remember" />
+                    <span class="checkbox-box" aria-hidden="true"></span>
+                    <span class="checkbox-label-text">Remember me</span>
+                </label>
+                <a href="" class="link-muted">Forgot?</a>
+            </div>
+
+            <div style="margin-top:1rem;">
+                <button type="submit" class="btn-primary">Login</button>
+            </div>
+            <div class="mt-2" style="text-align:center; margin-top:0.75rem;">
+                <a href="http://127.0.0.1:8000/auth" style="font-size: 0.9rem; color:#6366f1;">Login sebagai Siswa</a>
+            </div>
+        </form
+    </div>
+</div>
+        </main>
+
+        
+        <footer class="w-full py-8">
+    <div class="container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <!-- Sosmed -->
+        <div class="flex items-center gap-3">
+            <a href="https://github.com/yourdev" target="_blank" class="glass-effect rounded-full p-2 text-slate-400 hover:text-white hover:bg-slate-700/40 transition">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.97.1-.75.4-1.26.72-1.55-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 2.87-.39c.97 0 1.95.13 2.87.39 2.18-1.49 3.14-1.18 3.14-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.7.41.36.77 1.08.77 2.18 0 1.57-.01 2.84-.01 3.23 0 .31.21.67.8.56C20.71 21.39 24 17.08 24 12c0-6.27-5.23-11.5-12-11.5z"/>
+                </svg>
+            </a>
+            <a href="https://instagram.com/yourdev" target="_blank" class="glass-effect rounded-full p-2 text-slate-400 hover:text-pink-400 hover:bg-pink-400/10 transition">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.13.88a1.13 1.13 0 1 1-2.25 0 1.13 1.13 0 0 1 2.25 0z"/>
+                </svg>
+            </a>
+            <a href="mailto:your@email.com" class="glass-effect rounded-full p-2 text-slate-400 hover:text-blue-400 hover:bg-blue-400/10 transition">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M2.01 6.8A2 2 0 0 1 4 5h16a2 2 0 0 1 1.99 1.8l-9.99 6.25L2.01 6.8zM2 8.98V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.98l-9.4 5.88a1 1 0 0 1-1.2 0L2 8.98z"/>
+                </svg>
+            </a>
+        </div>
+        <div class="text-slate-400 text-sm text-center md:text-right">
+            &copy; 2026
+            <span class="font-bold text-red-400 tracking-wide">Senatvs Popvlvsqve Romanvs</span>
+            &mdash; Crafted with <span class="text-pink-400">Veni Vidi Vici</span> by <span class="font-semibold text-white">GAIVS IVILVS CAESAR</span>
+        </div>
+    </div>
+</footer>
+
+        
+        <!--  -->
+
+        
+            </body>
+</html>
