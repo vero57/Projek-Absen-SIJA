@@ -137,6 +137,40 @@
         color: #334155;
         background: #f1f5f9;
     }
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+    }
+    .password-wrapper input[type="password"],
+    .password-wrapper input[type="text"] {
+        padding-right: 2.5rem;
+    }
+    .toggle-password-icon {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #6366f1;
+        font-size: 1.2rem;
+        z-index: 3;
+        user-select: none;
+    }
+    .toggle-password-icon svg {
+        width: 1.3em;
+        height: 1.3em;
+        vertical-align: middle;
+        fill: none;
+        stroke: #6366f1;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        background: transparent;
+        pointer-events: none;
+    }
+    .toggle-password-icon.active svg {
+        stroke: #4338ca;
+    }
 </style>
 @endpush
 
@@ -161,7 +195,13 @@
                     @enderror
 
                     <label for="login-password">Password</label>
-                    <input type="password" id="login-password" name="password" required autocomplete="current-password" placeholder="Password">
+                    <div class="password-wrapper">
+                        <input type="password" id="login-password" name="password" required autocomplete="current-password" placeholder="Password">
+                        <span class="toggle-password-icon" onclick="togglePassword('login-password', this)" id="icon-login-password">
+                            <!-- Eye SVG -->
+                            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6"/><circle cx="12" cy="12" r="2.5"/></svg>
+                        </span>
+                    </div>
                     @error('password')
                         <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
                     @enderror
@@ -190,13 +230,23 @@
                     @enderror
 
                     <label for="register-password">Password</label>
-                    <input type="password" id="register-password" name="password" required autocomplete="new-password" placeholder="Password">
+                    <div class="password-wrapper">
+                        <input type="password" id="register-password" name="password" required autocomplete="new-password" placeholder="Password">
+                        <span class="toggle-password-icon" onclick="togglePassword('register-password', this)" id="icon-register-password">
+                            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6"/><circle cx="12" cy="12" r="2.5"/></svg>
+                        </span>
+                    </div>
                     @error('password')
                         <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
                     @enderror
 
                     <label for="register-password-confirm">Konfirmasi Password</label>
-                    <input type="password" id="register-password-confirm" name="password_confirmation" required autocomplete="new-password" placeholder="Konfirmasi Password">
+                    <div class="password-wrapper">
+                        <input type="password" id="register-password-confirm" name="password_confirmation" required autocomplete="new-password" placeholder="Konfirmasi Password">
+                        <span class="toggle-password-icon" onclick="togglePassword('register-password-confirm', this)" id="icon-register-password-confirm">
+                            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6"/><circle cx="12" cy="12" r="2.5"/></svg>
+                        </span>
+                    </div>
                     @error('password_confirmation')
                         <div style="color:#f87171; font-size:0.875rem;">{{ $message }}</div>
                     @enderror
@@ -254,5 +304,35 @@
         switchBtn.textContent = 'Register';
         panel = 'login';
     }
+
+    // SVGs for eye and eye-off
+    const eyeSVG = `<svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6"/><circle cx="12" cy="12" r="2.5"/></svg>`;
+    const eyeOffSVG = `<svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="6"/><circle cx="12" cy="12" r="2.5"/><line x1="4" y1="4" x2="20" y2="20" stroke="#6366f1" stroke-width="2"/></svg>`;
+
+    function togglePassword(inputId, iconSpan) {
+        const input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            iconSpan.innerHTML = eyeOffSVG;
+            iconSpan.classList.add('active');
+        } else {
+            input.type = "password";
+            iconSpan.innerHTML = eyeSVG;
+            iconSpan.classList.remove('active');
+        }
+    }
+
+    // Set initial icon for all password fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const icons = [
+            {id: 'icon-login-password'},
+            {id: 'icon-register-password'},
+            {id: 'icon-register-password-confirm'}
+        ];
+        icons.forEach(obj => {
+            const el = document.getElementById(obj.id);
+            if (el) el.innerHTML = eyeSVG;
+        });
+    });
 </script>
 @endpush

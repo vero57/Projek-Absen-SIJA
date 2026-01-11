@@ -1,6 +1,10 @@
 @extends('dashboard.layout.app', ['title' => 'Tambah Kelas'])
 
 @section('content')
+@php
+    $role = auth()->check() && auth()->user()->role ? auth()->user()->role->name : null;
+@endphp
+@if($role === 'Admin')
 <div class="content-section max-w-xl mx-auto">
     <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
         <h3 class="text-2xl font-semibold text-white mb-4">Tambah Kelas</h3>
@@ -71,4 +75,11 @@
         toggleNewField();
     });
 </script>
+@else
+<div class="content-section max-w-xl mx-auto">
+    <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700 text-center text-slate-300">
+        Anda tidak memiliki akses untuk menambah Mata Pelajaran.
+    </div>
+</div>
+@endif
 @endsection

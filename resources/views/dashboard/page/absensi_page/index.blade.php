@@ -31,10 +31,28 @@
                 </select>
             </div>
 
-            <div class="flex items-center gap-3">
-                <input type="search" placeholder="Cari student_id / class_id" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
-                <button class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Search</button>
-            </div>
+            <form method="GET" action="{{ route('dashboard.absensi') }}" class="flex flex-wrap items-center gap-3">
+                <input type="search" name="search" placeholder="Cari nama/NIS/NISN/kelas" value="{{ request('search', $search ?? '') }}" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
+
+                <select name="kelas" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-2 py-2 text-sm">
+                    <option value="">Semua Kelas</option>
+                    @foreach($kelasList as $kelas)
+                        <option value="{{ $kelas->id }}" {{ (request('kelas', $kelas_id ?? '') == $kelas->id) ? 'selected' : '' }}>{{ $kelas->name }}</option>
+                    @endforeach
+                </select>
+
+                <select name="status" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-2 py-2 text-sm">
+                    <option value="">Semua Status</option>
+                    @foreach($statusList as $status)
+                        <option value="{{ $status->id }}" {{ (request('status', $status_id ?? '') == $status->id) ? 'selected' : '' }}>{{ $status->name }}</option>
+                    @endforeach
+                </select>
+
+                <input type="date" name="tanggal" value="{{ request('tanggal', $tanggal ?? '') }}" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-2 py-2 text-sm" />
+
+                <button class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Filter</button>
+                <a href="{{ route('dashboard.absensi') }}" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded text-sm">Reset</a>
+            </form>
         </div>
 
         <div class="overflow-x-auto -mx-4 px-4">
@@ -93,10 +111,12 @@
         </div>
 
         <div class="mt-4 flex items-center justify-between text-slate-400 text-sm">
-            <div>Showing <span class="text-white">1</span> to <span class="text-white">10</span> of <span class="text-white">100</span> entries</div>
+            <div>
+                Showing <span class="text-white">{{ $attendances->firstItem() }}</span> to <span class="text-white">{{ $attendances->lastItem() }}</span> of <span class="text-white">{{ $attendances->total() }}</span> entries
+            </div>
             @if(isset($attendances) && method_exists($attendances, 'links'))
                 <div class="text-sm">
-                    {{ $attendances->links() }}
+                    {{ $attendances->appends(request()->except('page'))->links() }}
                 </div>
             @endif
         </div>

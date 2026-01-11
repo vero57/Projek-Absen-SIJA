@@ -11,10 +11,53 @@ use App\Models\User;
 
 class SubjectController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $subjects = ClassSubject::with(['subject', 'class', 'teacher'])->orderBy('id')->paginate(10);
-        return view('dashboard.page.subject_page.index', compact('subjects'));
+        $user = auth()->user();
+        $search = $request->input('search');
+        if ($user && $user->role && $user->role->name === 'Guru') {
+            // Ambil id kelas di mana dia wali kelas
+            $walasClassIds = \App\Models\ClassModel::where('walas_id', $user->id)->pluck('id')->toArray();
+            // Ambil id class_subject di mana dia sebagai guru mapel
+            $subjects = \App\Models\ClassSubject::with(['subject', 'class', 'teacher'])
+                ->where(function ($q) use ($user, $walasClassIds) {
+                    $q->where('teacher_id', $user->id);
+                    if (!empty($walasClassIds)) {
+                        $q->orWhereIn('class_id', $walasClassIds);
+                    }
+                })
+                ->when($search, function ($query) use ($search) {
+                    $query->whereHas('subject', function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    })
+                        ->orWhereHas('class', function ($q) use ($search) {
+                            $q->where('name', 'like', '%' . $search . '%');
+                        })
+                        ->orWhereHas('teacher', function ($q) use ($search) {
+                            $q->where('name', 'like', '%' . $search . '%');
+                        });
+                })
+                ->orderBy('id')
+                ->paginate(10)
+                ->appends(['search' => $search]);
+        } else {
+            $subjects = \App\Models\ClassSubject::with(['subject', 'class', 'teacher'])
+                ->when($search, function ($query) use ($search) {
+                    $query->whereHas('subject', function ($q) use ($search) {
+                        $q->where('name', 'like', '%' . $search . '%');
+                    })
+                        ->orWhereHas('class', function ($q) use ($search) {
+                            $q->where('name', 'like', '%' . $search . '%');
+                        })
+                        ->orWhereHas('teacher', function ($q) use ($search) {
+                            $q->where('name', 'like', '%' . $search . '%');
+                        });
+                })
+                ->orderBy('id')
+                ->paginate(10)
+                ->appends(['search' => $search]);
+        }
+        return view('dashboard.page.subject_page.index', compact('subjects', 'search'));
     }
 
     public function create()

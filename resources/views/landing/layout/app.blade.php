@@ -19,7 +19,7 @@
         @include('landing.partials.footer')
 
         {{-- Script --}}
-        <!-- @include("landing.partials.script") -->
+        @include("landing.partials.script")
 
         {{-- Additional Script --}}
         @stack("script")

@@ -14,7 +14,15 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::with('role')->paginate(10);
+        $query = User::with('role');
+        if (request()->has('search') && request('search')) {
+            $search = request('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+        $users = $query->paginate(10)->appends(['search' => request('search')]);
         return view('dashboard.page.users_page.index', compact('users'));
     }
 

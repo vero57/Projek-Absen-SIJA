@@ -10,13 +10,25 @@ use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
         $users = User::whereHas('role', function ($q) {
             $q->where('name', 'Siswa');
-        })->paginate(10);
+        })
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhereHas('studentDetail', function ($q2) use ($search) {
+                            $q2->where('nis', 'like', '%' . $search . '%')
+                                ->orWhere('nisn', 'like', '%' . $search . '%');
+                        });
+                });
+            })
+            ->paginate(10)
+            ->appends(['search' => $search]);
 
-        return view('dashboard.page.siswa_page.index', compact('users'));
+        return view('dashboard.page.siswa_page.index', compact('users', 'search'));
     }
 
     public function createDetail($user_id)

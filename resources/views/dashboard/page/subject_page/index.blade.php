@@ -15,9 +15,14 @@
                 <p class="text-slate-400">Daftar Mata Pelajaran.</p>
             </div>
         </div>
+        @php
+            $role = auth()->check() && auth()->user()->role ? auth()->user()->role->name : null;
+        @endphp
+        @if($role === 'Admin')
         <div class="flex items-center">
             <a href="{{ route('dashboard.subjects.create') }}"><button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Tambah Mata Pelajaran</button></a>
         </div>
+        @endif
     </div>
 
     <div class="mt-6 bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700">
@@ -30,10 +35,10 @@
                     <option>50</option>
                 </select>
             </div>
-            <div class="flex items-center gap-3">
-                <input type="search" placeholder="Cari nama kelas" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
+            <form method="GET" action="{{ route('dashboard.subjects.index') }}" class="flex items-center gap-3">
+                <input type="search" name="search" placeholder="Cari nama kelas, mapel, atau guru" value="{{ request('search', $search ?? '') }}" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
                 <button class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Search</button>
-            </div>
+            </form>
         </div>
 
         <div class="overflow-x-auto -mx-4 px-4">
@@ -57,6 +62,7 @@
                                 <a href="{{ route('dashboard.subjects.edit', $classSubject->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
+                                @if($role === 'Admin')
                                 <form id="delete-form-{{ $classSubject->id }}" action="{{ route('dashboard.subjects.destroy', $classSubject->id) }}" method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
@@ -64,6 +70,7 @@
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
                                 </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -76,7 +83,7 @@
             <div>Showing <span class="text-white">{{ $subjects->firstItem() }}</span> to <span class="text-white">{{ $subjects->lastItem() }}</span> of <span class="text-white">{{ $subjects->total() }}</span> entries</div>
             @if(isset($subjects) && method_exists($subjects, 'links'))
                 <div class="text-sm">
-                    {{ $subjects->links() }}
+                    {{ $subjects->appends(request()->except('page'))->links() }}
                 </div>
             @endif
         </div>
