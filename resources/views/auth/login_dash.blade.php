@@ -100,6 +100,28 @@
         transform: rotate(40deg) scale(1);
     }
     .checkbox-label-text { font-weight:500; color:#9aa4b2; }
+
+    .password-toggle {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .toggle-password-btn {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #6366f1;
+        font-size: 1.1rem;
+        padding: 0;
+        z-index: 3;
+    }
+    .toggle-password-btn:focus {
+        outline: none;
+    }
 </style>
 @endpush
 
@@ -128,7 +150,12 @@
 
             <div class="form-group">
                 <label class="text-slate-300 text-sm">Password</label>
-                <input id="password" name="password" type="password" required placeholder="••••••••" class="form-input" />
+                <div class="password-toggle">
+                    <input id="password" name="password" type="password" required placeholder="••••••••" class="form-input" />
+                    <button type="button" class="toggle-password-btn" onclick="togglePassword('password', this)">
+                        <span class="fa fa-eye"></span>
+                    </button>
+                </div>
                 @error('password')
                     <div class="text-error">{{ $message }}</div>
                 @enderror
@@ -149,7 +176,26 @@
             <div class="mt-2" style="text-align:center; margin-top:0.75rem;">
                 <a href="{{ route('auth.login-register') }}" style="font-size: 0.9rem; color:#6366f1;">Login sebagai Siswa</a>
             </div>
-        </form
+        </form>
     </div>
 </div>
 @endsection
+
+@push('script')
+<!-- Font Awesome for eye icon -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+<script>
+    function togglePassword(inputId, btn) {
+        const input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            btn.querySelector('span').classList.remove('fa-eye');
+            btn.querySelector('span').classList.add('fa-eye-slash');
+        } else {
+            input.type = "password";
+            btn.querySelector('span').classList.remove('fa-eye-slash');
+            btn.querySelector('span').classList.add('fa-eye');
+        }
+    }
+</script>
+@endpush

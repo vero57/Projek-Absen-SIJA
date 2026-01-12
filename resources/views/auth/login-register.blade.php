@@ -1,143 +1,190 @@
 @extends('landing.layout.app', ['title' => 'Login / Register'])
 
 @push('style')
+@push('style')
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&family=Inter:wght@400;500;700&display=swap');
-    body {
-        font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-    }
-    .auth-container {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-    }
-    .flip-card {
-        background: transparent;
-        width: 480px;
-        height: 650px;
-        perspective: 1000px;
-        position: relative;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ================= CONTAINER ================= */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top, #1e293b 0%, #020617 60%);
+    padding: 1rem;
+}
+
+/* ================= CARD ================= */
+.flip-card {
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+    perspective: 1200px;
+}
+
+.flip-card-inner {
+    width: 100%;
+    min-height: 620px;
+    transition: transform 0.7s cubic-bezier(.4,2,.3,1);
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.12),
+        rgba(255,255,255,0.05)
+    );
+    backdrop-filter: blur(18px);
+    border-radius: 1.5rem;
+    padding: 2.5rem 2.2rem;
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+}
+
+/* ================= SWITCH BUTTON ================= */
+.switch-btn {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 0.45rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 6px 20px rgba(99,102,241,0.35);
+}
+
+.switch-btn:hover {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+}
+
+/* ================= TITLE ================= */
+.auth-title {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #e0e7ff;
+    margin-bottom: 1.6rem;
+}
+
+/* ================= FORM ================= */
+.auth-form label {
+    color: #c7d2fe;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.auth-form input,
+.auth-form select {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    border-radius: 0.8rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(15,23,42,0.7);
+    color: #e5e7eb;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.auth-form input::placeholder {
+    color: #94a3b8;
+}
+
+.auth-form input:focus,
+.auth-form select:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.25);
+}
+
+/* ================= SELECT ================= */
+.auth-form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' stroke='%2399a2ff' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    background-size: 1rem;
+}
+
+.auth-form option {
+    background: #020617;
+    color: #e5e7eb;
+}
+
+/* ================= BUTTON ================= */
+.auth-form button {
+    margin-top: 0.8rem;
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 0.9rem;
+    border: none;
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(99,102,241,0.35);
+}
+
+.auth-form button:hover {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+}
+
+/* ================= ERROR ================= */
+.auth-form .error-text {
+    color: #f87171;
+    font-size: 0.8rem;
+    margin-top: -0.4rem;
+    margin-bottom: 0.6rem;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 480px) {
     .flip-card-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transition: transform 0.7s cubic-bezier(.4,2,.3,1);
-        transform-style: preserve-3d;
+        min-height: 580px;
     }
-    .flip-card.flipped .flip-card-inner {
-        transform: rotateY(180deg);
-    }
-    .flip-card-front, .flip-card-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        background: rgba(255,255,255,0.08);
-        border-radius: 1.5rem;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-        padding: 2.5rem 2rem 2rem 2rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .flip-card-back {
-        transform: rotateY(180deg);
-    }
-    .switch-btn {
-        position: absolute;
-        top: 1.5rem;
-        right: 2rem;
-        background: #6366f1;
-        color: #fff;
-        border: none;
-        border-radius: 999px;
-        padding: 0.5rem 1.2rem;
-        font-weight: 500;
-        cursor: pointer;
-        box-shadow: 0 2px 8px rgba(99,102,241,0.15);
-        transition: background 0.2s;
-        z-index: 2;
-    }
-    .switch-btn:hover {
-        background: #4338ca;
-    }
+
     .auth-title {
-        font-size: 1.7rem;
-        font-weight: 700;
-        color: #6366f1;
-        margin-bottom: 1.2rem;
-        text-align: center;
+        font-size: 1.5rem;
     }
-    .auth-form label {
-        font-weight: 500;
-        color: white;
-        margin-bottom: 0.3rem;
+
+    .flip-card-front,
+    .flip-card-back {
+        padding: 2rem 1.5rem;
     }
-    .auth-form input {
-        width: 100%;
-        padding: 0.7rem 1rem;
-        border-radius: 0.7rem;
-        border: 1px solid #cbd5e1;
-        margin-bottom: 5px;
-        font-size: 1rem;
-        background: #f1f5f9;
-        transition: border 0.2s;
-    }
-    .auth-form input:focus {
-        border-color: #6366f1;
-        outline: none;
-    }
-    .auth-form button {
-        width: 100%;
-        padding: 0.8rem;
-        border-radius: 0.7rem;
-        background: #6366f1;
-        color: #fff;
-        font-weight: 600;
-        border: none;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: background 0.2s;
-        margin-top: 0.5rem;
-    }
-    .auth-form button:hover {
-        background: #4338ca;
-    }
-    .auth-form select {
-        width: 100%;
-        padding: 0.7rem 1rem;
-        border-radius: 0.7rem;
-        border: 1.5px solid #6366f1;
-        margin-bottom: 5px;
-        font-size: 1rem;
-        background: #f1f5f9;
-        color: #334155;
-        appearance: none;
-        transition: border 0.2s, box-shadow 0.2s;
-        box-shadow: 0 2px 8px rgba(99,102,241,0.05);
-        position: relative;
-        outline: none;
-    }
-    .auth-form select:focus {
-        border-color: #4338ca;
-        box-shadow: 0 0 0 2px #6366f1;
-        background: #e0e7ef;
-    }
-    /* Custom arrow for select */
-    .auth-form select {
-        background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' fill='none' stroke='%236366f1' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 1rem center;
-        background-size: 1.2em;
-    }
-    .auth-form option {
-        color: #334155;
-        background: #f1f5f9;
-    }
+}
 </style>
+@endpush
+
 @endpush
 
 @section('content')

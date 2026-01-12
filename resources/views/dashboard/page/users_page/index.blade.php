@@ -31,10 +31,10 @@
                 </select>
             </div>
 
-            <div class="flex items-center gap-3">
-                <input type="search" placeholder="Cari nama/email" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
-                <button class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Search</button>
-            </div>
+            <form method="GET" action="{{ route('dashboard.users.index') }}" class="flex items-center gap-3">
+                <input type="search" name="search" value="{{ request('search') }}" placeholder="Cari nama/email" class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-3 py-2 text-sm" />
+                <button type="submit" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Search</button>
+            </form>
         </div>
 
         <div class="overflow-x-auto -mx-4 px-4">

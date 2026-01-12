@@ -15,11 +15,16 @@
                 <p class="text-slate-400">Daftar Kelas.</p>
             </div>
         </div>
+        @php
+            $role = auth()->check() && auth()->user()->role ? auth()->user()->role->name : null;
+        @endphp
+        @if($role === 'Admin')
         <div>
             <a href="{{ route('dashboard.kelas.create') }}">
                 <button type="button" class="bg-green-600 hover:bg-green-500 text-white px-3 py-2 rounded text-sm">Tambah Kelas</button>
             </a>
         </div>
+        @endif
     </div>
 
     <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-4 border border-slate-700">
@@ -44,6 +49,10 @@
                                     <a href="{{ route('dashboard.kelas.show', $class->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                         <i class="fas fa-eye"></i> Detail
                                     </a>
+                                    @php
+                                        $role = auth()->check() && auth()->user()->role ? auth()->user()->role->name : null;
+                                    @endphp
+                                    @if($role === 'Admin')
                                     <form id="delete-form-{{ $class->id }}" action="{{ route('dashboard.kelas.destroy', $class->id) }}" method="POST" class="inline-block">
                                         @csrf
                                         @method('DELETE')
@@ -51,6 +60,7 @@
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

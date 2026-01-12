@@ -14,7 +14,14 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $classes = ClassModel::with('walas')->paginate(10);
+        $user = auth()->user();
+        if ($user && $user->role && $user->role->name === 'Guru') {
+            $classes = \App\Models\ClassModel::with('walas')
+                ->where('walas_id', $user->id)
+                ->paginate(10);
+        } else {
+            $classes = \App\Models\ClassModel::with('walas')->paginate(10);
+        }
         return view('dashboard.page.kelas_page.index', compact('classes'));
     }
 
