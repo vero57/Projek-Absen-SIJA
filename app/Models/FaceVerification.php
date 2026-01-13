@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class FaceVerification extends Model
 {
-    protected $fillable = ['user_id', 'face_data'];
+    protected $fillable = [
+        'student_id',
+        'attendance_id',
+        'expression_required',
+        'expression_verified',
+        'verified_at'
+    ];
 
     public function logs()
     {

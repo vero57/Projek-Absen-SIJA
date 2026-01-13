@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('permission_id')->constrained('permissions')->cascadeOnDelete();
             $table->string('file_path');
+            $table->timestamps();
         });
     }
 

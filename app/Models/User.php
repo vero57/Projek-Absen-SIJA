@@ -18,6 +18,7 @@ class User extends Authenticatable
         'address',
         'gender',
         'date_of_birth',
+        'role_id',
     ];
 
     protected $hidden = [
@@ -38,13 +39,13 @@ class User extends Authenticatable
      * =======================
      */
 
-    // 🔹 User bisa punya banyak role
-    public function roles()
+    // 🔹 User hanya punya satu role
+    public function role()
     {
-        return $this->belongsToMany(Role::class, 'role_user');
+        return $this->belongsTo(Role::class);
     }
 
-    // 🔹 User bisa jadi anak dari parent
+    // 🔹 User bisa jadi anak dari parent (jika banyak parent, tetap belongsToMany)
     public function parents()
     {
         return $this->belongsToMany(ParentModel::class, 'parent_user');
@@ -53,7 +54,7 @@ class User extends Authenticatable
     // 🔹 User sebagai siswa, masuk ke banyak kelas
     public function classes()
     {
-        return $this->belongsToMany(ClassModel::class, 'class_student');
+        return $this->belongsToMany(\App\Models\ClassModel::class, 'class_student', 'student_id', 'class_id');
     }
 
     // 🔹 User punya banyak kehadiran
@@ -84,5 +85,10 @@ class User extends Authenticatable
     public function waNotifications()
     {
         return $this->hasMany(WaNotification::class);
+    }
+
+    public function studentDetail()
+    {
+        return $this->hasOne(StudentDetail::class);
     }
 }
