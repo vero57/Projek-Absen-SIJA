@@ -16,7 +16,16 @@
             </div>
         </div>
         <div class="flex items-center">
-            <a href="{{ route('dashboard.users.create') }}"><button type="button" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm">Tambah Data Siswa</button></a>
+            <a href="{{ route('dashboard.users.create') }}">
+                <button type="button" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm">Tambah Data Siswa</button>
+            </a>
+            <form action="{{ route('dashboard.siswa.import') }}" method="POST" enctype="multipart/form-data" class="ml-2">
+                @csrf
+                <label class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm cursor-pointer mb-0">
+                    Import Data Siswa
+                    <input type="file" name="file" accept=".xlsx,.xls" class="hidden" onchange="this.form.submit()">
+                </label>
+            </form>
         </div>
     </div>
 

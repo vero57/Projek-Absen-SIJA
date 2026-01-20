@@ -68,5 +68,8 @@ Route::middleware(['userakses:Admin'])->group(
         Route::get('/dashboard/siswa/{user}/detail/edit', [SiswaController::class, 'editDetail'])->name('dashboard.siswa.detail.edit');
         Route::post('/dashboard/siswa/{user}/detail/update', [SiswaController::class, 'updateDetail'])->name('dashboard.siswa.detail.update');
         Route::get('/dashboard/siswa/{user}/show', [SiswaController::class, 'show'])->name('dashboard.siswa.detail.show');
+
+        // Import Data Siswa
+        Route::post('/dashboard/siswa/import', [SiswaController::class, 'import'])->name('dashboard.siswa.import');
     }
 );
