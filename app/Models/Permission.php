@@ -12,6 +12,9 @@ class Permission extends Model
         'type',
         'description',
         'status',
+        'photo',
+        'location_lat',
+        'location_lng',
     ];
 
     public function student()

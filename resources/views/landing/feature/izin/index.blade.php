@@ -109,7 +109,7 @@
                             <p class="text-xs text-slate-400 mt-1">Max file 10mb. Format: jpg, png, jpeg, pdf</p>
                         </div>
                     </div>
-                    <input type="file" id="file-input" name="file" class="file-input" accept="image/*,application/pdf" required multiple>
+                    <input type="file" id="file-input" name="file[]" class="file-input" accept="image/*,application/pdf" required multiple>
                 </div>
                 <!-- Kontainer Kanan -->
                 <div class="izin-right flex items-center justify-center">
@@ -144,7 +144,7 @@
                             <label for="description" class="block text-slate-300 mb-1">Deskripsi</label>
                             <textarea id="description" name="description" rows="3" required class="w-full rounded-lg bg-slate-800 text-slate-100 border border-slate-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"></textarea>
                         </div>
-                        <button type="submit" class="w-full max-sm:mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition">Kirim Pengajuan</button>
+                        <button type="button" id="btn-berikutnya" class="w-full max-sm:mt-4 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition">Berikutnya</button>
                     </div>
                 </div>
             </div>
@@ -158,6 +158,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
     const dropText = document.getElementById('drop-text');
+    const btnBerikutnya = document.getElementById('btn-berikutnya');
+    const form = document.querySelector('form');
 
     // Klik untuk pilih file
     dropZone.addEventListener('click', () => fileInput.click());
@@ -193,6 +195,45 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             dropZone.classList.remove('has-file');
             dropText.textContent = 'Seret dan jatuhkan file di sini atau klik untuk memilih';
+        }
+    });
+
+    // Tombol Berikutnya: simpan data ke sessionStorage dan redirect
+    btnBerikutnya.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Validasi manual
+        const parentName = document.getElementById('parent_name').value.trim();
+        const type = document.getElementById('type').value;
+        const description = document.getElementById('description').value.trim();
+        if (!parentName || !type || !description || fileInput.files.length === 0) {
+            Swal.fire({ icon: 'error', title: 'Lengkapi Data!', text: 'Semua field dan file wajib diisi.' });
+            return;
+        }
+        // Simpan data ke sessionStorage
+        const izinData = {
+            student_id: document.querySelector('input[name="student_id"]').value,
+            parent_name: parentName,
+            type: type,
+            description: description
+        };
+        sessionStorage.setItem('izinData', JSON.stringify(izinData));
+        // Simpan file ke sessionStorage (support multiple file)
+        const filesArr = [];
+        const fileNames = [];
+        let filesLoaded = 0;
+        for (let i = 0; i < fileInput.files.length; i++) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                filesArr[i] = evt.target.result;
+                fileNames[i] = fileInput.files[i].name;
+                filesLoaded++;
+                if (filesLoaded === fileInput.files.length) {
+                    sessionStorage.setItem('izinFiles', JSON.stringify(filesArr));
+                    sessionStorage.setItem('izinFileNames', JSON.stringify(fileNames));
+                    window.location.href = '/izin/face';
+                }
+            };
+            reader.readAsDataURL(fileInput.files[i]);
         }
     });
 });

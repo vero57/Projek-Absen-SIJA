@@ -187,48 +187,43 @@
                 if (ekspresiDetected) {
                     ekspresiDetected.innerHTML = "<span style='color:#f87171;'>Wajah tidak dikenali sebagai user. Absen tidak bisa dikirim.</span>";
                 }
-                ekspresiBenarStart = null;
                 return;
             }
-            if (ekspresiTerdeteksi === ekspresiTarget && confidence > 0.85) {
-                if (!ekspresiBenarStart) {
-                    ekspresiBenarStart = Date.now();
+            // Jika wajah user terdeteksi, langsung proses absen (tanpa durasi)
+            absenBerhasil = true;
+            Swal.fire({
+                title: 'Memproses absen...',
+                text: 'Mohon tunggu sebentar.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
                 }
-                const durasi = (Date.now() - ekspresiBenarStart) / 1000;
-                const ekspresiDetected = document.querySelector('.absen-left .ekspresi-terdeteksi');
-                if (ekspresiDetected) {
-                    ekspresiDetected.innerHTML += `<br><span style="color:#4ade80;">Tahan ekspresi: ${durasi.toFixed(1)}s / 3s</span>`;
-                }
-                if (durasi >= 3) {
-                    absenBerhasil = true;
-                    // Wajib akses lokasi sebelum absen
-                    if (navigator.geolocation) {
-                        ekspresiDetected.innerHTML = "Mengambil lokasi...";
-                        navigator.geolocation.getCurrentPosition(function(pos) {
-                            // Validasi radius sekolah
-                            const schoolLat = -6.521976890944639;
-                            const schoolLng = 106.80741031694744;
-                            const radiusMeter = 100;
-                            const userLat = pos.coords.latitude;
-                            const userLng = pos.coords.longitude;
-                            const distance = getDistanceFromLatLonInMeters(userLat, userLng, schoolLat, schoolLng);
-                            if (distance > radiusMeter) {
-                                absenBerhasil = false;
-                                stopCameraAndBack("Anda berada di luar radius sekolah (" + distance.toFixed(1) + " meter). Absen tidak bisa dilakukan.");
-                                return;
-                            }
-                            submitAbsen(userLat, userLng, faceLabel);
-                        }, function(err) {
-                            stopCameraAndBack("Izin lokasi diperlukan untuk absen.");
-                            absenBerhasil = false;
-                        }, { enableHighAccuracy: true });
-                    } else {
-                        stopCameraAndBack("Browser tidak mendukung geolokasi.");
+            });
+            // Wajib akses lokasi sebelum absen
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    const schoolLat = -6.521976890944639;
+                    const schoolLng = 106.80741031694744;
+                    const radiusMeter = 100;
+                    const userLat = pos.coords.latitude;
+                    const userLng = pos.coords.longitude;
+                    const distance = getDistanceFromLatLonInMeters(userLat, userLng, schoolLat, schoolLng);
+                    if (distance > radiusMeter) {
                         absenBerhasil = false;
+                        Swal.close();
+                        stopCameraAndBack("Anda berada di luar radius sekolah (" + distance.toFixed(1) + " meter). Absen tidak bisa dilakukan.");
+                        return;
                     }
-                }
+                    submitAbsen(userLat, userLng, faceLabel);
+                }, function(err) {
+                    absenBerhasil = false;
+                    Swal.close();
+                    stopCameraAndBack("Izin lokasi diperlukan untuk absen.");
+                }, { enableHighAccuracy: true });
             } else {
-                ekspresiBenarStart = null;
+                absenBerhasil = false;
+                Swal.close();
+                stopCameraAndBack("Browser tidak mendukung geolokasi.");
             }
         };
 
@@ -314,7 +309,6 @@
                 absenBerhasil = false;
             });
         }
-        // ...existing code...
     });
 </script>
 @endpush

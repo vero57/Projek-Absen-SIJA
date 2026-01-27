@@ -15,6 +15,7 @@ Route::middleware('fiturakses')->group(function () {
     Route::post('/absen/store', [AbsenController::class, 'store'])->name('feature.absen.store');
     Route::post('/absen/checkout', [AbsenController::class, 'checkout'])->name('feature.absen.checkout');
     Route::get('/izin', [IzinController::class, 'index'])->name('feature.izin');
+    Route::get('/izin/face', [IzinController::class, 'face'])->name('feature.izin.face');
     Route::post('/izin/store', [IzinController::class, 'store'])->name('feature.izin.store');
     Route::get('/jurnal', [JurnalController::class, 'index'])->name('feature.jurnal');
     Route::post('/jurnal/store', [JurnalController::class, 'store'])->name('feature.jurnal.store');
