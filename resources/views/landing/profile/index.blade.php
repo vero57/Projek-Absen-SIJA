@@ -52,13 +52,17 @@
     <div class="container mx-auto px-6 py-8">
         @include("landing.partials.header")
         <div class="mx-auto">
-            <div class="profile-card p-8">
+            <div class="profile-card p-6">
                 <div class="flex flex-col items-center">
                     <div class="avatar-circle mb-6">
+                        @if($user && $user->studentDetail && $user->studentDetail->photo)
+                            <img src="{{ asset('storage/' . $user->studentDetail->photo) }}" alt="Foto Siswa" class="max-sm:w-28 max-sm:h-28 w-36 h-36 object-cover rounded-full" />
+                        @else
                         <svg class="w-16 h-16 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 20C3.732 16.943 6.79 15 12 15s8.268 1.943 9.542 5" />
                         </svg>
+                        @endif
                     </div>
 
                     <h1 class="text-2xl font-semibold text-slate-100 mb-1" id="profile-username">
@@ -119,12 +123,12 @@
                         </div>
 
                         <div class="flex gap-3">
-                            <button type="button" id="profile-edit-btn" class="w-full text-center bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg text-sm">Edit Profil</button>
+                            <!-- <button type="button" id="profile-edit-btn" class="w-full text-center bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg text-sm">Edit Profil</button> -->
                             <button type="submit" id="profile-save-btn" class="w-full text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm hidden">Simpan</button>
                             <button type="button" id="profile-cancel-btn" class="w-full text-center border border-slate-700 text-slate-100 py-2 rounded-lg text-sm hidden">Batal</button>
-                            <a href="#" id="profile-back-btn" class="w-full text-center border border-slate-700 text-slate-100 py-2 rounded-lg text-sm">Kembali</a>
+                            <a href="{{ route('landing.home') }}" id="profile-back-btn" class="w-full text-center border border-slate-700 text-slate-100 py-2 rounded-lg text-sm">Kembali</a>
                         </div>
-                        <div id="profile-message" class="text-center text-xs mt-2"></div>
+                        <!-- <div id="profile-message" class="text-center text-xs mt-2"></div> -->
                     </form>
                 </div>
             </div>
