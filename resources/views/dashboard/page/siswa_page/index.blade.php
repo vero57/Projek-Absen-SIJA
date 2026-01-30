@@ -16,7 +16,16 @@
             </div>
         </div>
         <div class="flex items-center">
-            <a href="{{ route('dashboard.users.create') }}"><button type="button" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm">Tambah Data Siswa</button></a>
+            <a href="{{ route('dashboard.users.create') }}">
+                <button type="button" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm">Tambah Data Siswa</button>
+            </a>
+            <form action="{{ route('dashboard.siswa.import') }}" method="POST" enctype="multipart/form-data" class="ml-2">
+                @csrf
+                <label class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-sm cursor-pointer mb-0">
+                    Import Data Siswa
+                    <input type="file" name="file" accept=".xlsx,.xls" class="hidden" onchange="this.form.submit()">
+                </label>
+            </form>
         </div>
     </div>
 
@@ -49,7 +58,7 @@
                         <!-- <th class="px-4 py-3">Tanggal Lahir</th> -->
                         <!-- <th class="px-4 py-3">Alamat</th> -->
                         <th class="px-4 py-3">Foto</th>
-                        <th class="px-4 py-3 w-[300px]">Action</th>
+                        <th class="px-4 py-3 min-w-[300px] w-[300px]">Action</th>
                     </tr>
                 </thead>
 
@@ -76,18 +85,18 @@
                                         <span class="text-slate-400">-</span>
                                     @endif
                                 </td>
-                                <td class="px-4 py-3 text-slate-200 text-sm">
+                                <td class="px-4 py-3 text-slate-200 text-sm flex flex-row items-center gap-1">
                                     @php $hasDetail = $detail !== null; @endphp
-                                    <a href="{{ $hasDetail ? route('dashboard.siswa.detail.edit', $user->id) : route('dashboard.siswa.detail.create', $user->id) }}" class="inline-block bg-yellow-500 hover:bg-yellow-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
-                                        <i class="fas fa-edit"></i> {{ $hasDetail ? 'Edit Detail' : 'Add Detail' }}
+                                    <a href="{{ $hasDetail ? route('dashboard.siswa.detail.edit', $user->id) : route('dashboard.siswa.detail.create', $user->id) }}" class="w-full flex flex-row gap-1 justify-center items-center bg-yellow-500 hover:bg-yellow-400 text-white px-1 py-1 rounded text-xs font-semibold mr-2">
+                                        <i class="fas fa-edit"></i> <p class="">{{ $hasDetail ? 'Edit Detail' : 'Add Detail' }}</p>
                                     </a>
-                                    <a href="{{ route('dashboard.siswa.detail.show', $user->id) }}" class="inline-block bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
+                                    <a href="{{ route('dashboard.siswa.detail.show', $user->id) }}" class="flex flex-row gap-1 items-center bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded text-xs font-semibold mr-2">
                                         <i class="fas fa-eye"></i> Detail
                                     </a>
-                                    <form id="delete-form-{{ $user->id }}" action="{{ route('dashboard.users.destroy', $user->id) }}" method="POST" class="inline-block">
+                                    <form id="delete-form-{{ $user->id }}" action="{{ route('dashboard.users.destroy', $user->id) }}" method="POST" class="flex flex-row gap-1 items-center">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" onclick="confirmDelete('{{ $user->id }}', '{{ $user->name }}')" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-xs font-semibold">
+                                        <button type="button" onclick="confirmDelete('{{ $user->id }}', '{{ $user->name }}')" class="flex flex-row gap-1 items-center bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-xs font-semibold">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </form>

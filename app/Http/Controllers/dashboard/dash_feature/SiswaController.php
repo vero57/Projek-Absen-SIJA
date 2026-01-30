@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\StudentDetail;
 use Illuminate\Support\Facades\Storage;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiswaController extends Controller
 {
@@ -120,5 +122,16 @@ class SiswaController extends Controller
         $detail->update($data);
 
         return redirect()->route('dashboard.siswa')->with('success', 'Detail siswa berhasil diupdate!');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new UsersImport, $request->file('file'));
+
+        return redirect()->route('dashboard.siswa')->with('success', 'Import data siswa berhasil!');
     }
 }

@@ -57,9 +57,9 @@ class AbsenController extends Controller
         $endTimeIn = $schedule->end_time_in;     // format: 'H:i:s'
         $nowTime = $nowWIB->format('H:i:s');
 
-        if ($nowTime < $startTimeIn) {
-            return response()->json(['success' => false, 'message' => 'Belum waktunya absen. Silakan absen mulai pukul ' . $startTimeIn . ' WIB.']);
-        }
+        // if ($nowTime < $startTimeIn) {
+        //     return response()->json(['success' => false, 'message' => 'Belum waktunya absen. Silakan absen mulai pukul ' . $startTimeIn . ' WIB.']);
+        // }
 
         // Status default Hadir
         $statusName = 'Hadir';

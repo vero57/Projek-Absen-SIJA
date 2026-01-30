@@ -16,9 +16,12 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained('users')->cascadeOnDelete();
             // $table->foreignId('parent_id')->constrained('users')->cascadeOnDelete();
             $table->string('parent_name');
-            $table->enum('type', ['sakit','izin','dispen']);
+            $table->enum('type', ['sakit', 'izin', 'dispen']);
             $table->text('description')->nullable();
-            $table->enum('status', ['pending','approved','rejected'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->string('photo')->nullable();
+            $table->decimal('location_lat', 10, 7)->nullable();
+            $table->decimal('location_lng', 10, 7)->nullable();
             $table->timestamps();
         });
     }

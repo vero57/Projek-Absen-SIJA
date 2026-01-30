@@ -1,7 +1,7 @@
 @extends(
     "dashboard.layout.app",
     [
-        "title" => "Detail Jurnal Siswa",
+        "title" => "Detail Izin Siswa",
     ]
 )
 
@@ -32,32 +32,60 @@
                 <p class="text-white text-lg">{{ $permission->created_at->format('Y-m-d') ?? '-' }}</p>
             </div>
 
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Nama Orang Tua</h5>
                 <p class="text-white text-lg">{{ $permission->parent_name ?? '-' }}</p>
             </div>
-
 
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Jenis Izin</h5>
                 <p class="text-white text-lg">{{ $permission->type ?? '-' }}</p>
             </div>
 
-
             <div>
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Status</h5>
                 <p class="text-white text-lg">{{ $permission->status ?? '-' }}</p>
             </div>
 
-            <div class="col-span-2">
-                <h5 class="text-gray-300 text-xl font-medium mb-1">Foto</h5>
-                @if($permission->files->count() > 0)
-                    @foreach($permission->files as $file)
-                        <img src="{{ asset('storage/' . $file->file_path) }}" alt="Foto Jurnal" class="w-32 h-32 object-cover rounded cursor-pointer hover:opacity-80" onclick="openModal('{{ asset('storage/' . $file->file_path) }}')">
-                    @endforeach
+            <div>
+                <h5 class="text-gray-300 text-xl font-medium mb-1">Lokasi</h5>
+                @if($permission->location_lat && $permission->location_lng)
+                    <p class="text-white text-lg">
+                        {{ $permission->location_lat }}, {{ $permission->location_lng }}
+                        <a href="https://maps.google.com/?q={{ $permission->location_lat }},{{ $permission->location_lng }}" target="_blank" class="ml-2 text-blue-400 underline">Lihat di Maps</a>
+                    </p>
                 @else
-                    <p class="text-slate-400">Tidak ada foto</p>
+                    <p class="text-slate-400">Tidak ada lokasi</p>
+                @endif
+            </div>
+
+            <div class="col-span-2">
+                <h5 class="text-gray-300 text-xl font-medium mb-1">Foto Selfie</h5>
+                @if($permission->photo)
+                    <img src="{{ asset($permission->photo) }}" alt="Foto Selfie" class="w-32 h-32 object-cover rounded cursor-pointer hover:opacity-80 mb-2" onclick="openModal('{{ asset($permission->photo) }}')">
+                @else
+                    <p class="text-slate-400">Tidak ada foto selfie</p>
+                @endif
+            </div>
+
+            <div class="col-span-2">
+                <h5 class="text-gray-300 text-xl font-medium mb-1">Lampiran File</h5>
+                @if($permission->files->count() > 0)
+                    <div class="flex flex-wrap gap-4">
+                        @foreach($permission->files as $file)
+                            @php
+                                $ext = pathinfo($file->file_path, PATHINFO_EXTENSION);
+                                $isImage = in_array(strtolower($ext), ['jpg','jpeg','png','gif','bmp','webp']);
+                            @endphp
+                            @if($isImage)
+                                <img src="{{ asset('storage/' . $file->file_path) }}" alt="Lampiran" class="w-32 h-32 object-cover rounded cursor-pointer hover:opacity-80" onclick="openModal('{{ asset('storage/' . $file->file_path) }}')">
+                            @else
+                                <a href="{{ asset('storage/' . $file->file_path) }}" target="_blank" class="block text-blue-400 underline">{{ basename($file->file_path) }}</a>
+                            @endif
+                        @endforeach
+                    </div>
+                @else
+                    <p class="text-slate-400">Tidak ada lampiran file</p>
                 @endif
             </div>
 
@@ -65,9 +93,7 @@
                 <h5 class="text-gray-300 text-xl font-medium mb-1">Deskripsi</h5>
                 <p class="text-white text-lg">{{ $permission->description }}</p>
             </div>
-
         </div>
-
     </div>
 
     <div id="imageModal" class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center hidden z-50">

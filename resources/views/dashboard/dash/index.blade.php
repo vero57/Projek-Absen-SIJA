@@ -6,75 +6,75 @@
 )
 
 @section('content')
-    <div id="contentArea" class="max-sm:overflow-x-scroll">
+    <div id="contentArea" class="w-full h-full">
         <div id="dashboard-content" class="content-section">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
-                <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-slate-400 text-sm">Total Siswa</p>
-                            <p class="text-2xl font-bold text-white">{{ $totalSiswa }}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 sm:gap-3 md:gap-4 mb-4 md:mb-6">
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 border border-slate-700">
+                    <div class="flex items-center justify-between gap-2 sm:gap-3">
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs sm:text-sm">Total Siswa</p>
+                            <p class="text-lg sm:text-xl md:text-2xl font-bold text-white">{{ $totalSiswa }}</p>
                         </div>
-                        <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-users text-blue-400 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-slate-400 text-sm">Siswa Masuk</p>
-                            <p class="text-2xl font-bold text-white">{{ $siswaMasuk }}</p>
-                        </div>
-                        <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-check-circle text-green-400 text-xl"></i>
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-users text-blue-400 text-base sm:text-lg md:text-xl"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-slate-400 text-sm">Siswa Sakit</p>
-                            <p class="text-2xl font-bold text-white">{{ $siswaSakit }}</p>
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 border border-slate-700">
+                    <div class="flex items-center justify-between gap-2 sm:gap-3">
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs sm:text-sm">Siswa Masuk</p>
+                            <p class="text-lg sm:text-xl md:text-2xl font-bold text-white">{{ $siswaMasuk }}</p>
                         </div>
-                        <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-medkit text-red-400 text-xl"></i>
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-check-circle text-green-400 text-base sm:text-lg md:text-xl"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-slate-400 text-sm">Siswa Izin</p>
-                            <p class="text-2xl font-bold text-white">{{ $siswaIzin }}</p>
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 border border-slate-700">
+                    <div class="flex items-center justify-between gap-2 sm:gap-3">
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs sm:text-sm">Siswa Sakit</p>
+                            <p class="text-lg sm:text-xl md:text-2xl font-bold text-white">{{ $siswaSakit }}</p>
                         </div>
-                        <div class="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-envelope text-yellow-400 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-slate-400 text-sm">Siswa Dispen</p>
-                            <p class="text-2xl font-bold text-white">{{ $siswaDispen }}</p>
-                        </div>
-                        <div class="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-clock text-orange-400 text-xl"></i>
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-red-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-medkit text-red-400 text-base sm:text-lg md:text-xl"></i>
                         </div>
                     </div>
                 </div>
-                <div class="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-slate-400 text-sm">Tanpa Keterangan/Alfa</p>
-                            <p class="text-2xl font-bold text-white">{{ $siswaAlfa }}</p>
+
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 border border-slate-700">
+                    <div class="flex items-center justify-between gap-2 sm:gap-3">
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs sm:text-sm">Siswa Izin</p>
+                            <p class="text-lg sm:text-xl md:text-2xl font-bold text-white">{{ $siswaIzin }}</p>
                         </div>
-                        <div class="w-12 h-12 bg-gray-500/20 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-question-circle text-gray-400 text-xl"></i>
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-envelope text-yellow-400 text-base sm:text-lg md:text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 border border-slate-700">
+                    <div class="flex items-center justify-between gap-2 sm:gap-3">
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs sm:text-sm">Siswa Dispen</p>
+                            <p class="text-lg sm:text-xl md:text-2xl font-bold text-white">{{ $siswaDispen }}</p>
+                        </div>
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-clock text-orange-400 text-base sm:text-lg md:text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-800/50 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6 border border-slate-700">
+                    <div class="flex items-center justify-between gap-2 sm:gap-3">
+                        <div class="min-w-0">
+                            <p class="text-slate-400 text-xs sm:text-sm">Tanpa Keterangan/Alfa</p>
+                            <p class="text-lg sm:text-xl md:text-2xl font-bold text-white">{{ $siswaAlfa }}</p>
+                        </div>
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gray-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-question-circle text-gray-400 text-base sm:text-lg md:text-xl"></i>
                         </div>
                     </div>
                 </div>
